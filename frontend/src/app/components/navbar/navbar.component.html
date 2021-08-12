@@ -1,0 +1,49 @@
+<div class="wrapper">
+  <nav>
+    <input type="checkbox" id="show-menu" #menuNavBar />
+    <div class="content">
+      <div class="logo pointer" (click)="toHome()">{{ title }}</div>
+      <ul class="links">
+        <li>
+          <a
+            class="pointer"
+            (click)="toHome()"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Inicio</a
+          >
+        </li>
+        <li *ngIf="roleUser !== 'vicerrector' && roleUser !== 'psicologo'">
+          <a
+            routerLink="/docente"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Ver materias</a
+          >
+        </li>
+        <li *ngIf="roleUser === 'jefe' || roleUser === 'vicerrector'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/vicerrector/postulados/1"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Ver postulados</a
+          >
+        </li>
+        <li *ngIf="roleUser === 'jefe' || roleUser === 'vicerrector'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/reportes"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Crear Reportes</a
+          >
+        </li>
+        <li><a class="pointer" (click)="logout()">Salir</a></li>
+      </ul>
+    </div>
+    <label for="show-menu" class="menu-icon"
+      ><i class="fas fa-bars fa-fw"></i
+    ></label>
+  </nav>
+</div>

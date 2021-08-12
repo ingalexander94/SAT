@@ -1,0 +1,33 @@
+<div class="wrapper_alert" (click)="onClick($event)">
+  <div class="alert_container">
+    <h2 (click)="close()" class="pointer">
+      <i class="fas fa-times fa-fw"></i>
+    </h2>
+    <h1>Actulizar datos del estudiante</h1>
+    <form class="form_auth">
+      <div class="form_input">
+        <input
+          type="number"
+          placeholder="3043509876"
+          value="3043509876"
+          max="10"
+          min="10"
+          name="code"
+          id="code"
+        />
+        <i class="fas fa-phone fa-fw"></i>
+      </div>
+      <div class="form_input">
+        <input
+          type=""
+          placeholder="N.santander, Cucuta"
+          value="N.santander, Cucuta"
+          name="ubicacion"
+          id="ubicacion"
+        />
+        <i class="fas fa-map-marker-alt fa-fw"></i>
+      </div>
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+</div>

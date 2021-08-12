@@ -1,0 +1,12 @@
+<button
+  (click)="ShowDateNotification()"
+  *ngIf="postulation.state !== 'NOTIFICADO PARA CITA'"
+>
+  Notificar Estudiante
+</button>
+
+<app-notification-date
+  *ngIf="showDate"
+  (isClosed)="ShowDateNotification($event)"
+  [postulation]="postulation"
+></app-notification-date>

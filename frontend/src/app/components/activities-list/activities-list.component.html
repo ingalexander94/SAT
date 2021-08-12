@@ -1,0 +1,23 @@
+<div class="content animate__animated animate__fadeIn">
+  <h2>Lista de actividades <i class="fas fa-list-ul"></i></h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Actividades</th>
+        <th>Asistencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of activitiesList">
+        <td>
+          <h5>{{ item.date }}</h5>
+        </td>
+        <td>
+          <h5>{{ item.name }}</h5>
+        </td>
+        <td><i class="fas {{ item.icon }}"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,89 @@
+.table_students {
+  margin-top: 16px;
+  background: var(--gray-menu);
+  text-align: center;
+  width: 90vw;
+  overflow: scroll;
+}
+
+.table_students table {
+  width: 480px;
+}
+
+.table_students table thead tr th {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.table_students table tbody tr td {
+  font-size: 12px;
+  padding: 1px 0;
+}
+
+.table_students table tbody tr:hover {
+  background: rgba(128, 128, 128, 0.267);
+}
+
+.filter {
+  position: relative;
+}
+
+.options {
+  position: absolute;
+  list-style: none;
+  background: var(--gray-dark-color);
+  padding: 16px;
+  border: 1px solid var(--dark-color);
+}
+
+.options li {
+  font-size: 14px;
+  margin: 4px 0px;
+  cursor: pointer;
+}
+
+.options li:hover {
+  font-weight: bold;
+}
+
+/* Tablet */
+
+@media (min-width: 768px) {
+  .table_students table thead tr th {
+    font-size: 22px;
+  }
+
+  .table_students {
+    width: 96vw;
+  }
+  .table_students table {
+    width: 730px;
+  }
+  .table_students table tbody tr td {
+    font-size: 20px;
+  }
+
+  .options li {
+    font-size: 20px;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 1152px) {
+  .table_students {
+    width: 95vw;
+    margin: 0px 16px;
+  }
+  .table_students table {
+    width: 1220px;
+  }
+
+  .options {
+    width: 100%;
+  }
+
+  .options li {
+    font-size: 20px;
+  }
+}

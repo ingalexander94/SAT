@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+:root {
+  --white: #ffff;
+  --red-primary-color: #bb0b20;
+  --green-primary-color: #14c25a;
+  --orange-primary-color: #ff8300;
+  --yellow-primary-color: #ede605;
+  --gray-dark-color: #c6bcb2;
+  --dark-color: #353343;
+  --gray-menu: #f3f0ee;
+  --gray-table: #c4c4c4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+body {
+  caret-color: var(--red-primary-color);
+}
+
+body::-webkit-scrollbar,
+textarea::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+textarea::-webkit-scrollbar,
+div::-webkit-scrollbar-thumb {
+  background: var(--red-primary-color);
+  border-radius: 5px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button {
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  background: var(--red-primary-color);
+  width: 90%;
+  height: 47px;
+  margin: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #d30a22;
+}
+
+input:focus {
+  outline: none;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--red-primary-color);
+}
+
+.active,
+.active * {
+  color: var(--red-primary-color) !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.form_input {
+  width: 90%;
+  height: 47px;
+  background: var(--white);
+  border: 1px solid var(--gray-dark-color);
+  color: var(--gray-dark-color);
+  margin: 16px 16px 0 16px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+}
+
+.form_input input {
+  width: 100%;
+  background: unset;
+  border: none;
+  color: var(--dark-color);
+}
+
+.app_container {
+  margin-top: 80px;
+}
+
+.red {
+  color: var(--red-primary-color);
+}
+.green {
+  color: var(--green-primary-color);
+}
+.orange {
+  color: var(--orange-primary-color);
+}
+.yellow {
+  color: var(--yellow-primary-color);
+}
+
+/* Tablet */
+
+@media (max-width: 767px) {
+  .app_container {
+    margin-top: 0;
+    margin-bottom: 80px;
+  }
+}

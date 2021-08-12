@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  backend:
+    container_name: python
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: python -u backend/src/app.py
+    ports:
+      - "5000:5000"
+    links:
+      - database
+    volumes:
+      - .:/app
+  database:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27018:27017"
+    logging:
+      driver: none
+  frontend:
+    container_name: angular
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: npm start
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend/src:/app/src

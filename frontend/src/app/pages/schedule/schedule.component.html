@@ -1,0 +1,70 @@
+<div class="wrapper_schedule">
+  <app-search-student
+    [title]="title"
+    class="animate__animated animate__fadeIn"
+  ></app-search-student>
+  <app-search-global></app-search-global>
+
+  <app-loading *ngIf="loading"></app-loading>
+
+  <div *ngIf="!loading">
+    <p (click)="onShowModal()" class="filter animate__animated animate__fadeIn">
+      Agregar Filtros <i class="fas fa-filter"></i>
+    </p>
+
+    <div class="quotes animate__animated animate__fadeIn">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Estudiante</th>
+            <th>Estado</th>
+            <th *ngIf="state === 'RECHAZADA'">Motivo</th>
+            <th>Ir</th>
+            <th *ngIf="state !== 'RECHAZADA'">¿Asistió?</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!loading && meets.length">
+          <tr *ngFor="let meet of meets; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ meet.date | date: "EEEE, d 'de' MMMM 'del' y" }}</td>
+            <td>{{ meet.student.nombre }}</td>
+            <td>{{ meet.state }}</td>
+            <td *ngIf="state === 'RECHAZADA'">{{ meet.reason }}</td>
+            <td class="pointer" (click)="toStudent(meet.student.codigo)">
+              <i class="fas fa-search red"></i>
+            </td>
+            <td *ngIf="state !== 'RECHAZADA'">
+              <input
+                type="checkbox"
+                [checked]="meet.attendance"
+                (change)="
+                  onChange(meet._id.$oid, $event, meet.student.codigo, i)
+                "
+                #checkbox
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p *ngIf="!meets.length">No se encontrarón citas programadas</p>
+
+    <div class="pagination">
+      <a
+        *ngFor="let item of totalPages"
+        routerLink="/psicologo/{{ item }}"
+        routerLinkActive="active"
+        [ngClass]="{ active: page === 1 && item === page }"
+        >{{ item }}</a
+      >
+    </div>
+  </div>
+</div>
+
+<app-modal-meet
+  *ngIf="showModal"
+  (isClosed)="onShowModal($event)"
+></app-modal-meet>

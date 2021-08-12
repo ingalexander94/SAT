@@ -1,0 +1,52 @@
+<div class="table_students animate__animated animate__fadeIn">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th class="pointer">
+          Riesgo <i class="fas fa-long-arrow-alt-up"></i
+          ><i class="fas fa-long-arrow-alt-down"></i>
+        </th>
+        <th class="filter">
+          Estado <i class="fas fa-filter pointer" (click)="showOptions()"></i>
+          <ul class="options" *ngIf="show">
+            <li (click)="filterStudents('matriculado')">Matriculados</li>
+            <li (click)="filterStudents('cancelado')">Cancelados</li>
+            <li (click)="filterStudents('en modulos')">En modulos</li>
+            <li (click)="filterStudents('graduado')">Graduados</li>
+            <li (click)="filterStudents()">Todos</li>
+          </ul>
+        </th>
+        <th>Permanencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td colspan="6">
+          <app-loading></app-loading>
+        </td>
+      </tr>
+      <ng-container *ngIf="!loading">
+        <tr
+          *ngFor="
+            let student of listStudents | filterStudent: filter;
+            let i = index
+          "
+        >
+          <td>{{ i + 1 }}</td>
+          <td>{{ student.codigo }}</td>
+          <td>{{ student.nombre }} {{ student.apellido }}</td>
+          <td><i class="fas fa-circle red"></i></td>
+          <td>{{ student.estado | uppercase }}</td>
+          <td class="pointer" (click)="navigateToStudent(student)">
+            <i class="fas fa-chevron-right"></i>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<app-download-pdf [students]="listStudents" *ngIf="!loading"></app-download-pdf>

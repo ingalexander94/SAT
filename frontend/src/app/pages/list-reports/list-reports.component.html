@@ -1,0 +1,41 @@
+<app-navbar></app-navbar>
+
+<div class="report_container animate__animated animate__fadeIn">
+  <div class="title_header">
+    <a class="pointer" (click)="goBack()"><i class="fas fa-arrow-left"></i></a>
+    <h3>Generar Reportes</h3>
+  </div>
+  <div class="line"></div>
+  <hr />
+  <div class="list_reports">
+    <div class="report">
+      <p>Crear reportes por periodos</p>
+      <img src="/assets/image/reporte_periodo.jpg" alt="imagen de reporte" />
+      <div class="select_dates">
+        <div class="date">
+          <label for="from">Desde</label>
+          <select name="from" id="from">
+            <option selected value="2010-1">2010-1</option>
+            <option value="2010-1">2010-2</option>
+          </select>
+        </div>
+        <div class="date">
+          <label for="from">Hasta</label>
+          <select name="from" id="from">
+            <option value="2010-1">2010-1</option>
+            <option selected value="2010-1">2010-2</option>
+          </select>
+        </div>
+      </div>
+      <a href="#">Descargar <i class="fas fa-download"></i></a>
+    </div>
+    <hr />
+    <div class="report">
+      <p>Crear reporte general</p>
+      <img src="/assets/image/reporte_general.jpg" alt="imagen de reporte" />
+      <a href="#">Descargar <i class="fas fa-download"></i></a>
+    </div>
+  </div>
+</div>
+
+<app-floating-button class="notification"></app-floating-button>
