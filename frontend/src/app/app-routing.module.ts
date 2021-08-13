@@ -3,9 +3,11 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { BossWellnessGuard } from './guards/boss-wellness.guard';
 import { PrivateGuard } from './guards/private.guard';
 import { PublicGuard } from './guards/public.guard';
+import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { LoginAdminComponent } from './pages/auth/login-admin/login-admin.component';
 import { LoginStudentComponent } from './pages/auth/login-student/login-student.component';
 import { LoginComponent } from './pages/auth/login/login.component';
+import { RecoveryPasswordComponent } from './pages/auth/recovery-password/recovery-password.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { ListReportsComponent } from './pages/list-reports/list-reports.component';
 
@@ -23,6 +25,16 @@ const routes: Routes = [
   {
     path: 'administrativo/iniciar-sesion',
     component: LoginAdminComponent,
+    canActivate: [PublicGuard],
+  },
+  {
+    path: 'auth/forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [PublicGuard],
+  },
+  {
+    path: 'auth/recovery_password/:token',
+    component: RecoveryPasswordComponent,
     canActivate: [PublicGuard],
   },
   {

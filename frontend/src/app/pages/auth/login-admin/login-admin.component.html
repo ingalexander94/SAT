@@ -3,7 +3,7 @@
     <div class="auth_header">
       <img src="/assets/image/Logo_SAT.svg" alt="Logo SAT" />
       <h1>SAT</h1>
-      <p>Ingrese con los datos de divisist</p>
+      <p>Sistema de alertas tempranas</p>
     </div>
     <form [formGroup]="formLogin" (submit)="onSubmit()" class="form_auth">
       <div class="auth_roles" title="Seleccione un rol">
@@ -84,6 +84,9 @@
       <ul *ngIf="password.invalid && (password.dirty || password.touched)">
         <li>* El campo es obligatorio</li>
       </ul>
+      <div class="forgot">
+        <a routerLink="/auth/forgot-password">¿Olvidó su contraseña?</a>
+      </div>
       <button [disabled]="formLogin.invalid" type="submit">
         Iniciar sesión
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
