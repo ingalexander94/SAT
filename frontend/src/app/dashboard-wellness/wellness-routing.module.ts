@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BossWellnessGuard } from '../guards/boss-wellness.guard';
 import { WellnessGuard } from '../guards/wellness.guard';
 import { CourseDataComponent } from '../pages/course-data/course-data.component';
+import { CreateUserComponent } from '../pages/create-user/create-user.component';
 import { FacultiesComponent } from '../pages/faculties/faculties.component';
 import { InRiskComponent } from '../pages/in-risk/in-risk.component';
 import { PostulateListComponent } from '../pages/postulate-list/postulate-list.component';
@@ -33,6 +34,10 @@ const children: Routes = [
     path: 'facultades',
     component: FacultiesComponent,
     canActivate: [WellnessGuard],
+  },
+  {
+    path: 'crear-usuario',
+    component: CreateUserComponent,
   },
 ];
 

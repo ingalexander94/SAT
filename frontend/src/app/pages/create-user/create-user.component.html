@@ -1,0 +1,105 @@
+<div class="content">
+  <div class="container">
+    <div class="title">
+      <h1>Crear Usuario</h1>
+    </div>
+    <div class="form">
+      <form [formGroup]="formCreateUser" (submit)="onSubmit()">
+        <div class="campu">
+          <label for="">Nombre</label>
+          <input
+            placeholder="Nombres"
+            value="vacio"
+            formControlName="name"
+            name="name"
+            id="name"
+            required
+          />
+          <ul *ngIf="name.invalid && (name.dirty || name.touched)">
+            <li>Este campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="campu">
+          <label for="">Apellido</label>
+          <input
+            placeholder="Apellidos"
+            value="vacio"
+            formControlName="surname"
+            name="surnaname"
+            id="surname"
+            required
+          />
+          <ul *ngIf="surname.invalid && (surname.dirty || surname.touched)">
+            <li>Este campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="campu">
+          <label for="">Tipo de documento</label>
+          <select name="type" formControlName="type">
+            <option value="cedulaCiudadania">Cédula de ciudadanía</option>
+            <option value="cedulaExtranjeria">Cédula de extranjería</option>
+            <option value="pasaporteColombiano">Pasaporte colombiano</option>
+            <option value="pasaporteExtranjero">Pasaporte extranjero</option>
+            <option value="documentoVenezolano">
+              Documento nacional de identificacion venozolana
+            </option>
+          </select>
+        </div>
+        <div class="campu">
+          <label for="">documento</label>
+          <input
+            placeholder=" Documento"
+            value="0000000000"
+            max="10"
+            min="8"
+            formControlName="document"
+            name="document"
+            id="document"
+            required
+          />
+          <ul *ngIf="document.invalid && (document.dirty || document.touched)">
+            <li>*solo se permiten numero</li>
+          </ul>
+        </div>
+        <div class="campu">
+          <label for="">Correo</label>
+          <input
+            placeholder="ejemplo@gmail.com"
+            value="vacio"
+            formControlName="email"
+            name="email"
+            id="email"
+            required
+          />
+          <ul *ngIf="email.invalid && (email.dirty || email.touched)">
+            <li>* Este campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="campu">
+          <label for="">Telefono</label>
+          <input
+            placeholder="Ingrese el telefono"
+            value="vacio"
+            formControlName="phone"
+            name="phone"
+            id="phone"
+            required
+          />
+          <ul *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+            <li>* Debe tener 7 ó 10 caracteres</li>
+          </ul>
+        </div>
+        <div class="campu">
+          <label for="">Rol</label>
+          <select name="role" formControlName="role">
+            <option value="psicologo">Psicologo</option>
+            <option value="medico">Medico</option>
+            <option value="trabadorSocial">Trabajador Social</option>
+            <option value="sacerdote">Sacerdote</option>
+          </select>
+        </div>
+        <button [disabled]="formCreateUser.invalid" type="submit">Crear</button>
+      </form>
+    </div>
+  </div>
+</div>

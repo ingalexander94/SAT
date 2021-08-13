@@ -39,6 +39,15 @@
             >Crear Reportes</a
           >
         </li>
+        <li *ngIf="roleUser === 'vicerrector'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/vicerrector/crear-usuario"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Crear Usuario</a
+          >
+        </li>
         <li><a class="pointer" (click)="logout()">Salir</a></li>
       </ul>
     </div>

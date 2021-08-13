@@ -48,6 +48,7 @@ import localeEsAr from '@angular/common/locales/es-AR';
 import { LoginStudentComponent } from './pages/auth/login-student/login-student.component';
 import { PermanenceInformationComponent } from './pages/permanence-information/permanence-information.component';
 import { ListReportsComponent } from './pages/list-reports/list-reports.component';
+import { CreateUserComponent } from './pages/create-user/create-user.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -76,6 +77,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
     LoginStudentComponent,
     PermanenceInformationComponent,
     ListReportsComponent,
+    CreateUserComponent,
   ],
 
   imports: [

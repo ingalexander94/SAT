@@ -1,0 +1,70 @@
+.content {
+  display: flex;
+  justify-content: center;
+  margin: 16px;
+}
+
+.title {
+  text-align: center;
+  margin: 16px;
+}
+.title h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+form {
+  width: 300px;
+}
+form select {
+  height: 40px;
+}
+.campu {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.campu input {
+  border-radius: 5px;
+  padding: 5px;
+}
+
+ul {
+  margin-left: 25px;
+}
+.campu select {
+  border-radius: 5px;
+}
+.campu label {
+  font-weight: bold;
+  margin-left: 5px;
+}
+button:disabled {
+  background: #ff7686;
+}
+/* Tablet */
+
+@media (min-width: 768px) {
+}
+/* Desktop */
+
+@media (min-width: 1152px) {
+  .content {
+    align-items: center;
+    height: 560px;
+  }
+  form {
+    width: 480px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background: var(--gray-table);
+  }
+  .campu select {
+    margin: 10px;
+    width: 210px;
+  }
+  .campu {
+    text-align: center;
+    justify-content: center;
+  }
+}
