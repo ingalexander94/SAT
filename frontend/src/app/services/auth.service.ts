@@ -1,4 +1,5 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
+import { createHostListener } from '@angular/compiler/src/core';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -66,5 +67,23 @@ export class AuthService {
   isAuthenticated() {
     const user = true;
     return user;
+  }
+
+  sendEmailUpdatePassword(email) {
+    return this.httpClient
+      .post<Boolean>(
+        `${this.endpoint}/auth/administrative/recovery-password`,
+        email
+      )
+      .toPromise();
+  }
+
+  updatePassword(password) {
+    return this.httpClient
+      .put<Boolean>(
+        `${this.endpoint}/auth/administrative/recovery-password`,
+        password
+      )
+      .toPromise();
   }
 }
