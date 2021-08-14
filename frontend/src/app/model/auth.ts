@@ -1,20 +1,21 @@
 export interface User {
   _id: String;
-  foto: String;
+  foto?: String;
   codigo?: String;
   documento: String;
   nombre: String;
   apellido: String;
-  sexo: String;
+  sexo?: String;
   correo: String;
   rol: String;
+  tipoDocument?: String;
   programa?: String;
   telefono: String;
-  direccion: String;
+  direccion?: String;
   estado?: string;
   fechaIngreso?: Date;
   creditosAprobados?: Number;
-  edad: Number;
+  edad?: Number;
   creditosTotales?: Number;
   semestre?: Number;
   promedio?: Number;

@@ -48,12 +48,9 @@ import localeEsAr from '@angular/common/locales/es-AR';
 import { LoginStudentComponent } from './pages/auth/login-student/login-student.component';
 import { PermanenceInformationComponent } from './pages/permanence-information/permanence-information.component';
 import { ListReportsComponent } from './pages/list-reports/list-reports.component';
-<<<<<<< HEAD
 import { CreateUserComponent } from './pages/create-user/create-user.component';
-=======
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { RecoveryPasswordComponent } from './pages/auth/recovery-password/recovery-password.component';
->>>>>>> 7ae8af58bfa79dbb98b42603f8b5b3d5875cc2b5
 
 registerLocaleData(localeEsAr, 'es-Ar');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -82,12 +79,9 @@ PdfMakeWrapper.setFonts(pdfFonts);
     LoginStudentComponent,
     PermanenceInformationComponent,
     ListReportsComponent,
-<<<<<<< HEAD
     CreateUserComponent,
-=======
     ForgotPasswordComponent,
     RecoveryPasswordComponent,
->>>>>>> 7ae8af58bfa79dbb98b42603f8b5b3d5875cc2b5
   ],
 
   imports: [

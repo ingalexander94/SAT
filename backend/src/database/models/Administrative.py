@@ -15,18 +15,18 @@ class Administrative:
         document = request.json["documento"]
         user = mongo.db.administrative.find_one({"$or":[ {"correo":email}, {"documento":document}]})
         if user:
-            return response.reject("El usuario ya existe")
+            return jsonify(False)
         data = request.get_json()
         password = str(random.randrange(1000, 9999))
         data["contrasena"] = generate_password_hash(password)
-        data["isActive"] = True
-        id = mongo.db.administrative.insert(data)
+        data["estado"] = True
+        mongo.db.administrative.insert(data)
         nombre = f"{request.json['nombre']} {request.json['apellido']}"
         rol = request.json["rol"].upper()
         message = f"Hola {nombre}, ha sido creado su cuenta para ingresar en la plataforma SAT como {rol}, por favor ingrese a su cuenta y cambie la contraseña para mayor seguridad con los siguientes datos:\nCorreo: {email}\nContraseña: {password}"
         subject = f"{nombre} se activó su cuenta en la plataforma SAT"
         emails.sendEmail(email, message, subject)
-        return response.success("ok", {**data, "_id": str(id)}, "")
+        return jsonify(True)
     
     def login(self): 
         info = request.get_json()
