@@ -1,3 +1,4 @@
+import { tokenize } from '@angular/compiler/src/ml_parser/lexer';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -8,6 +9,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { showAlert } from 'src/app/helpers/alert';
+import { saveInLocalStorage } from 'src/app/helpers/localStorage';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-recovery-password',
@@ -22,7 +27,12 @@ export class RecoveryPasswordComponent implements OnInit {
   showPassword2: boolean = false;
   typePassword2: String = 'password';
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.formRecovery = this.createFormLogin();
   }
 
@@ -62,7 +72,20 @@ export class RecoveryPasswordComponent implements OnInit {
     this.typePassword2 = this.showPassword2 ? 'text' : 'password';
   }
 
-  onSubmit() {}
+  async onSubmit() {
+    const password = this.formRecovery.value;
+    delete password.confirmPassword;
+    const token = this.route.snapshot.paramMap.get('token');
+    localStorage.setItem('x-token', token);
+    const res = await this.authService.updatePassword(password);
+    if (!res) {
+      showAlert('error', 'la contraseña no coiciden');
+    } else {
+      localStorage.clear();
+      this.router.navigate(['/administrativo/iniciar-sesion']);
+      showAlert('success', 'Contraseña Actualizada');
+    }
+  }
 
   get newPassword() {
     return this.formRecovery.get('newPassword');
