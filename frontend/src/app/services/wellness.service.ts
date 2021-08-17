@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
+import { User } from '../model/auth';
 import { Meet, MeetResponse } from '../model/meet';
 import { ResponseFacultie } from '../model/wellness';
 
@@ -17,6 +18,17 @@ export class WellnessService {
     try {
       return this.http
         .get<ResponseFacultie>(`${this.URL_BACKEND}/wellness/faculties`)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  createUser(user: User) {
+    try {
+      return this.http
+        .post<Boolean>(`${this.URL_BACKEND}/auth/administrative/register`, user)
         .toPromise();
     } catch (error) {
       console.error(error);

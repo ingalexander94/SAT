@@ -83,7 +83,10 @@ PdfMakeWrapper.setFonts(pdfFonts);
     CreateUserComponent,
     ForgotPasswordComponent,
     RecoveryPasswordComponent,
+<<<<<<< HEAD
     AdministrativeProfileComponent,
+=======
+>>>>>>> fae886e87f67c92dab1c7b043e329a0c5f3f6952
   ],
 
   imports: [

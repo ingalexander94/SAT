@@ -8,36 +8,58 @@
   text-align: center;
   margin: 16px;
 }
+
 .title h1 {
   font-weight: bold;
   font-size: 20px;
 }
+
 form {
   width: 300px;
 }
+
 form select {
   height: 40px;
 }
+
 .campu {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
 }
+
 .campu input {
   border-radius: 5px;
-  padding: 5px;
+  padding: 8px;
+  border: none;
+  outline: none;
+  background: var(--gray-table);
+}
+
+.campu select {
+  background: var(--gray-table);
 }
 
 ul {
   margin-left: 25px;
+  list-style: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
 }
+
+ul li {
+  color: var(--red-primary-color);
+}
+
 .campu select {
   border-radius: 5px;
 }
+
 .campu label {
   font-weight: bold;
   margin-left: 5px;
 }
+
 button:disabled {
   background: #ff7686;
 }
@@ -52,19 +74,38 @@ button:disabled {
     align-items: center;
     height: 560px;
   }
+
   form {
-    width: 480px;
+    width: 50%;
     display: flex;
+    margin: auto;
+    padding: 8px 16px;
     flex-wrap: wrap;
     justify-content: space-around;
     background: var(--gray-table);
+    border-radius: 25px;
   }
+
   .campu select {
     margin: 10px;
     width: 210px;
   }
+
   .campu {
     text-align: center;
     justify-content: center;
+  }
+
+  button {
+    padding: 0 40px;
+  }
+
+  ul {
+    text-align: center;
+  }
+
+  .campu select,
+  .campu input {
+    background: var(--white);
   }
 }
