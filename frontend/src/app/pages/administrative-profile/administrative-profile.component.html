@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<div class="card_profile">
+  <div class="photo_user">
+    <div class="cicle"><label>N</label></div>
+  </div>
+  <div class="info_student">
+    <div class="description">
+      <h3>John Mircha</h3>
+      <p>John@ufps.edu.com</p>
+      <p>Vicerrector</p>
+    </div>
+  </div>
+  <div class="tarjet">
+    <div
+      class="seccion pointer"
+      (click)="showActive('1')"
+      [ngClass]="{ tarjet_active: active === '1' }"
+    >
+      <i class="fas fa-id-badge"></i>
+    </div>
+    <div
+      class="seccion pointer"
+      (click)="showActive('2')"
+      [ngClass]="{ tarjet_active: active === '2' }"
+    >
+      <i class="fas fa-edit"></i>
+    </div>
+    <div
+      class="seccion pointer"
+      (click)="showActive('3')"
+      [ngClass]="{ tarjet_active: active === '3' }"
+    >
+      <i class="fas fa-unlock-alt"></i>
+    </div>
+  </div>
+  <div class="tarje_container">
+    <div class="showProfile" *ngIf="active === '1'">
+      <span><i class="fas fa-phone"></i> 5878513</span>
+      <span><i class="fas fa-map-marker-alt"></i> calle 5, Guaimaral</span>
+    </div>
+    <div class="editProfile" *ngIf="active === '2'">
+      <input type="text" placeholder="Telefono" />
+      <input type="text" placeholder="Dirección" />
+      <input type="text" placeholder="Ingresa su contraseña" />
+      <button>Confirmar</button>
+    </div>
+    <div class="editProfile" *ngIf="active === '3'">
+      <input type="text" placeholder="Contraseña actual" />
+      <input type="text" placeholder="Nueva contraseña" />
+      <input type="text" placeholder="Confirmar contraseña" />
+      <button>Confirmar</button>
+    </div>
+  </div>
+</div>
+<app-floating-button class="floating"></app-floating-button>
