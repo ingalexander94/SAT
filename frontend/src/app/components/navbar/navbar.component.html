@@ -48,6 +48,16 @@
             >Crear Usuario</a
           >
         </li>
+
+        <li *ngIf="roleUser === 'vicerrector' || roleUser === 'psicologo'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/administrativo/perfil"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Perfil</a
+          >
+        </li>
         <li><a class="pointer" (click)="logout()">Salir</a></li>
       </ul>
     </div>

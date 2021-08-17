@@ -1,0 +1,254 @@
+.card_profile {
+  margin: 16px;
+  text-align: center;
+}
+
+.card_profile > p {
+  margin-top: 16px;
+}
+
+.photo_user {
+  margin-top: 58px;
+  position: relative;
+}
+
+.cicle {
+  width: 100px;
+  height: 100px;
+  background-color: var(--gray-table);
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 5px 100px;
+  border: 2px solid var(--white);
+  position: relative;
+  z-index: -1;
+  line-height: 100px;
+}
+.cicle label {
+  font-weight: bold;
+  font-size: 30px;
+  color: white;
+}
+
+.photo_user::before {
+  content: "";
+  top: -30px;
+  width: 280px;
+  height: 76px;
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  transform: rotate(-10deg);
+  background: var(--red-primary-color);
+}
+
+.data_student {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.info_student a {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.info_student label:hover {
+  border: 1px solid var(--white);
+  background: var(--red-primary-color);
+  color: var(--white);
+}
+
+.description h3 {
+  font-weight: bold;
+}
+
+.description p {
+  font-size: 14px;
+}
+
+.description p:nth-child(2) {
+  color: var(--gray-dark-color);
+}
+.tarjet {
+  margin-top: 16px;
+  margin-left: 40px;
+  width: 210px;
+  background: var(--red-primary-color);
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 5px;
+}
+.seccion {
+  text-align: center;
+  font-weight: bold;
+  width: 40px;
+  color: white;
+  margin-top: 5px;
+}
+.tarjet_active {
+  background: white;
+  color: var(--red-primary-color);
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+.showProfile {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.editProfile {
+  margin: 16px;
+}
+.editProfile input {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
+}
+button {
+  margin-top: 5px;
+}
+.floating {
+  position: fixed;
+  left: 8px;
+  top: 8px;
+}
+/* Tablet */
+
+@media (min-width: 768px) {
+  .description h3 {
+    font-size: 30px;
+  }
+  .description p {
+    font-size: 30px;
+  }
+  .photo_user {
+    margin-top: 150px;
+    margin-left: 150px;
+  }
+  .photo_user::before {
+    content: "";
+    top: -30px;
+    width: 420px;
+    height: 120px;
+  }
+  .cicle {
+    width: 150px;
+    height: 150px;
+    margin-left: 140px;
+    line-height: 150px;
+  }
+  .tarjet {
+    margin-left: 180px;
+    width: 400px;
+    height: 60px;
+  }
+  .seccion {
+    width: 100px;
+    text-align: center;
+  }
+  .seccion i {
+    line-height: 60px;
+    font-size: 35px;
+  }
+  button {
+    width: 100px;
+  }
+  .showProfile span {
+    font-size: 30px;
+  }
+  .editProfile {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 15px 180px;
+  }
+  .editProfile input {
+    width: 400px;
+    height: 50px;
+    font-size: 30px;
+  }
+  button {
+    font-size: 30px;
+    width: 400px;
+    margin-top: 5px;
+    margin-left: 2px;
+  }
+  .floating {
+    position: fixed;
+    left: unset;
+    top: unset;
+    right: 32px;
+    bottom: 32px;
+  }
+}
+/*  Desktop*/
+@media (min-width: 1152px) {
+  .description h3 {
+    font-size: 18px;
+  }
+
+  .description p {
+    font-size: 18px;
+  }
+  .photo_user {
+    margin-top: 130px;
+    margin-left: 480px;
+  }
+  .photo_user::before {
+    content: "";
+    top: -30px;
+    width: 320px;
+    height: 80px;
+  }
+  .cicle {
+    width: 100px;
+    height: 100px;
+    margin-left: 110px;
+    line-height: 100px;
+  }
+  .tarjet {
+    margin-left: 450px;
+    width: 400px;
+    height: 60px;
+  }
+  .seccion {
+    width: 100px;
+    text-align: center;
+  }
+  .seccion i {
+    line-height: 60px;
+    font-size: 35px;
+  }
+  button {
+    width: 100px;
+  }
+  .showProfile span {
+    font-size: 30px;
+    font-size: 18px;
+  }
+  .editProfile {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 5px 450px;
+  }
+  .editProfile input {
+    width: 400px;
+    height: 50px;
+    margin: 2px;
+    font-size: 18px;
+  }
+  button {
+    font-size: 18px;
+    width: 400px;
+    margin-bottom: 0px;
+  }
+  .floating {
+    position: fixed;
+    left: unset;
+    top: unset;
+    right: 32px;
+    bottom: 32px;
+  }
+}

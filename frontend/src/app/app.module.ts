@@ -51,6 +51,7 @@ import { ListReportsComponent } from './pages/list-reports/list-reports.componen
 import { CreateUserComponent } from './pages/create-user/create-user.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { RecoveryPasswordComponent } from './pages/auth/recovery-password/recovery-password.component';
+import { AdministrativeProfileComponent } from './pages/administrative-profile/administrative-profile.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -82,6 +83,10 @@ PdfMakeWrapper.setFonts(pdfFonts);
     CreateUserComponent,
     ForgotPasswordComponent,
     RecoveryPasswordComponent,
+<<<<<<< HEAD
+    AdministrativeProfileComponent,
+=======
+>>>>>>> fae886e87f67c92dab1c7b043e329a0c5f3f6952
   ],
 
   imports: [
