@@ -53,33 +53,6 @@ ul li {
   color: #a79e95;
 }
 
-.auth_roles {
-  margin: 32px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.roles {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
-}
-
-.roles label * {
-  display: block;
-  color: var(--dark-color);
-}
-
-.roles label i {
-  font-size: 25px;
-}
-
-.roles label span {
-  font-size: 18px;
-}
-
 .copyright {
   color: var(--red-primary-color);
   font-size: 10px;
@@ -168,7 +141,7 @@ button:disabled {
     align-items: center;
     justify-content: space-between;
     padding: 32px 112px;
-    max-height: 100vh;
+    min-height: 100vh;
   }
 
   .copyright {
@@ -204,9 +177,5 @@ button:disabled {
 
   .content {
     padding: 58px;
-  }
-
-  .auth_roles {
-    margin: 20px auto;
   }
 }

@@ -1,9 +1,11 @@
+from pymongo.collection import ReturnDocument
 import requests, random
-from flask import json, request, jsonify
+from flask import json, request, jsonify, Response
 from util import jwt, response, environment, emails
 from database import config
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
+from bson import json_util
 from util import jwt, environment
 
 mongo = config.mongo
@@ -29,22 +31,24 @@ class Administrative:
         return jsonify(True)
     
     def login(self): 
-        info = request.get_json()
-        document = info["document"]
-        role = info["role"]
-        endpoint =  f"{role}_{document}"
-        try:
-            req = requests.get(f"{environment.API_URL}/{endpoint}")
-            data = req.json()
-            if data["ok"]:
-                user = data["data"]
-                del user["contrasena"]
-                token = jwt.generateToken(user, 60)
-                return response.success("Bienvenido!!", user, token)
-            else:
-                return response.error("Revise los datos ingresados", 401) 
-        except:
-          return response.error("Revise los datos ingresados", 401) 
+        document = request.json["document"]
+        password = request.json["password"]
+        user = mongo.db.administrative.find_one({"documento":document})
+        if(not user): 
+            return response.reject("Revise los datos ingresados")    
+        hash = user["contrasena"]
+        isValid = check_password_hash(hash, password)
+        if not isValid:
+            return response.reject("Revise los datos ingresados")   
+        id = str(user["_id"])
+        del user["_id"]
+        del user["contrasena"]
+        user = {
+            **user,
+            "_id": id
+        }
+        token = jwt.generateToken(user, 60)
+        return response.success("Bienvenido!!", user, token)
         
     def changePassword(self):
         password = request.json["password"]
@@ -59,7 +63,7 @@ class Administrative:
             return jsonify(False)
         newPassword = generate_password_hash(newPassword)
         mongo.db.administrative.find_one_and_update({"_id": ObjectId(id)},{"$set":{"contrasena": newPassword}})
-        return jsonify(True)       
+        return jsonify(True) 
        
     def sendMailRecoveryPassword(self):
         email = request.json["email"] 
@@ -108,7 +112,12 @@ class Administrative:
                     return json.dumps(True)
         return json.dumps(False)
     
-    
+    def updatePhone(self, user):
+        id = user["_id"]
+        phone = request.json["phone"]
+        data = mongo.db.administrative.find_one_and_update({"_id":ObjectId(id)}, {"$set": {"telefono":phone}}, return_document=ReturnDocument.AFTER)
+        userUpdated = json_util.dumps(data)
+        return Response(userUpdated, mimetype="applicaton/json")
              
 
         

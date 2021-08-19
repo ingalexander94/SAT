@@ -7,12 +7,11 @@ class InstitutionalSchema(Schema):
     password = fields.Str(required=True)
     role = fields.Str(required=True, validate=OneOf(["docente", "estudiante","jefe"]))
     
-class AdministrativeSchema(Schema):
+class LoginSchema(Schema):
     document = fields.Str(required = True, validate=Length(min=8, max=10))
     password = fields.Str(required = True)
-    role = fields.Str(required = True, validate=OneOf(["psicologo", "medico","trabajadorSocial", "sacerdote", "vicerrector"]))
     
-class Administrative2Schema(Schema):
+class AdministrativeSchema(Schema):
     nombre = fields.Str(required = True)
     apellido = fields.Str(required = True)
     documento = fields.Str(required = True, validate=Length(min=8, max=10))
@@ -20,6 +19,7 @@ class Administrative2Schema(Schema):
     tipoDocumento = fields.Str(required=True, validate=OneOf(["cedulaCiudadania", "cedulaExtranjeria","pasaporteColombiano", "pasaporteExtranjero", "documentoVenezolano"]))
     telefono = fields.Str(required = True, validate=Length(min=7, max=15))
     correo = fields.Email(required = True)
+    fechaIngreso = fields.DateTime(required=True)
     
 class ChangePasswordSchema(Schema):
     password = fields.Str(required = True)

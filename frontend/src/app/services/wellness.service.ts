@@ -121,4 +121,16 @@ export class WellnessService {
       return null;
     }
   }
+
+  paginateSuggestion(page, perPage) {
+    try {
+      const params = new HttpParams().set('page', page).set('perPage', perPage);
+      return this.http
+        .get<any>(`${this.URL_BACKEND}/suggestion/paginate`, { params })
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }

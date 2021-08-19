@@ -15,10 +15,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   createFormLogin(): FormGroup {
     return new FormGroup({
-      email: new FormControl('niverdromero12@gmail.com', [
-        Validators.required,
-        Validators.email,
-      ]),
+      email: new FormControl('', [Validators.required, Validators.email]),
     });
   }
 
@@ -29,6 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit(): void {}
 
   async onSubmit() {
+    this.loading = true;
     const email = this.formForgot.value;
     const res = await this.authService.sendEmailUpdatePassword(email);
     if (!res) {
@@ -37,6 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.router.navigate(['/administrativo/iniciar-sesion']);
       showAlert('success', 'Revise su correo para continuar con el proceso');
     }
+    this.loading = false;
   }
 
   get email() {

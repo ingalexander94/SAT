@@ -96,8 +96,8 @@ class Institutional:
         data = list(req.json())
         profits = list(filter(lambda profit: not profit["fechaFinal"], data))
         profits = list(map(lambda profit : profit["nombre"], profits))
-        profitsDB = list(mongo.db.profit.find({"riesgo": risk}, {"nombre": 1, "_id": False}))
-        data = list(map(lambda profit : {"nombre": profit["nombre"], "state": profit["nombre"] in profits}, profitsDB))
+        profitsDB = list(mongo.db.profit.find({"riesgo": risk}))
+        data = list(map(lambda profit : {"nombre": profit["nombre"], "state": profit["nombre"] in profits, "id":str(profit["_id"])}, profitsDB))
         return response.success("Todo ok!", data, "")
 
     def studentsOfPeriod(self):

@@ -48,7 +48,15 @@
             >Crear Usuario</a
           >
         </li>
-
+        <li *ngIf="roleUser === 'vicerrector'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/vicerrector/sugerencias/1"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Ver sugerencias</a
+          >
+        </li>
         <li *ngIf="roleUser === 'vicerrector' || roleUser === 'psicologo'">
           <a
             (click)="closeMenu()"

@@ -13,7 +13,7 @@ export interface User {
   telefono: String;
   direccion?: String;
   estado?: string;
-  fechaIngreso?: Date;
+  fechaIngreso?: any;
   creditosAprobados?: Number;
   edad?: Number;
   creditosTotales?: Number;
@@ -27,7 +27,7 @@ export interface UserAuth {
   code?: String;
   document: String;
   password: String;
-  role: String;
+  role?: String;
 }
 
 export interface AuthResponse {

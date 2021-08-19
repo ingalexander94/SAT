@@ -45,6 +45,7 @@ export class CreateUserComponent implements OnInit {
     this.loading = true;
     if (!this.formCreateUser.invalid) {
       const user: User = this.formCreateUser.value;
+      user.fechaIngreso = new Date().toISOString();
       const res = await this.wellnessService.createUser(user);
       if (!res) showAlert('error', 'No se pudo crear la cuenta');
       else {

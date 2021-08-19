@@ -21,16 +21,15 @@ export class LoginAdminComponent implements OnInit, OnDestroy {
 
   createFormLogin(): FormGroup {
     return new FormGroup({
-      role: new FormControl('psicologo', Validators.required),
-      document: new FormControl('1740427290', [
+      document: new FormControl('60290331', [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(10),
         Validators.pattern(/^[0-9]+$/i),
       ]),
-      password: new FormControl('5535', [
+      password: new FormControl('2548', [
         Validators.required,
-        Validators.pattern(/^[0-9]+$/i),
+        Validators.minLength(4),
       ]),
     });
   }
@@ -70,10 +69,6 @@ export class LoginAdminComponent implements OnInit, OnDestroy {
 
   get password() {
     return this.formLogin.get('password');
-  }
-
-  get role() {
-    return this.formLogin.get('role');
   }
 
   ngOnDestroy(): void {

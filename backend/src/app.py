@@ -11,6 +11,7 @@ from routes.chat_router import chat_rest
 from routes.wellness_router  import wellness_rest
 from routes.meet_router  import meet_rest
 from routes.binnacle_router  import binnacle_rest
+from routes.suggestion_router  import suggestion_router
 from util import environment, jwt
 from database import config
 
@@ -37,6 +38,7 @@ app.register_blueprint(notification_rest, url_prefix='/notification')
 app.register_blueprint(wellness_rest, url_prefix='/wellness')
 app.register_blueprint(meet_rest, url_prefix='/meet')
 app.register_blueprint(binnacle_rest, url_prefix='/binnacle')
+app.register_blueprint(suggestion_router, url_prefix='/suggestion')
 
 @app.route("/auth/renew")
 @token_required

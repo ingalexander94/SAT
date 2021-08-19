@@ -38,6 +38,7 @@ export class DetailRisksComponent implements OnInit, OnDestroy {
 
   async loadProfits(code: String, risk: String) {
     const { data } = await this.studentService.getProfitsAdmin(code, risk);
+    console.log(data);
     this.profits = data;
     this.loading = false;
   }

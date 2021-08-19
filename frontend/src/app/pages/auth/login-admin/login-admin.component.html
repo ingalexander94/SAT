@@ -6,47 +6,12 @@
       <p>Sistema de alertas tempranas</p>
     </div>
     <form [formGroup]="formLogin" (submit)="onSubmit()" class="form_auth">
-      <div class="auth_roles" title="Seleccione un rol">
-        <div class="roles">
-          <input
-            type="radio"
-            formControlName="role"
-            id="vicerrector"
-            value="vicerrector"
-          />
-          <input
-            type="radio"
-            formControlName="role"
-            id="psicologo"
-            value="psicologo"
-          />
-          <label
-            for="vicerrector"
-            class="pointer"
-            [ngClass]="{ active: role.value === 'vicerrector' }"
-          >
-            <i class="fas fa-chalkboard-teacher"></i>
-            <span>Vicerrector</span>
-          </label>
-          <label
-            for="psicologo"
-            class="pointer"
-            [ngClass]="{ active: role.value === 'psicologo' }"
-          >
-            <i class="fas fa-user-tie"></i>
-            <span>Psicologo</span>
-          </label>
-        </div>
-      </div>
       <div class="form_input">
         <input
           [type]="typeDocument"
           placeholder="Documento"
           (focus)="changeTypeDocument(true)"
           (blur)="changeTypeDocument(false)"
-          value="1234567890"
-          max="10"
-          min="8"
           formControlName="document"
           name="document"
           id="document"
@@ -62,9 +27,6 @@
         <input
           [type]="typePassword"
           placeholder="Contraseña"
-          value="1234567890123"
-          min="6"
-          max="20"
           formControlName="password"
           name="password"
           id="password"

@@ -1,0 +1,63 @@
+<div class="suggestion_container">
+  <app-search-student [title]="title"></app-search-student>
+
+  <app-loading class="loading" *ngIf="loading"></app-loading>
+
+  <div *ngIf="!loading">
+    <div class="suggestion_options">
+      <div class="actions">
+        <i (click)="delete()" class="fas fa-trash"></i>
+        <i class="fas fa-check"></i>
+        <i class="fas fa-sync-alt"></i>
+      </div>
+      <i class="fas fa-filter"></i>
+    </div>
+
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Estudiante</th>
+            <th scope="col">Programa</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Beneficio</th>
+            <th scope="col">Por</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of suggestions; let i = index"
+            [ngClass]="{ selection: item.select }"
+            (click)="selected(i)"
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.student.codigo }}</td>
+            <td>{{ item.student.nombre }}</td>
+            <td>{{ item.student.programa }}</td>
+            <td>{{ item.date | date: "MMM d, y" }}</td>
+            <td [title]="item.profit.riesgo">
+              <i [class]="getIcon(item.profit.riesgo)"></i> |
+              {{ item.profit.nombre }}
+            </td>
+            <td [title]="item.admin.rol">
+              <i [class]="getIcon(item.admin.rol)"></i> |
+              {{ item.admin.nombre }}
+              {{ item.admin.apellido }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <a
+        *ngFor="let item of totalPages"
+        routerLink="/vicerrector/sugerencias/{{ item }}"
+        routerLinkActive="page_active"
+        >{{ item }}</a
+      >
+    </div>
+  </div>
+</div>

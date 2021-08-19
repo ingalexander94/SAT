@@ -9,6 +9,7 @@ import { InRiskComponent } from '../pages/in-risk/in-risk.component';
 import { PostulateListComponent } from '../pages/postulate-list/postulate-list.component';
 import { SemesterWellnessComponent } from '../pages/semester-wellness/semester-wellness.component';
 import { SemesterComponent } from '../pages/semester/semester.component';
+import { SuggestionComponent } from '../pages/suggestion/suggestion.component';
 import { DashboardWellnessComponent } from './dashboard-wellness.component';
 
 const children: Routes = [
@@ -38,6 +39,14 @@ const children: Routes = [
   {
     path: 'crear-usuario',
     component: CreateUserComponent,
+  },
+  {
+    path: 'sugerencias',
+    component: SuggestionComponent,
+  },
+  {
+    path: 'sugerencias/:pagina',
+    component: SuggestionComponent,
   },
 ];
 

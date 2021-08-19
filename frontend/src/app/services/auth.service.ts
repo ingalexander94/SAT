@@ -44,12 +44,16 @@ export class AuthService {
           dataLogin
         )
         .toPromise();
-      const { msg, data, token } = req;
-      localStorage.setItem('x-token', token.toString());
-      showAlert('success', msg);
-      this.store.dispatch(new AddUserAction(data));
-      saveInLocalStorage('user-show', data);
-      this.router.navigate([`/${data.rol.toLowerCase()}`]);
+      const { ok, msg } = req;
+      if (ok) {
+        localStorage.setItem('x-token', req.token.toString());
+        showAlert('success', msg);
+        this.store.dispatch(new AddUserAction(req.data));
+        saveInLocalStorage('user-show', req.data);
+        this.router.navigate([`/${req.data.rol.toLowerCase()}`]);
+      } else {
+        showAlert('error', msg);
+      }
     } catch (error) {
       this.store.dispatch(new SetError('Ocurrio un error en el servidor', '/'));
       showAlert('error', error.error.msg);
@@ -82,6 +86,15 @@ export class AuthService {
     return this.httpClient
       .put<Boolean>(
         `${this.endpoint}/auth/administrative/recovery-password`,
+        password
+      )
+      .toPromise();
+  }
+
+  changePassword(password) {
+    return this.httpClient
+      .put<Boolean>(
+        `${this.endpoint}/auth/administrative/change-password`,
         password
       )
       .toPromise();

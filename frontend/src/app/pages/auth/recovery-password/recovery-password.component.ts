@@ -1,5 +1,4 @@
-import { tokenize } from '@angular/compiler/src/ml_parser/lexer';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -10,8 +9,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { showAlert } from 'src/app/helpers/alert';
-import { saveInLocalStorage } from 'src/app/helpers/localStorage';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -19,13 +18,14 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './recovery-password.component.html',
   styleUrls: ['./recovery-password.component.css'],
 })
-export class RecoveryPasswordComponent implements OnInit {
+export class RecoveryPasswordComponent implements OnInit, OnDestroy {
   formRecovery: FormGroup;
   loading: boolean = false;
   showPassword: boolean = false;
   typePassword: String = 'password';
   showPassword2: boolean = false;
   typePassword2: String = 'password';
+  subscription: Subscription = new Subscription();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,16 +34,19 @@ export class RecoveryPasswordComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.formRecovery = this.createFormLogin();
+    this.subscription = this.route.params.subscribe(({ token }) =>
+      localStorage.setItem('x-token', token)
+    );
   }
 
   createFormLogin(): FormGroup {
     return this.formBuilder.group(
       {
-        newPassword: new FormControl('0000', [
+        newPassword: new FormControl('', [
           Validators.required,
           Validators.minLength(4),
         ]),
-        confirmPassword: new FormControl('0000', [
+        confirmPassword: new FormControl('', [
           Validators.required,
           Validators.minLength(4),
         ]),
@@ -73,18 +76,18 @@ export class RecoveryPasswordComponent implements OnInit {
   }
 
   async onSubmit() {
+    this.loading = true;
     const password = this.formRecovery.value;
     delete password.confirmPassword;
-    const token = this.route.snapshot.paramMap.get('token');
-    localStorage.setItem('x-token', token);
     const res = await this.authService.updatePassword(password);
-    if (!res) {
-      showAlert('error', 'la contraseña no coiciden');
+    if (typeof res !== 'boolean' || !res) {
+      showAlert('error', 'No se pudo actualizar la contraseña');
     } else {
       localStorage.clear();
       this.router.navigate(['/administrativo/iniciar-sesion']);
       showAlert('success', 'Contraseña Actualizada');
     }
+    this.loading = false;
   }
 
   get newPassword() {
@@ -93,5 +96,9 @@ export class RecoveryPasswordComponent implements OnInit {
 
   get confirmPassword() {
     return this.formRecovery.get('confirmPassword');
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

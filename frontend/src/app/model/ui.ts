@@ -2,7 +2,7 @@ import { Student } from './course';
 
 export interface Title {
   title: String;
-  subtitle: String;
+  subtitle?: String;
 }
 
 export interface ItemRisk {

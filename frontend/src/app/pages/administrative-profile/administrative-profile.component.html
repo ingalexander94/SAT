@@ -1,13 +1,15 @@
 <app-navbar></app-navbar>
 <div class="card_profile">
   <div class="photo_user">
-    <div class="cicle"><label>N</label></div>
+    <div class="cicle" [ngClass]="color">
+      <label>{{ user.nombre.charAt(0) }}{{ user.apellido.charAt(0) }}</label>
+    </div>
   </div>
   <div class="info_student">
     <div class="description">
-      <h3>John Mircha</h3>
-      <p>John@ufps.edu.com</p>
-      <p>Vicerrector</p>
+      <h3>{{ user.nombre }} {{ user.apellido }}</h3>
+      <p>{{ user.correo }}</p>
+      <p>{{ user.rol.toString() | uppercase }}</p>
     </div>
   </div>
   <div class="tarjet">
@@ -23,33 +25,109 @@
       (click)="showActive('2')"
       [ngClass]="{ tarjet_active: active === '2' }"
     >
-      <i class="fas fa-edit"></i>
-    </div>
-    <div
-      class="seccion pointer"
-      (click)="showActive('3')"
-      [ngClass]="{ tarjet_active: active === '3' }"
-    >
       <i class="fas fa-unlock-alt"></i>
     </div>
   </div>
   <div class="tarje_container">
     <div class="showProfile" *ngIf="active === '1'">
-      <span><i class="fas fa-phone"></i> 5878513</span>
-      <span><i class="fas fa-map-marker-alt"></i> calle 5, Guaimaral</span>
+      <span><i class="fas fa-phone"></i> {{ user.telefono }}</span>
+      <span><i class="fas fa-id-card"></i> {{ user.documento }}</span>
+      <hr />
+      <p>
+        Se encuentra registrado en la plataforma desde el dia
+        {{ user.fechaIngreso | date: "EEEE d 'de' MMMM 'del' y" }} como
+        <strong>{{ user.rol }}</strong>
+      </p>
     </div>
-    <div class="editProfile" *ngIf="active === '2'">
-      <input type="text" placeholder="Telefono" />
-      <input type="text" placeholder="Dirección" />
-      <input type="text" placeholder="Ingresa su contraseña" />
-      <button>Confirmar</button>
-    </div>
-    <div class="editProfile" *ngIf="active === '3'">
-      <input type="text" placeholder="Contraseña actual" />
-      <input type="text" placeholder="Nueva contraseña" />
-      <input type="text" placeholder="Confirmar contraseña" />
-      <button>Confirmar</button>
-    </div>
+    <form
+      [formGroup]="formChangePassword"
+      (submit)="onSubmit()"
+      class="editProfile"
+      *ngIf="active === '2'"
+    >
+      <div class="form_input">
+        <input
+          placeholder="Contraseña actual"
+          formControlName="password"
+          name="password"
+          id="password"
+          [type]="typePassword"
+          required
+        />
+        <i
+          *ngIf="!showPassword"
+          (click)="changeShowPassword()"
+          class="fas fa-eye fa-fw pointer"
+        ></i>
+        <i
+          *ngIf="showPassword"
+          (click)="changeShowPassword()"
+          class="fas fa-eye-slash fa-fw pointer"
+        ></i>
+      </div>
+      <ul *ngIf="password.invalid && (password.dirty || password.touched)">
+        <li>* Debe tener mínimo 4 caracteres</li>
+      </ul>
+      <div class="form_input">
+        <input
+          placeholder="Nueva Contraseña"
+          formControlName="newPassword"
+          name="newPassword"
+          id="newPassword"
+          [type]="typePassword2"
+          required
+        />
+        <i
+          *ngIf="!showPassword2"
+          (click)="changeShowPassword2()"
+          class="fas fa-eye fa-fw pointer"
+        ></i>
+        <i
+          *ngIf="showPassword2"
+          (click)="changeShowPassword2()"
+          class="fas fa-eye-slash fa-fw pointer"
+        ></i>
+      </div>
+      <ul
+        *ngIf="
+          newPassword.invalid && (newPassword.dirty || newPassword.touched)
+        "
+      >
+        <li>* Debe tener mínimo 4 caracteres</li>
+      </ul>
+      <div class="form_input">
+        <input
+          placeholder="Confirmar Contraseña"
+          formControlName="confirmPassword"
+          name="confirmPassword"
+          id="confirmPassword"
+          [type]="typePassword3"
+          required
+        />
+        <i
+          *ngIf="!showPassword3"
+          (click)="changeShowPassword3()"
+          class="fas fa-eye fa-fw pointer"
+        ></i>
+        <i
+          *ngIf="showPassword3"
+          (click)="changeShowPassword3()"
+          class="fas fa-eye-slash fa-fw pointer"
+        ></i>
+      </div>
+      <ul
+        *ngIf="
+          confirmPassword.invalid &&
+          (confirmPassword.dirty || confirmPassword.touched)
+        "
+      >
+        <li>* Las contraseñas no coinciden</li>
+      </ul>
+      <button [disabled]="formChangePassword.invalid">
+        Cambiar contraseña
+        <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
+      </button>
+    </form>
   </div>
 </div>
 <app-floating-button class="floating"></app-floating-button>
