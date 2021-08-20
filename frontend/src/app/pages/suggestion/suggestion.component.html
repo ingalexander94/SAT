@@ -6,11 +6,94 @@
   <div *ngIf="!loading">
     <div class="suggestion_options">
       <div class="actions">
+        <label for="all">
+          Todos
+          <input type="checkbox" name="all" id="all" (change)="all($event)" />
+        </label>
         <i (click)="delete()" class="fas fa-trash"></i>
         <i class="fas fa-check"></i>
         <i class="fas fa-sync-alt"></i>
       </div>
-      <i class="fas fa-filter"></i>
+      <input type="checkbox" name="onShow" id="onShow" #options />
+      <label for="onShow" class="filter">
+        <i class="fas fa-filter pointer"></i>
+      </label>
+      <ul>
+        <li (click)="changeShow('date')">Ver por fecha</li>
+        <li (click)="changeShow('profit')">Ver por beneficio</li>
+        <li (click)="changeShow('risk')">Ver por riesgo</li>
+        <li (click)="changeShow('role')">Ver por rol</li>
+        <li (click)="changeShow('')">Ver todos</li>
+      </ul>
+    </div>
+
+    <div class="list_filter">
+      <form
+        class="byDate"
+        name="byDate"
+        (submit)="onSubmit($event)"
+        *ngIf="show === 'date'"
+      >
+        <div class="form_input">
+          <label for="from">Desde:</label>
+          <input type="date" name="from" id="from" />
+        </div>
+        <div class="form_input">
+          <label for="to">Hasta:</label>
+          <input type="date" name="to" id="to" />
+        </div>
+        <button type="submit">Filtrar <i class="fas fa-search"></i></button>
+      </form>
+      <form
+        class="byRisk"
+        name="byRisk"
+        (submit)="onSubmit($event)"
+        *ngIf="show === 'risk'"
+      >
+        <div class="form_input">
+          <label for="toSelect">Riesgo</label>
+          <select name="toSelect" id="toSelect">
+            <option value="academico">Académico</option>
+            <option value="socioeconomico">Socioeconómico</option>
+            <option value="individual">Individual</option>
+            <option value="institucional">Institucional</option>
+          </select>
+        </div>
+        <button type="submit">Filtrar <i class="fas fa-search"></i></button>
+      </form>
+      <form
+        class="byRole"
+        name="byRole"
+        (submit)="onSubmit($event)"
+        *ngIf="show === 'role'"
+      >
+        <div class="form_input">
+          <label for="toSelect2">Rol</label>
+          <select name="toSelect2" id="toSelect2">
+            <option value="psicologo">Psicologo</option>
+            <option value="medico">Médico</option>
+            <option value="trabajadorSocial">Trabajador social</option>
+            <option value="sacerdote">Sacerdote</option>
+          </select>
+        </div>
+        <button type="submit">Filtrar <i class="fas fa-search"></i></button>
+      </form>
+      <form
+        class="byProfit"
+        (submit)="onSubmit($event)"
+        *ngIf="show === 'profit'"
+        name="byProfit"
+      >
+        <div class="form_input">
+          <label for="toSelect3">Beneficio</label>
+          <select name="toSelect3" id="toSelect3">
+            <option *ngFor="let item of profits" value="{{ item.nombre }}">
+              {{ item.nombre }}
+            </option>
+          </select>
+        </div>
+        <button type="submit">Filtrar <i class="fas fa-search"></i></button>
+      </form>
     </div>
 
     <div class="table">

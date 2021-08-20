@@ -10,6 +10,7 @@
   border-top: 2px solid var(--gray-dark-color);
   border-bottom: 2px solid var(--gray-dark-color);
   padding: 8px 16px;
+  position: relative;
 }
 
 .suggestion_options .actions {
@@ -18,19 +19,54 @@
   align-items: center;
 }
 
-.suggestion_options .actions i {
+.suggestion_options .actions label {
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-between;
+}
+
+.suggestion_options .actions label input {
+  margin-left: 8px;
+}
+
+.suggestion_options .actions * {
   margin-right: 16px;
+  cursor: pointer;
 }
 
 .loading {
   margin-top: 16px;
 }
 
-.suggestion_options i {
+ul {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: var(--gray-menu);
+  list-style: none;
+  padding: 8px 16px;
+  border: 1px solid var(--gray-dark-color);
+}
+
+ul li {
+  margin: 8px 0;
   cursor: pointer;
+}
+
+#onShow {
+  display: none;
+}
+
+#onShow:checked ~ ul {
+  display: block;
+}
+
+.filter i {
+  color: var(--red-primary-color) !important;
+}
+
+.suggestion_options i {
   color: var(--dark-color);
   font-size: 18px;
 }
@@ -101,6 +137,73 @@ label {
   background: var(--red-primary-color);
 }
 
+.list_filter {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.list_filter label {
+  margin-right: 16px;
+}
+
+.form_input {
+  width: 250px;
+  margin-top: 0;
+}
+
+.form_input select {
+  appearance: none;
+  border: none;
+  outline: none;
+  margin: 8px 0;
+  width: 100%;
+}
+
+.form_input label {
+  width: 80px;
+}
+
+.byRisk,
+.byDate,
+.byRole,
+.byProfit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+button {
+  width: 250px;
+  height: 50px;
+}
+
+/* Tablet */
+
+@media (min-width: 768px) and (max-width: 1151px) {
+  .suggestion_options,
+  .table,
+  .pagination {
+    margin: 16px auto;
+    width: 80%;
+  }
+
+  .byRisk,
+  .byDate,
+  .byRole,
+  .byProfit {
+    flex-wrap: nowrap;
+  }
+
+  button {
+    width: 100px;
+  }
+}
+
 /* Desktop */
 
 @media (min-width: 1152px) {
@@ -111,7 +214,25 @@ label {
   .suggestion_options,
   .table,
   .pagination {
-    margin: 32px auto;
+    margin: 8px auto;
     width: 60%;
+  }
+
+  .byRisk,
+  .byDate,
+  .byRole,
+  .byProfit {
+    flex-wrap: nowrap;
+    margin: 0;
+  }
+
+  .list_filter {
+    margin: 0;
+  }
+
+  button {
+    width: 100px;
+    height: 50px;
+    margin: 0;
   }
 }

@@ -119,8 +119,10 @@ class Administrative:
         userUpdated = json_util.dumps(data)
         return Response(userUpdated, mimetype="applicaton/json")
              
-
-        
+    def getProfits(self):
+        data = mongo.db.profit.find(None, {"nombre":1, "_id": False})
+        profits = json_util.dumps(data)
+        return Response(profits, mimetype="applicaton/json")
         
         
          

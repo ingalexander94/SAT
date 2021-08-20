@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { pluck } from 'rxjs/operators';
@@ -17,12 +17,15 @@ export class SuggestionComponent implements OnInit {
   };
 
   suggestions: any[] = [];
+  profits: any[] = [];
   selections: any[] = [];
   loading: boolean = true;
   page: number = 1;
-  perPage: number = 1;
+  perPage: number = 5;
   totalPages: number[] = [1];
   subscription: Subscription = new Subscription();
+  show: String = '';
+  @ViewChild('options') options: ElementRef;
 
   constructor(
     private uiService: UiService,
@@ -44,6 +47,8 @@ export class SuggestionComponent implements OnInit {
       page,
       this.perPage
     );
+    const profits = await this.wellnessService.getProfits();
+    this.profits = profits;
     this.suggestions = res.data;
     this.totalPages = Array(res.totalPages)
       .fill(0)
@@ -63,7 +68,17 @@ export class SuggestionComponent implements OnInit {
   }
 
   delete() {
-    console.log(this.selections);
+    alert(this.selections);
+  }
+
+  all({ target }) {
+    this.selections.length = 0;
+    this.suggestions = this.suggestions.map((item) => {
+      this.selections.push(item._id);
+      item.select = target.checked;
+      return item;
+    });
+    if (!target.checked) this.selections.length = 0;
   }
 
   getIcon(risk) {
@@ -87,5 +102,27 @@ export class SuggestionComponent implements OnInit {
       default:
         return 'fas fa-id-badge';
     }
+  }
+
+  changeShow(newShow) {
+    this.show = newShow;
+    this.options.nativeElement.checked = false;
+  }
+
+  onSubmit({ target }) {
+    const formName = target.name;
+    let value = null;
+    if (formName === 'byDate') {
+      value = {
+        from: new Date(target[0].value).toISOString(),
+        to: new Date(target[1].value).toISOString(),
+      };
+    } else {
+      value = {
+        value: target[0].value,
+      };
+    }
+    console.log(value);
+    // TODO: Haga lo que sigue niver
   }
 }

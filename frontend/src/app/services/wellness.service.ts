@@ -133,4 +133,16 @@ export class WellnessService {
       return null;
     }
   }
+
+  getProfits() {
+    try {
+      return this.http
+        .get<any>(`${this.URL_BACKEND}/wellness/profits`)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
 }

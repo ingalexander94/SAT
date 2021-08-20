@@ -21,13 +21,13 @@ export class LoginAdminComponent implements OnInit, OnDestroy {
 
   createFormLogin(): FormGroup {
     return new FormGroup({
-      document: new FormControl('60290331', [
+      document: new FormControl('1090494143', [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(10),
         Validators.pattern(/^[0-9]+$/i),
       ]),
-      password: new FormControl('2548', [
+      password: new FormControl('Realmadrid94', [
         Validators.required,
         Validators.minLength(4),
       ]),

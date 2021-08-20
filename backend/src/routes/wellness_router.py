@@ -31,3 +31,8 @@ def paginatePostulationsWellness(_):
 @token_required
 def validateProgram(_, nameProgram=None):
     return instanceAdministrativo.validateProgram(nameProgram)
+
+@wellness_rest.route("/profits")
+@token_required
+def getProfits(_):
+    return instanceAdministrativo.getProfits()
