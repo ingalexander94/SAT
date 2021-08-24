@@ -2,6 +2,10 @@
   margin-top: 48px;
 }
 
+.text_center {
+  text-align: center;
+}
+
 .suggestion_options {
   margin: 0 16px;
   display: flex;

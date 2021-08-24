@@ -18,5 +18,8 @@ def createSuggestion(user):
 def paginateSuggestion(_):
     return instance.paginateSuggestion()
 
-
+@suggestion_router.route("/filter", methods=["POST"])
+@token_required
+def filterSuggestion(_):
+    return instance.filterSuggestion()
 

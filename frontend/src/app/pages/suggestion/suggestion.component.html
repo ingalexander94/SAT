@@ -12,7 +12,11 @@
         </label>
         <i (click)="delete()" class="fas fa-trash"></i>
         <i class="fas fa-check"></i>
-        <i class="fas fa-sync-alt"></i>
+        <i
+          title="Ver todos"
+          (click)="changeShow('')"
+          class="fas fa-sync-alt"
+        ></i>
       </div>
       <input type="checkbox" name="onShow" id="onShow" #options />
       <label for="onShow" class="filter">
@@ -36,11 +40,21 @@
       >
         <div class="form_input">
           <label for="from">Desde:</label>
-          <input type="date" name="from" id="from" />
+          <input
+            type="date"
+            name="from"
+            id="from"
+            value="{{ startDate | date: 'yyyy-MM-dd' }}"
+          />
         </div>
         <div class="form_input">
           <label for="to">Hasta:</label>
-          <input type="date" name="to" id="to" />
+          <input
+            type="date"
+            name="to"
+            id="to"
+            value="{{ endDate | date: 'yyyy-MM-dd' }}"
+          />
         </div>
         <button type="submit">Filtrar <i class="fas fa-search"></i></button>
       </form>
@@ -96,7 +110,10 @@
       </form>
     </div>
 
-    <div class="table">
+    <p class="text_center" *ngIf="!suggestions.length">
+      No se encontrarón resultados
+    </p>
+    <div class="table" *ngIf="suggestions.length">
       <table>
         <thead>
           <tr>
@@ -134,7 +151,7 @@
       </table>
     </div>
 
-    <div class="pagination">
+    <div class="pagination" *ngIf="suggestions.length">
       <a
         *ngFor="let item of totalPages"
         routerLink="/vicerrector/sugerencias/{{ item }}"

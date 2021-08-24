@@ -35,8 +35,21 @@
             <td>{{ profit.nombre }}</td>
             <td *ngIf="profit.state"><i class="far fa-check-circle"></i></td>
             <td *ngIf="!profit.state">
-              <i *ngIf="role !== 'psicologo'" class="far fa-times-circle"></i>
-              <button *ngIf="role === 'psicologo'">Recomendar</button>
+              <i
+                *ngIf="role !== 'psicologo' && !profit.isSuggested"
+                class="far fa-times-circle"
+              ></i>
+              <p *ngIf="profit.isSuggested">Sugerido</p>
+              <button
+                *ngIf="role === 'psicologo' && !profit.isSuggested"
+                (click)="createSuggestion(profit.id, i)"
+              >
+                Recomendar
+                <i
+                  *ngIf="loadingSuggestion"
+                  class="fas fa-spinner fa-pulse fa-fw"
+                ></i>
+              </button>
             </td>
           </tr>
         </tbody>

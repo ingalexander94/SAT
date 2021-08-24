@@ -1,7 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
+import { showAlert } from 'src/app/helpers/alert';
+import {
+  getValueOfLocalStorage,
+  saveInLocalStorage,
+} from 'src/app/helpers/localStorage';
 import { Title } from 'src/app/model/ui';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -11,20 +22,22 @@ import { WellnessService } from 'src/app/services/wellness.service';
   templateUrl: './suggestion.component.html',
   styleUrls: ['./suggestion.component.css'],
 })
-export class SuggestionComponent implements OnInit {
+export class SuggestionComponent implements OnInit, OnDestroy {
   title: Title = {
     title: 'Lista de segerencias',
   };
-
   suggestions: any[] = [];
   profits: any[] = [];
   selections: any[] = [];
   loading: boolean = true;
   page: number = 1;
-  perPage: number = 5;
+  perPage: number = 1;
   totalPages: number[] = [1];
   subscription: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
   show: String = '';
+  startDate: string = new Date().toISOString().split('T')[0];
+  endDate: string = new Date().toISOString().split('T')[0];
   @ViewChild('options') options: ElementRef;
 
   constructor(
@@ -36,24 +49,25 @@ export class SuggestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getProfits();
     this.subscription = this.route.params
       .pipe(pluck('pagina'))
-      .subscribe((page = 1) => this.getSuggestion(page));
-  }
-
-  async getSuggestion(page) {
-    this.loading = true;
-    const res = await this.wellnessService.paginateSuggestion(
-      page,
-      this.perPage
-    );
-    const profits = await this.wellnessService.getProfits();
-    this.profits = profits;
-    this.suggestions = res.data;
-    this.totalPages = Array(res.totalPages)
-      .fill(0)
-      .map((_, i) => i + 1);
-    this.loading = false;
+      .subscribe((page = 1) => {
+        const filter = getValueOfLocalStorage('filter');
+        !filter ? this.getSuggestion(page) : this.onSubmit({ target: null });
+      });
+    this.subscription2 = this.uiService.filter$
+      .pipe(
+        filter((code) => code.length > 0),
+        distinctUntilChanged()
+      )
+      .subscribe(async (code) => {
+        if (code.length === 7 && code.match(/^[0-9]+$/)) {
+          this.filterByCode(code);
+        } else {
+          showAlert('warning', 'Código incorrecto');
+        }
+      });
   }
 
   selected(index) {
@@ -104,25 +118,97 @@ export class SuggestionComponent implements OnInit {
     }
   }
 
+  async getProfits() {
+    const profits = await this.wellnessService.getProfits();
+    this.profits = profits;
+  }
+
   changeShow(newShow) {
     this.show = newShow;
     this.options.nativeElement.checked = false;
+    if (!newShow) {
+      localStorage.removeItem('filter');
+      this.getSuggestion(1);
+    }
   }
 
-  onSubmit({ target }) {
-    const formName = target.name;
-    let value = null;
-    if (formName === 'byDate') {
-      value = {
-        from: new Date(target[0].value).toISOString(),
-        to: new Date(target[1].value).toISOString(),
-      };
+  async onSubmit({ target }) {
+    this.loading = true;
+    let body = {};
+    if (target) {
+      const formName = target.name;
+      if (formName === 'byDate') {
+        const from = new Date(target[0].value);
+        from.setHours(0);
+        from.setMinutes(0);
+        from.setSeconds(0);
+        from.setMilliseconds(0);
+        from.setDate(from.getDate() + 1);
+        const to = new Date(target[1].value);
+        to.setHours(0);
+        to.setMinutes(0);
+        to.setSeconds(0);
+        to.setMilliseconds(0);
+        to.setDate(to.getDate() + 1);
+        body = {
+          filter: formName,
+          value: {
+            from: from.toISOString(),
+            to: to.toISOString(),
+          },
+        };
+      } else {
+        body = {
+          filter: formName,
+          value: target[0].value,
+        };
+      }
+      saveInLocalStorage('filter', body);
     } else {
-      value = {
-        value: target[0].value,
-      };
+      const filter = getValueOfLocalStorage('filter');
+      body = filter;
     }
-    console.log(value);
-    // TODO: Haga lo que sigue niver
+    const res = await this.wellnessService.filterSuggestion(
+      this.page,
+      this.perPage,
+      body
+    );
+    this.paginate(res);
+  }
+
+  async getSuggestion(page) {
+    this.loading = true;
+    const res = await this.wellnessService.paginateSuggestion(
+      page,
+      this.perPage
+    );
+    this.paginate(res);
+  }
+
+  async paginate(res) {
+    this.suggestions = res.data;
+    this.totalPages = Array(res.totalPages)
+      .fill(0)
+      .map((_, i) => i + 1);
+    this.loading = false;
+  }
+
+  async filterByCode(code) {
+    this.loading = true;
+    const res = await this.wellnessService.filterSuggestion(
+      this.page,
+      this.perPage,
+      {
+        filter: 'byCode',
+        value: code,
+      }
+    );
+    if (!code) showAlert('warning', 'No se encontrarón resultados');
+    this.paginate(res);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }

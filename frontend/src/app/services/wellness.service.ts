@@ -134,6 +134,18 @@ export class WellnessService {
     }
   }
 
+  filterSuggestion(page, perPage, body) {
+    try {
+      const params = new HttpParams().set('page', page).set('perPage', perPage);
+      return this.http
+        .post<any>(`${this.URL_BACKEND}/suggestion/filter`, body, { params })
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   getProfits() {
     try {
       return this.http
@@ -145,4 +157,14 @@ export class WellnessService {
     }
   }
 
+  createSuggestion(suggestion) {
+    try {
+      return this.http
+        .post<any>(`${this.URL_BACKEND}/suggestion/`, suggestion)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }
