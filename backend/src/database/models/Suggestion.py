@@ -4,7 +4,7 @@ from pymongo import DESCENDING
 from database import config
 from bson import ObjectId, json_util
 from bson.json_util import loads
-from util import environment
+from util import environment, response
 
 mongo = config.mongo
 
@@ -91,5 +91,18 @@ class Suggestion:
             output.append({"student":student, "date":date, "_id": str(id),"profit": {**profit}, "admin":{**infoAdmin}})
         res = json_util.dumps({"data": output, "totalPages": totalPages})
         return Response(res, mimetype="applicaton/json") 
-
     
+    def responseSuggestion(self):
+        res=request.json["action"]
+        data= request.json["data"]
+        data = list(map(lambda id : ObjectId(id), data))
+        action = True if res == "accepted" else False  
+        try:
+            mongo.db.suggestion.update_many(
+            {"state": True, "_id": {"$in":data}  }, {"$set": {"response": action, "state": False}})
+        except:
+            return response.reject("Error al intentar actulizar un sugerencia") 
+        return response.success("todo ok",[],"")
+            
+           
+        
