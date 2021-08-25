@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
-import { showAlert } from 'src/app/helpers/alert';
+import { showAlert, showQuestion } from 'src/app/helpers/alert';
 import {
   getValueOfLocalStorage,
   saveInLocalStorage,
@@ -81,8 +81,28 @@ export class SuggestionComponent implements OnInit, OnDestroy {
     }
   }
 
-  delete() {
-    alert(this.selections);
+  async responseSuggestion(action) {
+    if (!this.selections.length) {
+      showAlert('warning', 'Debe selecionar datos de la tabla');
+    } else {
+      const question = await showQuestion(
+        'Está seguro de realizar la acción',
+        'No se pueden revertir los cambios'
+      );
+      if (question.isConfirmed) {
+        const data = {
+          data: this.selections,
+          action,
+        };
+        const res = await this.wellnessService.reponseSuggestion(data);
+        !res.ok
+          ? showAlert('error', res.msg)
+          : (this.suggestions = this.suggestions.filter(
+              (valor) => !this.selections.includes(valor._id)
+            ));
+      }
+      this.selections.length = 0;
+    }
   }
 
   all({ target }) {

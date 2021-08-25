@@ -167,4 +167,14 @@ export class WellnessService {
       return null;
     }
   }
+  reponseSuggestion(data) {
+    try {
+      return this.http
+        .put<any>(`${this.URL_BACKEND}/suggestion/response`, data)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }

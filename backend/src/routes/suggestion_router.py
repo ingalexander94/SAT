@@ -23,3 +23,8 @@ def paginateSuggestion(_):
 def filterSuggestion(_):
     return instance.filterSuggestion()
 
+@suggestion_router.route("/response", methods=["PUT"])
+@token_required
+def responseSuggestion(_):
+    return instance.responseSuggestion()
+

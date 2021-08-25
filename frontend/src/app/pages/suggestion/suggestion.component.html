@@ -10,8 +10,8 @@
           Todos
           <input type="checkbox" name="all" id="all" (change)="all($event)" />
         </label>
-        <i (click)="delete()" class="fas fa-trash"></i>
-        <i class="fas fa-check"></i>
+        <i (click)="responseSuggestion('rejected')" class="fas fa-trash"></i>
+        <i (click)="responseSuggestion('accepted')" class="fas fa-check"></i>
         <i
           title="Ver todos"
           (click)="changeShow('')"
