@@ -91,3 +91,5 @@ class Suggestion:
             output.append({"student":student, "date":date, "_id": str(id),"profit": {**profit}, "admin":{**infoAdmin}})
         res = json_util.dumps({"data": output, "totalPages": totalPages})
         return Response(res, mimetype="applicaton/json") 
+
+    

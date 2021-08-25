@@ -22,4 +22,3 @@ def paginateSuggestion(_):
 @token_required
 def filterSuggestion(_):
     return instance.filterSuggestion()
-
