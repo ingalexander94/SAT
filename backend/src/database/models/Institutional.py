@@ -97,7 +97,7 @@ class Institutional:
         profits = list(filter(lambda profit: not profit["fechaFinal"], data))
         profits = list(map(lambda profit : profit["nombre"], profits))
         profitsDB = list(mongo.db.profit.find({"riesgo": risk}))
-        suggestion = list(mongo.db.suggestion.find({"codeStudent":code}, {"profit":1, "_id": False})) 
+        suggestion = list(mongo.db.suggestion.find({"codeStudent":code, "state":True}, {"profit":1, "_id": False})) 
         data = list(map(lambda profit : {"nombre": profit["nombre"], "state": profit["nombre"] in profits, "id":str(profit["_id"]), "isSuggested": {"profit":profit["_id"]} in suggestion}, profitsDB))
         return response.success("Todo ok!", data, "")
 

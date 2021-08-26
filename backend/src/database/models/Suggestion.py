@@ -21,14 +21,15 @@ class Suggestion:
         suggestion = { 
                 **data, 
                 **ref,
-                "state":True
+                "state":True,
+                "response":False
                 }
         id = mongo.db.suggestion.insert_one(suggestion).inserted_id
         res = json_util.dumps({**suggestion, "_id": id})
         return Response(res, mimetype="applicaton/json")
         
     def paginateSuggestion(self):
-        return self.createPagination({"state": True})
+        return self.createPagination({"state": True, "response":False})
     
     def filterSuggestion(self):
         typeFilter = request.json["filter"]
@@ -48,6 +49,7 @@ class Suggestion:
         end = request.json["value"]["to"]
         return self.createPagination({
             "state":True,
+            "response":False,
             "date": {'$lte': end, '$gte': start}
         })   
     
@@ -55,6 +57,7 @@ class Suggestion:
         code = request.json["value"]
         return self.createPagination({
             "state":True,
+            "response":False,
             "codeStudent": code
         })   
     
@@ -62,11 +65,11 @@ class Suggestion:
         field =  "admin" if nameDB == "administrative" else "profit"
         array = list(mongo.db[nameDB].find(where, {"_id":1, "total": 1}))
         array = list(map(lambda arr : ObjectId(arr["_id"]), array))
-        return self.createPagination({"state":True, field: {"$in": array}})
+        return self.createPagination({"state":True,"response":False, field: {"$in": array}})
     
     def filterByProfit(self, value):
         profit = mongo.db["profit"].find_one({"nombre": value}, {"_id":1, "total": 1})
-        return self.createPagination({"state":True, "profit": ObjectId(profit["_id"])})
+        return self.createPagination({"state":True, "response":False,"profit": ObjectId(profit["_id"])})
     
     def createPagination(self, where):
         suggestions = []
@@ -97,12 +100,19 @@ class Suggestion:
         data= request.json["data"]
         data = list(map(lambda id : ObjectId(id), data))
         action = True if res == "accepted" else False  
+        setData = {
+            "response": action
+        }
+        if not action:
+            setData = {
+                **setData,
+                "state": False
+            }
         try:
             mongo.db.suggestion.update_many(
-            {"state": True, "_id": {"$in":data}  }, {"$set": {"response": action, "state": False}})
+            {"state": True, "_id": {"$in":data}  }, {"$set": setData})
         except:
             return response.reject("Error al intentar actulizar un sugerencia") 
         return response.success("todo ok",[],"")
-            
            
         

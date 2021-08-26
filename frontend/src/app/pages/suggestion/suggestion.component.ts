@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
 import { showAlert, showQuestion } from 'src/app/helpers/alert';
@@ -31,7 +31,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
   selections: any[] = [];
   loading: boolean = true;
   page: number = 1;
-  perPage: number = 1;
+  perPage: number = 2;
   totalPages: number[] = [1];
   subscription: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
@@ -39,6 +39,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
   startDate: string = new Date().toISOString().split('T')[0];
   endDate: string = new Date().toISOString().split('T')[0];
   @ViewChild('options') options: ElementRef;
+  @ViewChild('allCheck') allCheck: ElementRef;
 
   constructor(
     private uiService: UiService,
@@ -78,6 +79,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
       this.selections = [...this.selections, id];
     } else {
       this.selections = this.selections.filter((item) => item !== id);
+      this.allCheck.nativeElement.checked = false;
     }
   }
 
@@ -95,13 +97,29 @@ export class SuggestionComponent implements OnInit, OnDestroy {
           action,
         };
         const res = await this.wellnessService.reponseSuggestion(data);
-        !res.ok
-          ? showAlert('error', res.msg)
-          : (this.suggestions = this.suggestions.filter(
-              (valor) => !this.selections.includes(valor._id)
-            ));
+        !res.ok ? showAlert('error', res.msg) : this.nextPage();
+      } else {
+        this.allCheck.nativeElement.checked = false;
+        this.suggestions = this.suggestions.map((item) => {
+          item.select = false;
+          return item;
+        });
       }
       this.selections.length = 0;
+    }
+  }
+
+  nextPage() {
+    this.suggestions = this.suggestions.filter(
+      (valor) => !this.selections.includes(valor._id)
+    );
+    if (!this.suggestions.length) {
+      if (this.page < this.totalPages.length) {
+        const filter = getValueOfLocalStorage('filter');
+        !filter
+          ? this.getSuggestion(this.page)
+          : this.onSubmit({ target: null });
+      }
     }
   }
 

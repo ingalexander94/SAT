@@ -8,7 +8,13 @@
       <div class="actions">
         <label for="all">
           Todos
-          <input type="checkbox" name="all" id="all" (change)="all($event)" />
+          <input
+            type="checkbox"
+            name="all"
+            id="all"
+            (change)="all($event)"
+            #allCheck
+          />
         </label>
         <i (click)="responseSuggestion('rejected')" class="fas fa-trash"></i>
         <i (click)="responseSuggestion('accepted')" class="fas fa-check"></i>
@@ -151,7 +157,7 @@
       </table>
     </div>
 
-    <div class="pagination" *ngIf="suggestions.length">
+    <div class="pagination">
       <a
         *ngFor="let item of totalPages"
         routerLink="/vicerrector/sugerencias/{{ item }}"
