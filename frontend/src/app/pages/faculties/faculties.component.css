@@ -44,7 +44,7 @@
   content: "\f107";
   right: 10px;
   color: var(--red-primary-color);
-  transition: all.5s;
+  transition: all 0.5s;
 }
 
 .item div {

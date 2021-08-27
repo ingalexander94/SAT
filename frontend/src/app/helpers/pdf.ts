@@ -2,8 +2,18 @@ import { Img, ITable, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import { User } from '../model/auth';
 
 type TableRow = [Number, String, String, String, String, String];
+type TableRowSuggestion = [
+  Number,
+  String,
+  String,
+  String,
+  String,
+  String,
+  String
+];
 
-const generatePDF = async (data: User[], text: String) => {
+// Alumnos
+const generatePDF = async (data: any[], text: String, creator: Function) => {
   const pdf = new PdfMakeWrapper();
   const date = new Date();
   const dateString = date.toLocaleDateString('es-ES', {
@@ -48,7 +58,7 @@ const generatePDF = async (data: User[], text: String) => {
       .end
   );
 
-  pdf.add(createTable(data));
+  pdf.add(creator(data));
   pdf.create().open({});
 };
 
@@ -84,4 +94,39 @@ const extractDate = (data: User[]): TableRow[] =>
     student.estado.toUpperCase(),
   ]);
 
-export { generatePDF };
+// Sugerencias
+const createTableSuggestion = (data: any[]): ITable =>
+  new Table([
+    //Header
+    [
+      new Txt('#').fontSize(12).bold().end,
+      new Txt('Código').fontSize(12).bold().end,
+      new Txt('Correo').fontSize(12).bold().end,
+      new Txt('Programa').fontSize(12).bold().end,
+      new Txt('Beneficio').fontSize(12).bold().end,
+      new Txt('Administrativo').fontSize(12).bold().end,
+      new Txt('Fecha').fontSize(12).bold().end,
+    ],
+    //Data
+    ...extractDateSuggestion(data),
+  ])
+    .alignment('center')
+    .heights(() => 50)
+    .widths(['2%', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'])
+    .layout({
+      defaultBorder: false,
+      fillColor: () => '#f3f0ee',
+    }).end;
+
+const extractDateSuggestion = (data: any[]): TableRowSuggestion[] =>
+  data.map((suggestion, i) => [
+    i + 1,
+    suggestion.student.codigo,
+    suggestion.student.correo.split('@')[0],
+    suggestion.student.programa,
+    suggestion.profit.nombre,
+    `${suggestion.admin.nombre} ${suggestion.admin.apellido}`,
+    `${new Date(suggestion.date).toISOString().slice(0, 10)}`,
+  ]);
+
+export { generatePDF, createTableSuggestion, createTable };

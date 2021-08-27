@@ -29,6 +29,7 @@ class Report:
             student = {
                 "nombre": f'{user["nombre"]} {user["apellido"]}',
                 "programa": user["programa"],
+                "correo": user["correo"],
                 "codigo": codeStudent
             }
             profit = mongo.db.profit.find_one({"_id": idProfit}, {"_id": False})
@@ -42,7 +43,7 @@ class Report:
                 "type" : "Sugerencias atendidas"
         }
         report = self.createReport(dataReport)
-        res = json_util.dumps({"suggestions": output, "report": report})
+        res = json_util.dumps({"ok":True, "suggestions": output, "report": report})
         return Response(res, mimetype="applicaton/json") 
     
     def createReport(self, report):

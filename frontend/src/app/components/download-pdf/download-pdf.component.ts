@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { merge, Subscription } from 'rxjs';
 import { filter, map, pluck, take } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { generatePDF } from 'src/app/helpers/pdf';
+import { createTable, generatePDF } from 'src/app/helpers/pdf';
 import { User } from 'src/app/model/auth';
 
 @Component({
@@ -45,7 +45,7 @@ export class DownloadPdfComponent implements OnInit, OnDestroy {
   }
 
   download() {
-    generatePDF(this.students, this.text);
+    generatePDF(this.students, this.text, createTable);
   }
 
   ngOnDestroy(): void {
