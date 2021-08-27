@@ -1,5 +1,4 @@
 <app-navbar></app-navbar>
-
 <div class="report_container animate__animated animate__fadeIn">
   <div class="title_header">
     <a class="pointer" (click)="goBack()"><i class="fas fa-arrow-left"></i></a>
@@ -29,13 +28,81 @@
       </div>
       <a href="#">Descargar <i class="fas fa-download"></i></a>
     </div>
+    <div class="line"></div>
+    <br />
     <hr />
     <div class="report">
       <p>Crear reporte general</p>
       <img src="/assets/image/reporte_general.jpg" alt="imagen de reporte" />
+      <div class="date"></div>
+      <a href="#">Descargar <i class="fas fa-download"></i></a>
+    </div>
+    <div class="line"></div>
+    <br />
+    <hr />
+    <div class="report">
+      <p>Crear reportes por sugerencia</p>
+      <img src="/assets/image/reporte_periodo.jpg" alt="imagen de reporte" />
+      <form
+        class="stateSuggestion"
+        name="stateSuggestion"
+        (submit)="onSubmit($event)"
+      >
+        <div class="dates">
+          <div class="date">
+            <div class="form_input">
+              <label for="from">Desde:</label>
+              <input
+                type="date"
+                name="from"
+                id="from"
+                value="{{ today | date: 'yyyy-MM-dd' }}"
+              />
+            </div>
+          </div>
+          <div class="date">
+            <div class="form_input">
+              <label for="to">Hasta:</label>
+              <input
+                type="date"
+                name="to"
+                id="to"
+                value="{{ today | date: 'yyyy-MM-dd' }}"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="date">
+          <div class="form_input suggestion">
+            <label for="toSelect">Sugerencia</label>
+            <select name="toSelect" id="toSelect">
+              <option value="accepted">Aceptada</option>
+              <option value="rejected">Rechazada</option>
+            </select>
+          </div>
+        </div>
+        <app-loading *ngIf="loading"></app-loading>
+        <div class="tarjet" *ngIf="!loading">
+          <p>
+            El último reporte se generó para las sugerencias que fuerón
+            {{ lastReport.action === "rejected" ? "RECHAZADAS" : "ACEPTADAS" }}
+            desde el dia
+            {{ lastReport.startDate | date: "EEEE, MMMM d, y" }} hasta el dia
+            {{ lastReport.endDate | date: "EEEE, MMMM d, y" }}.
+          </p>
+          <blockquote>
+            Fecha del reporte:
+            {{ lastReport.date | date: "EEEE, MMMM d, y, h:mm:ss " }}
+          </blockquote>
+        </div>
+        <button type="submit">Filtrar</button>
+      </form>
+      <br />
       <a href="#">Descargar <i class="fas fa-download"></i></a>
     </div>
   </div>
 </div>
+<br />
+<hr />
 
 <app-floating-button class="notification"></app-floating-button>
