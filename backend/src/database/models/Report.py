@@ -18,7 +18,7 @@ class Report:
         suggestions = []
         output = []
         for suggestion in mongo.db.suggestion.find({
-            "state":True,
+            "state":res,
             "response":res,
             "date": {'$lte': end, '$gte': start}
         }).sort("date", DESCENDING):
