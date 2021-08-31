@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { inRisk } from 'src/app/model/data';
-import { StudentInDanger, Title } from 'src/app/model/ui';
+import { Title } from 'src/app/model/ui';
 import { UiService } from 'src/app/services/ui.service';
 
 @Component({

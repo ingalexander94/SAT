@@ -124,5 +124,5 @@ class Administrative:
         profits = json_util.dumps(data)
         return Response(profits, mimetype="applicaton/json")
         
-        
+    
          

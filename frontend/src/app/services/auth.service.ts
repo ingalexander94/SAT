@@ -99,4 +99,13 @@ export class AuthService {
       )
       .toPromise();
   }
+
+  createRole(role) {
+    return this.httpClient
+      .post<any>(`${this.endpoint}/role/`, role)
+      .toPromise();
+  }
+  listRoles() {
+    return this.httpClient.get<any>(`${this.endpoint}/role/`).toPromise();
+  }
 }

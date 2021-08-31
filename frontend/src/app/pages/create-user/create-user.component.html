@@ -41,12 +41,18 @@
           </select>
         </div>
         <div class="campu">
-          <label for="rol">Rol</label>
+          <div class="role">
+            <label for="rol">Rol</label>
+            <i class="fas fa-user-plus pointer" (click)="createRole()"></i>
+          </div>
           <select name="rol" id="rol" formControlName="rol">
-            <option value="psicologo">Psicologo</option>
-            <option value="medico">Medico</option>
-            <option value="trabajadorSocial">Trabajador Social</option>
-            <option value="sacerdote">Sacerdote</option>
+            <option
+              *ngFor="let rol of roles"
+              value="{{ rol._id }}"
+              [selected]="true"
+            >
+              {{ rol.role }}
+            </option>
           </select>
         </div>
         <div class="campu">
@@ -98,3 +104,9 @@
     </div>
   </div>
 </div>
+<app-modal-role
+  *ngIf="create"
+  (isClosed)="createRole($event)"
+  (listRoles)="addRole($event)"
+>
+</app-modal-role>

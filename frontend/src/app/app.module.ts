@@ -53,6 +53,7 @@ import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-pas
 import { RecoveryPasswordComponent } from './pages/auth/recovery-password/recovery-password.component';
 import { AdministrativeProfileComponent } from './pages/administrative-profile/administrative-profile.component';
 import { SuggestionComponent } from './pages/suggestion/suggestion.component';
+import { ModalRoleComponent } from './pages/modal-role/modal-role.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -86,6 +87,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
     RecoveryPasswordComponent,
     AdministrativeProfileComponent,
     SuggestionComponent,
+    ModalRoleComponent,
   ],
 
   imports: [

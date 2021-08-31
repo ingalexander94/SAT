@@ -1,0 +1,27 @@
+<div class="wrapper_alert" (click)="onClick($event)">
+  <div class="alert_container">
+    <h2 (click)="close()" class="pointer">
+      <i class="fas fa-times fa-fw"></i>
+    </h2>
+    <h1>Crear un nuevo Rol</h1>
+    <form [formGroup]="formRole" class="form" (submit)="onSubmit()">
+      <div class="form_input">
+        <input
+          formControlName="role"
+          type="text"
+          placeholder="Ingrese el rol"
+          name="role"
+          id="role"
+        />
+        <i class="fas fa-user fa-fw"></i>
+      </div>
+      <div>
+        <ul *ngIf="role.invalid && (role.dirty || role.touched)">
+          <li>* El rol es obligatorio</li>
+          <li>* Solo se permiten letras</li>
+        </ul>
+      </div>
+      <button [disabled]="formRole.invalid" type="submit">Crear</button>
+    </form>
+  </div>
+</div>

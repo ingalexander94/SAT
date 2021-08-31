@@ -27,6 +27,11 @@ form select {
   flex-direction: column;
 }
 
+.role i {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
 .campu input {
   border-radius: 5px;
   padding: 8px;
@@ -94,6 +99,9 @@ button:disabled {
   .campu {
     text-align: center;
     justify-content: center;
+  }
+  .role {
+    margin: 0px;
   }
 
   button {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { showAlert } from 'src/app/helpers/alert';
 import { User } from 'src/app/model/auth';
+import { AuthService } from 'src/app/services/auth.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
 @Component({
@@ -12,6 +13,8 @@ import { WellnessService } from 'src/app/services/wellness.service';
 export class CreateUserComponent implements OnInit {
   formCreateUser: FormGroup;
   loading: Boolean = false;
+  create: Boolean = false;
+  roles: any[] = [];
 
   createFormCreateUser(): FormGroup {
     return new FormGroup({
@@ -31,15 +34,20 @@ export class CreateUserComponent implements OnInit {
         Validators.maxLength(10),
         Validators.pattern(/^[0-9]+$/i),
       ]),
-      rol: new FormControl('psicologo', [Validators.required]),
+      rol: new FormControl('', [Validators.required]),
     });
   }
 
-  constructor(private wellnessService: WellnessService) {
+  constructor(
+    private wellnessService: WellnessService,
+    private authService: AuthService
+  ) {
     this.formCreateUser = this.createFormCreateUser();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.listRoles();
+  }
 
   async onSubmit() {
     this.loading = true;
@@ -82,5 +90,35 @@ export class CreateUserComponent implements OnInit {
 
   get rol() {
     return this.formCreateUser.get('rol');
+  }
+
+  createRole(answer: boolean = true) {
+    this.create = answer;
+  }
+  addRole(res) {
+    const role = {
+      _id: res._id,
+      role: res.role
+        .split('')
+        .map((letra) => (/^[A-Z]*$/.test(letra) ? [' ', letra] : letra))
+        .flat()
+        .join('')
+        .toUpperCase(),
+    };
+    this.roles = [role, ...this.roles];
+  }
+
+  async listRoles() {
+    const res = await this.authService.listRoles();
+    const roles = res.map((rol) => ({
+      _id: rol._id.$oid,
+      role: rol.role
+        .split('')
+        .map((letra) => (/^[A-Z]*$/.test(letra) ? [' ', letra] : letra))
+        .flat()
+        .join('')
+        .toUpperCase(),
+    }));
+    this.roles = roles;
   }
 }
