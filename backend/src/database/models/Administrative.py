@@ -12,9 +12,10 @@ mongo = config.mongo
 
 class Administrative:
     
-    def register(self):
+    def register(self): 
         email = request.json["correo"]
         document = request.json["documento"]
+        role = ObjectId(request.json["rol"])
         user = mongo.db.administrative.find_one({"$or":[ {"correo":email}, {"documento":document}]})
         if user:
             return jsonify(False)
@@ -22,10 +23,13 @@ class Administrative:
         password = str(random.randrange(1000, 9999))
         data["contrasena"] = generate_password_hash(password)
         data["estado"] = True
+        data = {
+            **data,
+            "rol": role
+        }
         mongo.db.administrative.insert(data)
         nombre = f"{request.json['nombre']} {request.json['apellido']}"
-        rol = request.json["rol"].upper()
-        message = f"Hola {nombre}, ha sido creado su cuenta para ingresar en la plataforma SAT como {rol}, por favor ingrese a su cuenta y cambie la contraseña para mayor seguridad con los siguientes datos:\nCorreo: {email}\nContraseña: {password}"
+        message = f"Hola {nombre}, ha sido creado su cuenta para ingresar en la plataforma SAT, por favor ingrese a su cuenta y cambie la contraseña para mayor seguridad con los siguientes datos:\nCorreo: {email}\nContraseña: {password}"
         subject = f"{nombre} se activó su cuenta en la plataforma SAT"
         emails.sendEmail(email, message, subject)
         return jsonify(True)
@@ -43,10 +47,13 @@ class Administrative:
         id = str(user["_id"])
         del user["_id"]
         del user["contrasena"]
+        idRole = ObjectId(user["rol"])
+        role = mongo.db.role.find_one({"_id": idRole}, {"_id": False})
         user = {
             **user,
-            "_id": id
-        }
+            "_id": id,
+            "rol": role["role"]
+        } 
         token = jwt.generateToken(user, 60)
         return response.success("Bienvenido!!", user, token)
         

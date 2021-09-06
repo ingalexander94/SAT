@@ -20,7 +20,7 @@ export interface User {
   semestre?: Number;
   promedio?: Number;
   promedioPonderadoAcomulado?: Number;
-  riesgo?: any;
+  riesgo?: number;
 }
 
 export interface UserAuth {

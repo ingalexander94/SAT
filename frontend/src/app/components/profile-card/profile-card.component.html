@@ -8,7 +8,7 @@
       <h3>{{ userShow.nombre }} {{ userShow.apellido }}</h3>
       <p>{{ userShow.correo }}</p>
       <p *ngIf="userShow.rol !== 'docente'">
-        <i class="fas fa-circle green"></i> Sin riesgo
+        <i class="fas fa-circle" [ngClass]="color"></i> {{ risk }}
       </p>
     </div>
     <div class="menu-options">

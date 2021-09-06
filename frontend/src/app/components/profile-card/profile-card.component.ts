@@ -15,6 +15,13 @@ import { menuRoutes } from 'src/app/model/data';
 import { map, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
+import { tapN } from 'src/app/helpers/observers';
+import { StudentService } from 'src/app/services/student.service';
+import {
+  LoadRiskAction,
+  SetRiskGlobalAction,
+} from 'src/app/reducer/risk/risk.action';
+import { getColor } from 'src/app/helpers/ui';
 
 @Component({
   selector: 'app-profile-card',
@@ -31,12 +38,15 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
   title: String;
   showUpdateProfile: boolean = false;
   loading: boolean = true;
+  color: String = 'gray';
+  risk: String = 'Obteniedo riesgo...';
 
   constructor(
     private location: Location,
     private store: Store<AppState>,
     private router: Router,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private studentService: StudentService
   ) {}
 
   ngOnInit(): void {
@@ -47,11 +57,11 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
           user: auth.user,
           title: ui.titleNavbar,
           userActive: ui.userActive,
-        }))
+        })),
+        tapN(1, ({ userActive }) => this.getRisk(userActive))
       )
       .subscribe(({ user, title, userActive }) => {
         this.user = user;
-        this.userShow = userActive;
         this.title = title;
         this.loading = false;
       });
@@ -81,6 +91,22 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
 
   toFollowUp() {
     this.router.navigate(['/estudiante/notificar']);
+  }
+
+  async getRisk(user) {
+    this.userShow = user;
+    const { riesgoGlobal, riesgos } = await this.studentService.getRisk(
+      user.codigo
+    );
+    this.userShow = {
+      ...user,
+      riesgo: riesgoGlobal,
+    };
+    const { color, risk } = getColor(riesgoGlobal);
+    this.color = color;
+    this.risk = color !== 'green' ? risk.split('en')[1] : risk;
+    this.store.dispatch(new LoadRiskAction(riesgos));
+    this.store.dispatch(new SetRiskGlobalAction(riesgoGlobal));
   }
 
   ngOnDestroy(): void {

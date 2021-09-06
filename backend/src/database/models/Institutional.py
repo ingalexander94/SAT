@@ -66,9 +66,12 @@ class Institutional:
         if not code or not code.isdigit() or len(code) != 7:
             return response.reject("Se necesita un código de 7 caracteres")
         try:
-            req = requests.get(f"{environment.API_URL}/listado_{code}_{group}")
-            students = req.json()
-            if students:
+            res = requests.get(f"{environment.API_URL}/listado_{code}_{group}")
+            students = res.json()
+            if students: 
+                for student in students:
+                    code = student["codigo"]
+                    student["riesgo"] = requests.get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
                 return response.success("Todo ok!", students, "")
             else:
                 return response.reject("Esta dirección  no es válida")
@@ -93,13 +96,33 @@ class Institutional:
         code = request.args.get("code")
         risk = request.args.get("risk")
         req = requests.get(f"{environment.API_URL}/beneficios_{code}")
-        data = list(req.json())
-        profits = list(filter(lambda profit: not profit["fechaFinal"], data))
+        dataUFPS = list(req.json())
+        profits = list(filter(lambda profit: not profit["fechaFinal"], dataUFPS))
         profits = list(map(lambda profit : profit["nombre"], profits))
+        if len(profits) > 0:
+            self.updateReviewSuggestion(profits, code)
         profitsDB = list(mongo.db.profit.find({"riesgo": risk}))
         suggestion = list(mongo.db.suggestion.find({"codeStudent":code, "state":True}, {"profit":1, "_id": False})) 
-        data = list(map(lambda profit : {"nombre": profit["nombre"], "state": profit["nombre"] in profits, "id":str(profit["_id"]), "isSuggested": {"profit":profit["_id"]} in suggestion}, profitsDB))
+        responseProfit = list(mongo.db.suggestion.find({"codeStudent":code, "state":False, "response": True}, {"profit":1, "_id": False})) 
+        responseCurrent = self.getResponse(dataUFPS, responseProfit, code)
+        data = list(map(lambda profit : {"nombre": profit["nombre"], "state": profit["nombre"] in profits, "id":str(profit["_id"]), "isSuggested": {"profit":profit["_id"]} in suggestion, "response": {"profit":profit["_id"]} in responseCurrent }, profitsDB))
         return response.success("Todo ok!", data, "")
+    
+    def updateReviewSuggestion(self, profits, code):
+        profits = list(map(lambda profit : mongo.db.profit.find_one({"nombre": profit}, { "total":1, "_id": 1})["_id"], profits))
+        try:
+            mongo.db.suggestion.update_many(
+            {"codeStudent":code, "inReview": True, "profit": {"$in":profits}  }, {"$set": {"inReview":False}})
+        except:
+            return response.reject("Error al intentar actualizar una sugerencia")
+    
+    def getResponse(self, data, response, code):
+        profits = list(filter(lambda profit: profit["fechaFinal"], data))
+        profits = list(set(map(lambda profit : profit["nombre"], profits)))
+        profits = list(map(lambda profit : {"profit": mongo.db.profit.find_one({"nombre": profit}, { "total":1, "_id": 1})["_id"]}, profits))
+        profits = list(filter(lambda profit: not mongo.db.suggestion.find_one({"codeStudent":code, "profit":profit["profit"], "inReview":True}) , profits))
+        response = list(filter(lambda res: res not in profits, response))
+        return response 
 
     def studentsOfPeriod(self):
         data = request.get_json()
@@ -108,9 +131,13 @@ class Institutional:
         split = period.split("-")
         year = split[0]
         semester = split[1]
-        students = requests.get(f"{environment.API_URL}/{program}_{year}_{semester}")
-        data = students.json()
-        return response.success("todo ok!", data, "")
+        res = requests.get(f"{environment.API_URL}/{program}_{year}_{semester}") 
+        students = res.json() 
+        if students:  
+            for student in students:
+                code = student["codigo"]
+                student["riesgo"] = requests.get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
+        return response.success("todo ok!", students, "")
 
     def getSemesters(self, code):
         if not code or len(code) != 7 or not code.isdigit():
@@ -120,3 +147,5 @@ class Institutional:
         data = helpers.updateSemestersRegistered(data)
         dataRes = {"data": data, "registered": helpers.countSemesters(data)}
         return response.success("Todo Ok!", dataRes, "")
+
+    

@@ -15,7 +15,7 @@ class AdministrativeSchema(Schema):
     nombre = fields.Str(required = True)
     apellido = fields.Str(required = True)
     documento = fields.Str(required = True, validate=Length(min=8, max=10))
-    rol = fields.Str(required=True, validate=OneOf(["psicologo", "medico","trabajadorSocial", "sacerdote", "vicerrector"]))
+    rol = fields.Str(required=True, validate=Length(equal=24))
     tipoDocumento = fields.Str(required=True, validate=OneOf(["cedulaCiudadania", "cedulaExtranjeria","pasaporteColombiano", "pasaporteExtranjero", "documentoVenezolano"]))
     telefono = fields.Str(required = True, validate=Length(min=7, max=15))
     correo = fields.Email(required = True)

@@ -22,7 +22,8 @@ class Suggestion:
                 **data, 
                 **ref,
                 "state":True,
-                "response":False
+                "response":False,
+                "inReview": False
                 }
         id = mongo.db.suggestion.insert_one(suggestion).inserted_id
         res = json_util.dumps({**suggestion, "_id": id})
@@ -101,18 +102,15 @@ class Suggestion:
         data = list(map(lambda id : ObjectId(id), data))
         action = True if res == "accepted" else False  
         setData = {
-            "response": action
+            "state": False,
+            "response": action,
+            "inReview": action
         }
-        if not action:
-            setData = {
-                **setData,
-                "state": False
-            }
         try:
             mongo.db.suggestion.update_many(
             {"state": True, "_id": {"$in":data}  }, {"$set": setData})
         except:
-            return response.reject("Error al intentar actulizar un sugerencia") 
+            return response.reject("Error al intentar actualizar una sugerencia") 
         return response.success("todo ok",[],"")
            
         

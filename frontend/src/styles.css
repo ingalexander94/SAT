@@ -112,6 +112,10 @@ a {
   color: var(--yellow-primary-color);
 }
 
+.gray {
+  color: var(--gray-menu);
+}
+
 /* Tablet */
 
 @media (max-width: 767px) {

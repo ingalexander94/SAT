@@ -1,9 +1,8 @@
 
 from flask import request, Response
 from database import config
-from bson import ObjectId, json_util
-from bson.json_util import loads
-from util import environment, response
+from bson import json_util
+from util import response
 
 mongo = config.mongo
 
@@ -15,7 +14,7 @@ class Role:
         if role:
           return response.reject("El rol ya existe")
         newrole = mongo.db.role.insert_one(data).inserted_id
-        return response.success("todo ok",{"_id":str(newrole), "role":data["role"]},"")
+        return response.success("todo ok",{"_id":str(newrole), "role":data["role"]},"") 
     
     def listRoles(self):
         roles =mongo.db.role.find()

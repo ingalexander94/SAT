@@ -1,5 +1,6 @@
 import { Img, ITable, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import { User } from '../model/auth';
+import { getColor } from './ui';
 
 type TableRow = [Number, String, String, String, String, String];
 type TableRowSuggestion = [
@@ -90,7 +91,7 @@ const extractDate = (data: User[]): TableRow[] =>
     student.codigo,
     `${student.nombre} ${student.apellido}`,
     student.correo,
-    'CRÍTICO',
+    getColor(student.riesgo).risk.toUpperCase(),
     student.estado.toUpperCase(),
   ]);
 
