@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { normalizeText } from 'src/app/helpers/ui';
+import { Suggestion } from 'src/app/model/suggestion';
 import { ItemRisk } from 'src/app/model/ui';
 import { StudentService } from 'src/app/services/student.service';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -54,7 +55,7 @@ export class DetailRisksComponent implements OnInit, OnDestroy {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
-    const body = {
+    const body: Suggestion = {
       codeStudent: this.codeStudent,
       profit,
       date: date.toISOString(),

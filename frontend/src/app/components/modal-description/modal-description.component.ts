@@ -82,7 +82,6 @@ export class ModalDescriptionComponent implements OnInit, OnDestroy {
       },
       postulator,
     };
-
     const { data, msg } = await this.studentService.generatePostulation(
       dataPostulation
     );

@@ -11,7 +11,11 @@ import {
   StartLoadingAction,
 } from '../reducer/ui/ui.actions';
 import { NotificationService } from './notification.service';
-import { Postulation, ProfitResponse } from '../model/risk';
+import {
+  Postulation,
+  ProfitResponse,
+  ResposeStudentPostulation,
+} from '../model/risk';
 import { ResponseSemester } from '../model/semester';
 
 @Injectable({
@@ -65,7 +69,10 @@ export class StudentService {
   generatePostulation(postulation: Postulation) {
     try {
       return this.http
-        .post<any>(this.url + '/students/postulate', postulation)
+        .post<ResposeStudentPostulation>(
+          this.url + '/students/postulate',
+          postulation
+        )
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -103,7 +110,7 @@ export class StudentService {
         .set('code', code.toString())
         .set('risk', risk.toString());
       return this.http
-        .get<any>(this.url + '/students/profits/risk', { params })
+        .get<ProfitResponse>(this.url + '/students/profits/risk', { params })
         .toPromise();
     } catch (error) {
       console.error(error);

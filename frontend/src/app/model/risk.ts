@@ -21,6 +21,21 @@ export interface PostulationResponse {
   data: Postulation[];
   totalPages: number;
 }
+export interface ResposeUpdatePostulation {
+  data?: null;
+  msg: String;
+  ok: Boolean;
+}
+export interface ResposeCounterPostulation {
+  data: Number;
+  msg: String;
+  ok: Boolean;
+}
+export interface ResposeStudentPostulation {
+  data: Postulation;
+  msg: String;
+  ok: Boolean;
+}
 
 export interface Profit {
   fechaFinal?: Date;
@@ -28,6 +43,7 @@ export interface Profit {
   nombre: String;
   descripcion: String;
   semestre: Number;
+  riesgo?: String;
 }
 
 export interface ProfitResponse {

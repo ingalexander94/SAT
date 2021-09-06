@@ -20,6 +20,15 @@ export interface MeetResponse {
   data: Meet;
   msg: String;
 }
+export interface MeetAsistenResponse {
+  data: {};
+  msg: String;
+  ok: Boolean;
+}
+export interface MeetPaginateResponse {
+  totalPages: Number;
+  data: Meet[];
+}
 
 export interface FilterMeet {
   show: Boolean;

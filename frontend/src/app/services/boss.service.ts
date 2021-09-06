@@ -7,7 +7,12 @@ import { filter, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { AppState } from '../app.reducers';
 import { StudentResponse } from '../model/auth';
-import { Postulation, PostulationResponse } from '../model/risk';
+import {
+  Postulation,
+  PostulationResponse,
+  ResposeCounterPostulation,
+  ResposeUpdatePostulation,
+} from '../model/risk';
 import { LoadStudentsAction } from '../reducer/course/course.actions';
 
 @Injectable({
@@ -89,7 +94,9 @@ export class BossService {
   counterPostulation() {
     try {
       return this.http
-        .get<any>(this.endpoint + '/students/postulate/counter')
+        .get<ResposeCounterPostulation>(
+          this.endpoint + '/students/postulate/counter'
+        )
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -100,10 +107,13 @@ export class BossService {
   attendPostulation(id: String) {
     try {
       return this.http
-        .put<any>(this.endpoint + '/boss/postulation/update', {
-          id,
-          state: 'EN REVISIÓN',
-        })
+        .put<ResposeUpdatePostulation>(
+          this.endpoint + '/boss/postulation/update',
+          {
+            id,
+            state: 'EN REVISIÓN',
+          }
+        )
         .toPromise();
     } catch (error) {
       console.error(error);

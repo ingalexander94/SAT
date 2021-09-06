@@ -9,7 +9,7 @@ import {
   saveInLocalStorage,
 } from '../helpers/localStorage';
 import { User } from '../model/auth';
-import { ResponseChat } from '../model/chat';
+import { ResponseChat, ResponseSendMessage } from '../model/chat';
 import {
   AddMsgChatAction,
   LoadingChatAction,
@@ -76,7 +76,7 @@ export class ChatService {
         },
       };
       const { data: chat } = await this.http
-        .post<any>(this.url + '/chat/', data)
+        .post<ResponseSendMessage>(this.url + '/chat/', data)
         .toPromise();
       this.store.dispatch(new AddMsgChatAction(chat));
       title = title ? title : `Ha recibido un mensaje de ${name}`;

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { showAlert } from 'src/app/helpers/alert';
 import { User } from 'src/app/model/auth';
+import { Role } from 'src/app/model/role';
 import { AuthService } from 'src/app/services/auth.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
@@ -14,7 +16,8 @@ export class CreateUserComponent implements OnInit {
   formCreateUser: FormGroup;
   loading: Boolean = false;
   create: Boolean = false;
-  roles: any[] = [];
+  roles: Role[] = [];
+  subscription: Subscription = new Subscription();
 
   createFormCreateUser(): FormGroup {
     return new FormGroup({
@@ -110,12 +113,14 @@ export class CreateUserComponent implements OnInit {
 
   async listRoles() {
     const res = await this.authService.listRoles();
+    console.log(res);
     const roles = res.map((rol) => ({
       _id: rol._id.$oid,
       role: rol.role
         .split('')
-        .map((letra) => (/^[A-Z]*$/.test(letra) ? [' ', letra] : letra))
-        .flat()
+        .map((letra) =>
+          /^[A-Z]*$/.test(letra) ? [' ', letra].join('') : letra
+        )
         .join('')
         .toUpperCase(),
     }));

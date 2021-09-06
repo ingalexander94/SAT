@@ -68,6 +68,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .fill(0)
       .map((_, i) => i + 1);
     this.meets = data;
+
     this.loading = false;
   }
 

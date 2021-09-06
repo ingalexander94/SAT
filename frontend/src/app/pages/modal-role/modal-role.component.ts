@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { showAlert } from 'src/app/helpers/alert';
+import { Role } from '../../model/role';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -52,7 +53,7 @@ export class ModalRoleComponent implements OnInit {
 
   async onSubmit() {
     this.convert();
-    const role = this.formRole.value;
+    const role: Role = this.formRole.value;
     const res = await this.authService.createRole(role);
     if (res.ok) {
       showAlert('success', 'El rol fue creado exitosamente');

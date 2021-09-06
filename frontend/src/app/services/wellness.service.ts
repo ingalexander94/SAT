@@ -3,7 +3,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { User } from '../model/auth';
-import { Meet, MeetResponse } from '../model/meet';
+import {
+  Meet,
+  MeetAsistenResponse,
+  MeetPaginateResponse,
+  MeetResponse,
+} from '../model/meet';
+import { Profit } from '../model/risk';
+import {
+  ResponseSuggestion,
+  Suggestion,
+  ResponseSuggestionPaginate,
+} from '../model/suggestion';
 import { ResponseFacultie } from '../model/wellness';
 
 @Injectable({
@@ -63,7 +74,9 @@ export class WellnessService {
 
   getMeetOfStudent(code: String) {
     try {
-      return this.http.get<any>(`${this.URL_BACKEND}/meet/${code}`).toPromise();
+      return this.http
+        .get<Meet>(`${this.URL_BACKEND}/meet/${code}`)
+        .toPromise();
     } catch (error) {
       console.error(error);
       return null;
@@ -73,7 +86,10 @@ export class WellnessService {
   acceptMeet(id: String, accept: Boolean, reason?: String) {
     try {
       return this.http
-        .put<any>(`${this.URL_BACKEND}/meet/${id}`, { accept, reason })
+        .put<MeetAsistenResponse>(`${this.URL_BACKEND}/meet/${id}`, {
+          accept,
+          reason,
+        })
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -84,7 +100,7 @@ export class WellnessService {
   attendanceMeet(id: String, attendance: Boolean, student: String) {
     try {
       return this.http
-        .put<any>(`${this.URL_BACKEND}/meet/attendance/${id}`, {
+        .put<MeetAsistenResponse>(`${this.URL_BACKEND}/meet/attendance/${id}`, {
           attendance,
           student,
         })
@@ -114,7 +130,9 @@ export class WellnessService {
         .set('state', state)
         .set('date', date);
       return this.http
-        .get<any>(`${this.URL_BACKEND}/meet/paginate`, { params })
+        .get<MeetPaginateResponse>(`${this.URL_BACKEND}/meet/paginate`, {
+          params,
+        })
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -126,7 +144,10 @@ export class WellnessService {
     try {
       const params = new HttpParams().set('page', page).set('perPage', perPage);
       return this.http
-        .get<any>(`${this.URL_BACKEND}/suggestion/paginate`, { params })
+        .get<ResponseSuggestionPaginate>(
+          `${this.URL_BACKEND}/suggestion/paginate`,
+          { params }
+        )
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -138,7 +159,11 @@ export class WellnessService {
     try {
       const params = new HttpParams().set('page', page).set('perPage', perPage);
       return this.http
-        .post<any>(`${this.URL_BACKEND}/suggestion/filter`, body, { params })
+        .post<ResponseSuggestionPaginate>(
+          `${this.URL_BACKEND}/suggestion/filter`,
+          body,
+          { params }
+        )
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -149,7 +174,7 @@ export class WellnessService {
   getProfits() {
     try {
       return this.http
-        .get<any>(`${this.URL_BACKEND}/wellness/profits`)
+        .get<Profit[]>(`${this.URL_BACKEND}/wellness/profits`)
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -157,10 +182,10 @@ export class WellnessService {
     }
   }
 
-  createSuggestion(suggestion) {
+  createSuggestion(suggestion: Suggestion) {
     try {
       return this.http
-        .post<any>(`${this.URL_BACKEND}/suggestion/`, suggestion)
+        .post<Suggestion>(`${this.URL_BACKEND}/suggestion/`, suggestion)
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -170,7 +195,10 @@ export class WellnessService {
   reponseSuggestion(data) {
     try {
       return this.http
-        .put<any>(`${this.URL_BACKEND}/suggestion/response`, data)
+        .put<ResponseSuggestion>(
+          `${this.URL_BACKEND}/suggestion/response`,
+          data
+        )
         .toPromise();
     } catch (error) {
       console.error(error);

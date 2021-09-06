@@ -1,5 +1,4 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
-import { createHostListener } from '@angular/compiler/src/core';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,6 +8,7 @@ import { AppState } from '../app.reducers';
 import { showAlert } from '../helpers/alert';
 import { saveInLocalStorage } from '../helpers/localStorage';
 import { AuthResponse, UserAuth } from '../model/auth';
+import { Role, RoleResponse } from '../model/role';
 import { AddUserAction } from '../reducer/auth/auth.actions';
 import { AuthState } from '../reducer/auth/auth.reducer';
 import {
@@ -100,12 +100,12 @@ export class AuthService {
       .toPromise();
   }
 
-  createRole(role) {
+  createRole(role: Role) {
     return this.httpClient
-      .post<any>(`${this.endpoint}/role/`, role)
+      .post<RoleResponse>(`${this.endpoint}/role/`, role)
       .toPromise();
   }
   listRoles() {
-    return this.httpClient.get<any>(`${this.endpoint}/role/`).toPromise();
+    return this.httpClient.get<Role[]>(`${this.endpoint}/role/`).toPromise();
   }
 }

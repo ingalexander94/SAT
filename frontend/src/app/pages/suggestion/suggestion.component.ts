@@ -13,6 +13,8 @@ import {
   getValueOfLocalStorage,
   saveInLocalStorage,
 } from 'src/app/helpers/localStorage';
+import { Profits } from 'src/app/model/profits';
+import { Suggestion, SuggestionItem } from 'src/app/model/suggestion';
 import { Title } from 'src/app/model/ui';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -26,8 +28,8 @@ export class SuggestionComponent implements OnInit, OnDestroy {
   title: Title = {
     title: 'Lista de segerencias',
   };
-  suggestions: any[] = [];
-  profits: any[] = [];
+  suggestions: SuggestionItem[];
+  profits: Profits[];
   selections: any[] = [];
   loading: boolean = true;
   page: number = 1;
