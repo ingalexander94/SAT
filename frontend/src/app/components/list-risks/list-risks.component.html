@@ -4,10 +4,10 @@
       {{ risk.name }}
       <i *ngIf="user?.rol === 'vicerrector'" class="fas fa-caret-down"></i>
     </h4>
-    <p>{{ risk.description }}</p>
+    <p>Actualmente está {{ risk.color().risk }}</p>
     <i
       (click)="onNavigateToRisk('/estudiante/riesgo-' + risk.path)"
-      class="fas fa-{{ risk.icon }} pointer"
+      class="fas fa-{{ risk.icon }} pointer {{ risk.color().color }}"
     ></i>
   </div>
 </div>

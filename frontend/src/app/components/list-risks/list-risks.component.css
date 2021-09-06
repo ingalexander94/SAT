@@ -32,13 +32,44 @@
   color: var(--white);
   width: 50px;
   height: 50px;
-  background: var(--green-primary-color);
   border-radius: 50%;
   line-height: 50px;
 }
 
-.risk > i:hover {
-  animation: animacion 2s linear infinite;
+.red {
+  background: var(--red-primary-color);
+}
+
+.red:hover {
+  animation: animation-red 2s linear infinite;
+}
+
+.green {
+  background: var(--green-primary-color);
+}
+
+.green:hover {
+  animation: animation-green 2s linear infinite;
+}
+
+.orange {
+  background: var(--orange-primary-color);
+}
+
+.orange:hover {
+  animation: animation-orange 2s linear infinite;
+}
+
+.yellow {
+  background: var(--yellow-primary-color);
+}
+
+.yellow:hover {
+  animation: animation-yellow 2s linear infinite;
+}
+
+.gray {
+  background: var(--gray-menu);
 }
 
 /* Tablet */
@@ -95,13 +126,76 @@
   }
 }
 
-@keyframes animacion {
+@keyframes animation-green {
   0% {
     box-shadow: 0 0 0 0 rgba(29, 209, 89, 0.6), 0 0 0 0 rgba(29, 209, 89, 0.6);
   }
 
   30% {
     box-shadow: 0 0 0 20px rgba(29, 171, 209, 0), 0 0 0 0 rgba(29, 209, 89, 0.6);
+  }
+
+  65% {
+    box-shadow: 0 0 0 20px rgba(29, 171, 209, 0),
+      0 0 0 30px rgba(29, 171, 209, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 171, 209, 0), 0 0 0 20px rgba(29, 171, 209, 0);
+  }
+}
+
+@keyframes animation-red {
+  0% {
+    box-shadow: 0 0 0 0 var(--red-primary-color),
+      0 0 0 0 var(--red-primary-color);
+  }
+
+  30% {
+    box-shadow: 0 0 0 20px rgba(29, 171, 209, 0),
+      0 0 0 0 var(--red-primary-color);
+  }
+
+  65% {
+    box-shadow: 0 0 0 20px rgba(29, 171, 209, 0),
+      0 0 0 30px rgba(29, 171, 209, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 171, 209, 0), 0 0 0 20px rgba(29, 171, 209, 0);
+  }
+}
+
+@keyframes animation-orange {
+  0% {
+    box-shadow: 0 0 0 0 var(--orange-primary-color),
+      0 0 0 0 var(--orange-primary-color);
+  }
+
+  30% {
+    box-shadow: 0 0 0 20px rgba(29, 171, 209, 0),
+      0 0 0 0 var(--orange-primary-color);
+  }
+
+  65% {
+    box-shadow: 0 0 0 20px rgba(29, 171, 209, 0),
+      0 0 0 30px rgba(29, 171, 209, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(29, 171, 209, 0), 0 0 0 20px rgba(29, 171, 209, 0);
+  }
+}
+
+@keyframes animation-yellow {
+  0% {
+    box-shadow: 0 0 0 0 var(--yellow-primary-color),
+      0 0 0 0 var(--yellow-primary-color);
+  }
+
+  30% {
+    box-shadow: 0 0 0 20px rgba(29, 171, 209, 0),
+      0 0 0 0 var(--yellow-primary-color);
   }
 
   65% {

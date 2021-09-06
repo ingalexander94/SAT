@@ -14,4 +14,15 @@ const resetDate = (date: string) => {
   return newDate.toISOString();
 };
 
-export { normalizeText, resetDate };
+const getColor = (value: number) =>
+  value > 0 && value < 2
+    ? { color: 'red', risk: 'en Riesgo Crítico' }
+    : value >= 2 && value < 3
+    ? { color: 'orange', risk: 'en Riesgo Moderado' }
+    : value >= 3 && value < 4
+    ? { color: 'yellow', risk: 'en Riesgo Leve' }
+    : value >= 4 && value <= 5
+    ? { color: 'green', risk: 'Sin riesgo' }
+    : { color: 'gray', risk: 'Cargando...' };
+
+export { normalizeText, resetDate, getColor };

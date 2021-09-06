@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { User } from 'src/app/model/auth';
 import { risks } from 'src/app/model/data';
-import { Risk } from 'src/app/model/risk';
+import { Risk, RiskUFPS } from 'src/app/model/risk';
 import { UiService } from 'src/app/services/ui.service';
 
 @Component({
@@ -30,8 +31,15 @@ export class ListRisksComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscription = this.store
-      .select('auth')
-      .subscribe(({ user }) => (this.user = user));
+      .pipe(
+        filter(({ risk }) => risk.risks.length > 0),
+        map(({ auth, risk }) => ({ auth, risk })),
+        distinctUntilChanged()
+      )
+      .subscribe(({ auth: { user }, risk: { risks } }) => {
+        this.user = user;
+        this.getRisks(risks);
+      });
   }
 
   onNavigateToRisk(url: String) {
@@ -44,5 +52,14 @@ export class ListRisksComponent implements OnInit {
     } else {
       this.showAlert = false;
     }
+  }
+
+  getRisks(risks: RiskUFPS[]) {
+    this.risksDetail = this.risksDetail.map((risk) => {
+      risk.riskGlobal = risks.find(
+        ({ nombre }) => nombre === risk.name
+      ).puntaje;
+      return risk;
+    });
   }
 }

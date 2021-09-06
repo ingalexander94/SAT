@@ -1,9 +1,10 @@
 .table_students {
-  margin-top: 16px;
+  margin-top: 32px;
   background: var(--gray-menu);
   text-align: center;
   width: 90vw;
   overflow: scroll;
+  min-height: 150px;
 }
 
 .table_students table {
@@ -55,6 +56,7 @@
 
   .table_students {
     width: 96vw;
+    min-height: 200px;
   }
   .table_students table {
     width: 730px;
@@ -73,7 +75,8 @@
 @media (min-width: 1152px) {
   .table_students {
     width: 95vw;
-    margin: 0px 16px;
+    margin: 16px;
+    min-height: 250px;
   }
   .table_students table {
     width: 1220px;

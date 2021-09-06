@@ -1,3 +1,4 @@
+import { getColor } from '../helpers/ui';
 import { Risk } from './risk';
 import {
   ActivitiesList,
@@ -217,27 +218,39 @@ export const inRisk: StudentInDanger[] = [
 export const risks: Risk[] = [
   {
     name: 'Académico',
-    description: 'No presenta riesgos para está categoría',
+    riskGlobal: 0,
     icon: 'id-badge',
     path: 'academico',
+    color: function () {
+      return getColor(this.riskGlobal);
+    },
   },
   {
     name: 'Económico',
-    description: 'No presenta riesgos para está categoría',
+    riskGlobal: 0,
     icon: 'hand-holding-usd',
     path: 'economico',
+    color: function () {
+      return getColor(this.riskGlobal);
+    },
   },
   {
     name: 'Individual',
-    description: 'No presenta riesgos para está categoría',
+    riskGlobal: 0,
     icon: 'male',
     path: 'individual',
+    color: function () {
+      return getColor(this.riskGlobal);
+    },
   },
   {
     name: 'Institucional',
-    description: 'No presenta riesgos para está categoría',
+    riskGlobal: 0,
     icon: 'university',
     path: 'institucional',
+    color: function () {
+      return getColor(this.riskGlobal);
+    },
   },
 ];
 //cursos con Asistencias

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { saveInLocalStorage } from 'src/app/helpers/localStorage';
+import { getColor } from 'src/app/helpers/ui';
 import { User } from 'src/app/model/auth';
 import { DeleteStudentsAction } from 'src/app/reducer/course/course.actions';
 import { UiService } from 'src/app/services/ui.service';
@@ -49,10 +50,8 @@ export class TableRiskComponent implements OnInit, OnDestroy {
     this.router.navigate(['/estudiante/informacion-permanencia']);
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
-    this.store.dispatch(new DeleteStudentsAction());
+  getColorRisk(risk: number) {
+    return getColor(risk).color;
   }
 
   showOptions() {
@@ -62,5 +61,11 @@ export class TableRiskComponent implements OnInit, OnDestroy {
   filterStudents(name: string = '') {
     this.filter = name;
     this.showOptions();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
+    this.store.dispatch(new DeleteStudentsAction());
   }
 }

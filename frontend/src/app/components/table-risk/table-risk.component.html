@@ -38,7 +38,9 @@
           <td>{{ i + 1 }}</td>
           <td>{{ student.codigo }}</td>
           <td>{{ student.nombre }} {{ student.apellido }}</td>
-          <td><i class="fas fa-circle red"></i></td>
+          <td>
+            <i class="fas fa-circle {{ getColorRisk(student.riesgo) }}"></i>
+          </td>
           <td>{{ student.estado | uppercase }}</td>
           <td class="pointer" (click)="navigateToStudent(student)">
             <i class="fas fa-chevron-right"></i>
