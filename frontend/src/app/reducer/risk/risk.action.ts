@@ -1,9 +1,10 @@
 import { Action } from '@ngrx/store';
-import { RiskUFPS } from 'src/app/model/risk';
+import { RiskUFPS, StatisticsRisk } from 'src/app/model/risk';
 
 export const LOAD_RISK = '[RISK] Cargar riesgos';
 export const REMOVE_RISK = '[RISK] Eliminar riesgos';
 export const SET_RISK_GLOBAL = '[RISK] Cargar riesgo global';
+export const LOAD_STATISTICS = '[RISK] Cargar filtro de estadisticas';
 
 export class LoadRiskAction implements Action {
   readonly type = LOAD_RISK;
@@ -20,4 +21,13 @@ export class RemoveRiskAction implements Action {
   constructor() {}
 }
 
-export type actions = LoadRiskAction | RemoveRiskAction | SetRiskGlobalAction;
+export class LoadStatisticsAction implements Action {
+  readonly type = LOAD_STATISTICS;
+  constructor(public payload: StatisticsRisk) {}
+}
+
+export type actions =
+  | LoadRiskAction
+  | RemoveRiskAction
+  | SetRiskGlobalAction
+  | LoadStatisticsAction;

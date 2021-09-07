@@ -1,13 +1,6 @@
 import { getColor } from '../helpers/ui';
 import { Risk } from './risk';
-import {
-  ActivitiesList,
-  desCourse,
-  ItemRisk,
-  MenuOptions,
-  ServicesWellness,
-  StudentInDanger,
-} from './ui';
+import { ActivitiesList, ItemRisk, MenuOptions, StudentInDanger } from './ui';
 
 // Item Riesgos
 export const itemsaEconomicRisks: ItemRisk = {
@@ -87,19 +80,6 @@ export const activities: ActivitiesList[] = [
     icon: 'fa-spinner',
   },
 ];
-// Servicios Bienestar en uso
-export const servicesWellness: ServicesWellness[] = [
-  {
-    num: 1,
-    name: 'Beca trabajo',
-    isActive: true,
-  },
-  {
-    num: 2,
-    name: 'Subsidio alcaldia',
-    isActive: true,
-  },
-];
 
 // Rutas
 
@@ -148,44 +128,6 @@ export const menuRoutes: MenuOptions[] = [
     icon: 'file-signature',
     isAllowed: (role: String) =>
       role === 'psicologo' || role === 'estudiante' ? true : false,
-  },
-];
-
-// Estudiantes que han postulado
-
-export const postulates: StudentInDanger[] = [
-  {
-    student: {
-      id: 1,
-      code: '1151163',
-      names: 'Luis Alexander',
-      surnames: 'Peñaloza Romero',
-      risk: 'leve',
-    },
-    date: new Date(),
-    postulatorRole: 'Docente - Matías Herrera',
-  },
-  {
-    student: {
-      id: 2,
-      code: '1151157',
-      names: 'Niver Daniel',
-      surnames: 'Romero Manrique',
-      risk: 'moderado',
-    },
-    date: new Date(),
-    postulatorRole: 'Estudiante - Niver Romero',
-  },
-  {
-    student: {
-      id: 3,
-      code: '1151173',
-      names: 'Fabian',
-      surnames: 'Suarez Ruiz',
-      risk: 'critico',
-    },
-    date: new Date(),
-    postulatorRole: 'Docente - Miltón Vera',
   },
 ];
 
@@ -251,28 +193,5 @@ export const risks: Risk[] = [
     color: function () {
       return getColor(this.riskGlobal);
     },
-  },
-];
-//cursos con Asistencias
-export const courses: desCourse[] = [
-  {
-    name: 'Administracion de Proyecto informaticos',
-    group: 'B',
-    assistance: 10,
-  },
-  {
-    name: 'base de datos',
-    group: 'A',
-    assistance: 10,
-  },
-  {
-    name: 'Arquitectura de software',
-    group: 'A',
-    assistance: 10,
-  },
-  {
-    name: 'Ingenieria de software',
-    group: '',
-    assistance: 10,
   },
 ];

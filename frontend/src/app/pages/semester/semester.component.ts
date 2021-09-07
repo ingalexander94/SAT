@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +7,7 @@ import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { saveInLocalStorage } from 'src/app/helpers/localStorage';
+import { LoadStatisticsAction } from 'src/app/reducer/risk/risk.action';
 import { StudentService } from 'src/app/services/student.service';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -55,6 +55,12 @@ export class SemesterComponent implements OnInit, OnDestroy {
             ))
       );
     this.wellnessSevice.validateProgram(this.program);
+    this.store.dispatch(
+      new LoadStatisticsAction({
+        program: this.program,
+        risk: null,
+      })
+    );
     this.getPeriods();
   }
 

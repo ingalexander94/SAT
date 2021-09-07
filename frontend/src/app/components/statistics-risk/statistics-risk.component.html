@@ -1,14 +1,15 @@
-<div class="statistics animate__animated animate__fadeIn">
-  <div class="mild">
-    <h3>1</h3>
-    <p>Leve</p>
+<app-loading *ngIf="loading"></app-loading>
+
+<div *ngIf="!loading" class="statistics animate__animated animate__fadeIn">
+  <div
+    *ngFor="let item of statistics"
+    class="{{ item.type !== 'Crítico' ? item.type.toLowerCase() : 'critico' }}"
+  >
+    <h3>{{ item.total }}</h3>
+    <p>{{ item.type }}</p>
   </div>
-  <div class="moderate">
-    <h3>2</h3>
-    <p>Moderado</p>
-  </div>
-  <div class="critical" (click)="toInRisk()">
+  <!-- <div class="critical" (click)="toInRisk()">
     <h3>3</h3>
     <p>Crítico</p>
-  </div>
+  </div> -->
 </div>

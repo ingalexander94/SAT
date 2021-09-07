@@ -11,3 +11,7 @@ risk_router = Blueprint("risk_router", __name__)
 def getRisks(_, code=None):
     return instance.getRisks(code)
 
+@risk_router.route("/calulateStatistics", methods=["POST"])
+@token_required
+def getStatisticsTotal(_):
+    return instance.getStatisticsTotal()
