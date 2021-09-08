@@ -1,15 +1,17 @@
-<app-loading *ngIf="loading"></app-loading>
-
-<div *ngIf="!loading" class="statistics animate__animated animate__fadeIn">
+<div class="statistics animate__animated animate__fadeIn">
   <div
-    *ngFor="let item of statistics"
+    *ngFor="let item of statistics; let i = index"
     class="{{ item.type !== 'Crítico' ? item.type.toLowerCase() : 'critico' }}"
   >
-    <h3>{{ item.total }}</h3>
+    <h3 *ngIf="loading">
+      <i class="fas fa-hourglass-start fa-spin fa-fw"></i>
+    </h3>
+    <h3 *ngIf="!loading">{{ item.counter }}</h3>
     <p>{{ item.type }}</p>
   </div>
-  <!-- <div class="critical" (click)="toInRisk()">
+</div>
+
+<!-- <div class="critical" (click)="toInRisk()">
     <h3>3</h3>
     <p>Crítico</p>
   </div> -->
-</div>

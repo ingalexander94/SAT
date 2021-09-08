@@ -81,6 +81,7 @@ export interface StatisticsRisk {
 export interface Statistics {
   type: String;
   total: number;
+  counter?: number;
 }
 
 export interface StatisticsResponse {
