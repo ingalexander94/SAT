@@ -113,7 +113,6 @@ export class CreateUserComponent implements OnInit {
 
   async listRoles() {
     const res = await this.authService.listRoles();
-    console.log(res);
     const roles = res.map((rol) => ({
       _id: rol._id.$oid,
       role: rol.role

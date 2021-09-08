@@ -197,6 +197,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
             to: to.toISOString(),
           },
         };
+        console.log(body);
       } else {
         body = {
           filter: formName,

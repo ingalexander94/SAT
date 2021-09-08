@@ -19,6 +19,5 @@ def studentsOfPeriod(_):
 
 @boss_rest.route("/postulation/update", methods=["PUT"])
 @token_required
-@required_params(UpdateSchema())
 def updatePostulation(_):
     return instancePostulation.updatePostulationByBoss()

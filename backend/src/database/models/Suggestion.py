@@ -50,7 +50,7 @@ class Suggestion:
         end = request.json["value"]["to"]
         return self.createPagination({
             "state":True,
-            "response":False,
+            "response":False,     
             "date": {'$lte': end, '$gte': start}
         })   
     
@@ -59,7 +59,7 @@ class Suggestion:
         return self.createPagination({
             "state":True,
             "response":False,
-            "codeStudent": code
+            "codeStudent": code 
         })   
     
     def filterByValue(self, nameDB, where):
