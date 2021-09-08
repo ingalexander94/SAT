@@ -68,3 +68,23 @@ export interface RiskResponse {
   riesgos: RiskUFPS[];
   riesgoGlobal: number;
 }
+
+export interface StatisticsRisk {
+  risk: String;
+  code?: String;
+  group?: String;
+  program?: String;
+  period?: String;
+  global?: Boolean;
+}
+
+export interface Statistics {
+  type: String;
+  total: number;
+}
+
+export interface StatisticsResponse {
+  ok: Boolean;
+  data?: Statistics[];
+  msg: String;
+}

@@ -7,6 +7,7 @@ export interface Course {
   materia: Materia;
   docente: String;
 }
+
 export interface Materia {
   codigo: String;
   creditos: number;

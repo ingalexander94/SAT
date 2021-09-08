@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 import { Facultie } from 'src/app/model/wellness';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
+import { LoadStatisticsAction } from 'src/app/reducer/risk/risk.action';
 
 @Component({
   selector: 'app-faculties',
@@ -16,12 +19,19 @@ export class FacultiesComponent implements OnInit {
   constructor(
     private uiService: UiService,
     private router: Router,
-    private wellnessService: WellnessService
+    private wellnessService: WellnessService,
+    private store: Store<AppState>
   ) {
     this.uiService.updateTitleNavbar('Facultades');
   }
 
   ngOnInit(): void {
+    this.store.dispatch(
+      new LoadStatisticsAction({
+        global: true,
+        risk: null,
+      })
+    );
     this.getFaculties();
   }
 

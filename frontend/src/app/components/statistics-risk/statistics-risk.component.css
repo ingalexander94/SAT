@@ -31,17 +31,17 @@
   color: black;
 }
 
-.mild h3 {
+.leve h3 {
   background: var(--yellow-primary-color);
 }
-.moderate h3 {
+.moderado h3 {
   background: var(--orange-primary-color);
 }
-.critical h3 {
+.critico h3 {
   background: var(--red-primary-color);
 }
 
-.critical {
+.critico {
   cursor: pointer;
 }
 

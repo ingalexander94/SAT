@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { Title } from 'src/app/model/ui';
+import { LoadStatisticsAction } from 'src/app/reducer/risk/risk.action';
 import { BossService } from 'src/app/services/boss.service';
 import { UiService } from 'src/app/services/ui.service';
 
@@ -51,6 +52,13 @@ export class SemesterWellnessComponent implements OnInit, OnDestroy {
   updateSemesters() {
     const number = this.route.snapshot.paramMap.get('numero');
     const program = decodeURI(this.route.snapshot.paramMap.get('programa'));
+    this.store.dispatch(
+      new LoadStatisticsAction({
+        program,
+        period: number,
+        risk: null,
+      })
+    );
     const period = `Periodo ${number}`;
     this.title2.title = period;
     this.uiService.updateTitleNavbar(period);

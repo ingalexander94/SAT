@@ -1,14 +1,16 @@
-import { RiskUFPS } from 'src/app/model/risk';
+import { RiskUFPS, StatisticsRisk } from 'src/app/model/risk';
 import * as fromRisk from './risk.action';
 
 export interface RiskState {
   risks: RiskUFPS[];
   globalRisk: number;
+  statisticsRisk: StatisticsRisk;
 }
 
 const initState: RiskState = {
   risks: [],
   globalRisk: 0,
+  statisticsRisk: null,
 };
 
 export const riskReducer = (
@@ -22,11 +24,11 @@ export const riskReducer = (
     case fromRisk.SET_RISK_GLOBAL:
       return { ...state, globalRisk: actions.payload };
 
+    case fromRisk.LOAD_STATISTICS:
+      return { ...state, statisticsRisk: { ...actions.payload } };
+
     case fromRisk.REMOVE_RISK:
-      return {
-        risks: [],
-        globalRisk: 0,
-      };
+      return { risks: [], globalRisk: 0, statisticsRisk: null };
 
     default:
       return { ...state };

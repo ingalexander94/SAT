@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
 import { Title } from 'src/app/model/ui';
 import { ActiveCourseAction } from 'src/app/reducer/course/course.actions';
+import { LoadStatisticsAction } from 'src/app/reducer/risk/risk.action';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { UiService } from 'src/app/services/ui.service';
 
@@ -32,6 +33,13 @@ export class CourseComponent implements OnInit, OnDestroy {
     this.uiService.updateTitleNavbar('Materia');
     this.teacherService.listStudentsOfCourse(code, group);
     this.store.dispatch(new ActiveCourseAction(code));
+    this.store.dispatch(
+      new LoadStatisticsAction({
+        code,
+        group,
+        risk: null,
+      })
+    );
   }
 
   ngOnInit(): void {
