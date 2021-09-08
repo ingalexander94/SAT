@@ -131,32 +131,6 @@ export const menuRoutes: MenuOptions[] = [
   },
 ];
 
-// Estudiantes que estan en riesgo critico
-
-export const inRisk: StudentInDanger[] = [
-  {
-    student: {
-      id: 1,
-      code: '1151190',
-      names: 'Juan Guillermo',
-      surnames: 'Cuadrado',
-      risk: 'Acádemico',
-    },
-    date: new Date(),
-    postulatorRole: null,
-  },
-  {
-    student: {
-      id: 2,
-      code: '1151191',
-      names: 'James David',
-      surnames: 'Rodriguez Rubio',
-      risk: 'Individual',
-    },
-    date: new Date(),
-    postulatorRole: null,
-  },
-];
 export const risks: Risk[] = [
   {
     name: 'Académico',

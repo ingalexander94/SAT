@@ -29,6 +29,10 @@ class Risk:
         return self.calculateTotalRisk(f"{code}_{group}")
     
     def calculateTotalRisk(self, endpoint):
+        risk = request.json["risk"]
+        if risk:
+            students = requests.get(f"{environment.API_URL}/{risk}_{endpoint}").json()
+            return response.success("todo ok!", students, "")
         output = []
         critical = len(requests.get(f"{environment.API_URL}/critico_{endpoint}").json())
         mild = len(requests.get(f"{environment.API_URL}/leve_{endpoint}").json())
@@ -37,6 +41,8 @@ class Risk:
                   {"type": "Leve", "total": mild}, 
                   {"type": "Moderado", "total": moderate}, 
                   {"type": "Crítico", "total": critical}, 
-                  ]
+                 ]
         return response.success("todo ok!", output, "")
+    
+
         

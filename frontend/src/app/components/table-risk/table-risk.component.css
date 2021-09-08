@@ -55,9 +55,11 @@
   }
 
   .table_students {
-    width: 96vw;
+    width: 90vw;
     min-height: 200px;
+    margin: auto;
   }
+
   .table_students table {
     width: 730px;
   }
@@ -75,7 +77,7 @@
 @media (min-width: 1152px) {
   .table_students {
     width: 95vw;
-    margin: 16px;
+    margin: auto;
     min-height: 250px;
   }
   .table_students table {

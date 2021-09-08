@@ -4,9 +4,13 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { saveInLocalStorage } from 'src/app/helpers/localStorage';
+import {
+  getValueOfLocalStorage,
+  saveInLocalStorage,
+} from 'src/app/helpers/localStorage';
 import { getColor } from 'src/app/helpers/ui';
 import { User } from 'src/app/model/auth';
+import { StatisticsRisk } from 'src/app/model/risk';
 import { DeleteStudentsAction } from 'src/app/reducer/course/course.actions';
 import { UiService } from 'src/app/services/ui.service';
 
@@ -51,7 +55,17 @@ export class TableRiskComponent implements OnInit, OnDestroy {
   }
 
   getColorRisk(risk: number) {
-    return getColor(risk).color;
+    if (risk) return getColor(risk).color;
+    else {
+      const statisticsRisk: StatisticsRisk =
+        getValueOfLocalStorage('statisticsRisk');
+      if (!statisticsRisk) return '';
+      return statisticsRisk.risk === 'critico'
+        ? 'red'
+        : statisticsRisk.risk === 'moderado'
+        ? 'orange'
+        : 'yellow';
+    }
   }
 
   showOptions() {

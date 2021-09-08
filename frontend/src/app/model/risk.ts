@@ -81,10 +81,17 @@ export interface StatisticsRisk {
 export interface Statistics {
   type: String;
   total: number;
+  counter?: number;
 }
 
 export interface StatisticsResponse {
   ok: Boolean;
   data?: Statistics[];
+  msg: String;
+}
+
+export interface StudentsInRiskResponse {
+  ok: Boolean;
+  data?: User[];
   msg: String;
 }
