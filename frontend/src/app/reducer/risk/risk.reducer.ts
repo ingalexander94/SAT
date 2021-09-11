@@ -27,6 +27,9 @@ export const riskReducer = (
     case fromRisk.LOAD_STATISTICS:
       return { ...state, statisticsRisk: { ...actions.payload } };
 
+    case fromRisk.UNLOAD_STATISTICS:
+      return { ...state, statisticsRisk: null };
+
     case fromRisk.REMOVE_RISK:
       return { risks: [], globalRisk: 0, statisticsRisk: null };
 

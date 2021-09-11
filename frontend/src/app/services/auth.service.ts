@@ -11,6 +11,7 @@ import { AuthResponse, UserAuth } from '../model/auth';
 import { Role, RoleResponse } from '../model/role';
 import { AddUserAction } from '../reducer/auth/auth.actions';
 import { AuthState } from '../reducer/auth/auth.reducer';
+import { LoadRoleAction } from '../reducer/role/role.action';
 import {
   StartLoadingAction,
   FinishLoadingAction,

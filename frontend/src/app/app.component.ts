@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import { AddUserAction, RemoveUserAction } from './reducer/auth/auth.actions';
+import { LoadRoleAction } from './reducer/role/role.action';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -19,7 +20,9 @@ export class AppComponent implements OnInit {
     this.renewToken();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getRoles();
+  }
 
   async renewToken() {
     this.loading = true;
@@ -32,5 +35,9 @@ export class AppComponent implements OnInit {
       this.store.dispatch(new RemoveUserAction());
     }
     this.loading = false;
+  }
+  async getRoles() {
+    const res = await this.authService.listRoles();
+    this.store.dispatch(new LoadRoleAction(res));
   }
 }

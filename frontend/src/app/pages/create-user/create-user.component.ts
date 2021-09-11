@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { User } from 'src/app/model/auth';
 import { Role } from 'src/app/model/role';
-import { AuthService } from 'src/app/services/auth.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
 @Component({
@@ -43,13 +45,15 @@ export class CreateUserComponent implements OnInit {
 
   constructor(
     private wellnessService: WellnessService,
-    private authService: AuthService
+    private store: Store<AppState>
   ) {
     this.formCreateUser = this.createFormCreateUser();
   }
 
   ngOnInit(): void {
-    this.listRoles();
+    this.subscription = this.store
+      .select('role')
+      .subscribe(({ role }) => (this.roles = role));
   }
 
   async onSubmit() {
@@ -109,20 +113,5 @@ export class CreateUserComponent implements OnInit {
         .toUpperCase(),
     };
     this.roles = [role, ...this.roles];
-  }
-
-  async listRoles() {
-    const res = await this.authService.listRoles();
-    const roles = res.map((rol) => ({
-      _id: rol._id.$oid,
-      role: rol.role
-        .split('')
-        .map((letra) =>
-          /^[A-Z]*$/.test(letra) ? [' ', letra].join('') : letra
-        )
-        .join('')
-        .toUpperCase(),
-    }));
-    this.roles = roles;
   }
 }

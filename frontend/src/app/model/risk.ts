@@ -89,3 +89,9 @@ export interface StatisticsResponse {
   data?: Statistics[];
   msg: String;
 }
+
+export interface StudentsInRiskResponse {
+  ok: Boolean;
+  data?: User[];
+  msg: String;
+}

@@ -25,4 +25,7 @@ const getColor = (value: number) =>
     ? { color: 'green', risk: 'Sin riesgo' }
     : { color: 'gray', risk: 'Cargando...' };
 
-export { normalizeText, resetDate, getColor };
+const capitalizeText = (risk: String) =>
+  risk === 'critico' ? 'Crítico' : risk.charAt(0).toUpperCase() + risk.slice(1);
+
+export { normalizeText, resetDate, getColor, capitalizeText };

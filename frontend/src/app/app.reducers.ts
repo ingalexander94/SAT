@@ -5,6 +5,7 @@ import * as fromCourse from './reducer/course/course.reducer';
 import * as fromChat from './reducer/Chat/chat.reducer';
 import * as fromRisk from './reducer/risk/risk.reducer';
 import * as fromNotification from './reducer/notification/notifications.reducer';
+import * as fromRole from './reducer/role/role.reduce';
 
 export interface AppState {
   ui: fromUI.UIState;
@@ -13,6 +14,7 @@ export interface AppState {
   chat: fromChat.ChatState;
   notification: fromNotification.NotificationState;
   risk: fromRisk.RiskState;
+  role: fromRole.RoleState;
 }
 
 export const combineReducer: ActionReducerMap<AppState> = {
@@ -22,4 +24,5 @@ export const combineReducer: ActionReducerMap<AppState> = {
   chat: fromChat.chatReducer,
   notification: fromNotification.notificationReducer,
   risk: fromRisk.riskReducer,
+  role: fromRole.roloReduce,
 };

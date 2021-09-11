@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, pluck } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
+import { showAlert } from 'src/app/helpers/alert';
+import { saveInLocalStorage } from 'src/app/helpers/localStorage';
 import { Statistics, StatisticsRisk } from 'src/app/model/risk';
 import { RiskService } from 'src/app/services/risk.service';
 
@@ -13,29 +15,27 @@ import { RiskService } from 'src/app/services/risk.service';
   styleUrls: ['./statistics-risk.component.css'],
 })
 export class StatisticsRiskComponent implements OnInit, OnDestroy {
-  counter1: number = 0;
-  counter2: number = 0;
-  counter3: number = 0;
-
   statistics: Statistics[] = [
     {
       type: 'Leve',
       total: 0,
-      counter: 0,
     },
     {
       type: 'Moderado',
       total: 0,
-      counter: 0,
     },
     {
       type: 'Crítico',
       total: 0,
-      counter: 0,
     },
   ];
   loading: Boolean = true;
   subscription: Subscription = new Subscription();
+  statisticsRisk: StatisticsRisk = null;
+
+  mild: ReturnType<typeof setInterval> = null;
+  moderate: ReturnType<typeof setInterval> = null;
+  critical: ReturnType<typeof setInterval> = null;
 
   leve = null;
   moderado = null;
@@ -56,46 +56,53 @@ export class StatisticsRiskComponent implements OnInit, OnDestroy {
       .select('risk')
       .pipe(pluck('statisticsRisk'), distinctUntilChanged())
       .subscribe((a) => {
-        this.calculateStatistics(a);
+        this.statisticsRisk = a;
+        this.calculateStatistics();
       });
   }
 
-  toInRisk() {
-    this.router.navigate(['/vicerrector/en-riesgo']);
+  toInRisk(risk: String, total: number) {
+    if (total > 0) {
+      const normalizeRisk = risk
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+      this.statisticsRisk = {
+        ...this.statisticsRisk,
+        risk: normalizeRisk,
+      };
+      saveInLocalStorage('statisticsRisk', this.statisticsRisk);
+      this.router.navigate(['/vicerrector/en-riesgo']);
+    } else {
+      showAlert('warning', 'No existen estudiantes en riesgo ' + risk);
+    }
   }
 
-  async calculateStatistics(statistics: StatisticsRisk) {
-    const res = await this.riskService.calculateTotalStatistics(statistics);
-
+  async calculateStatistics() {
+    const res = await this.riskService.calculateTotalStatistics(
+      this.statisticsRisk
+    );
+    const initState = res.data.map((x) => ({ ...x, counter: 0 }));
     this.loading = false;
-    res.data[0].counter = 0;
-    res.data[1].counter = 0;
-    res.data[2].counter = 0;
-    this.leve = setInterval(() => this.animate1(res.data[0]), 100);
-    this.moderado = setInterval(() => this.animate2(res.data[1]), 1000);
-    this.critico = setInterval(() => this.animate3(res.data[2]), 1000);
-    if (res.ok) this.statistics = res.data;
+    if (res.ok) this.statistics = initState;
+    this.mild = this.createInterval(initState, this.mild, 0);
+    this.moderate = this.createInterval(initState, this.moderate, 1);
+    this.critical = this.createInterval(initState, this.critical, 2);
   }
-  animate1(data: Statistics) {
-    if (data.counter < data.total) {
-      data.counter += 1;
-    } else {
-      clearInterval(this.leve);
-    }
+
+  createInterval(initState, interval, index): ReturnType<typeof setInterval> {
+    return setInterval(
+      () => this.animate(initState[index], interval),
+      this.calculateTimer(initState[index].total)
+    );
   }
-  animate2(data: Statistics) {
-    if (data.counter < data.total) {
-      data.counter += 1;
-    } else {
-      clearInterval(this.moderado);
-    }
+
+  calculateTimer(total: number) {
+    return 2000 / total;
   }
-  animate3(data: Statistics) {
-    if (data.counter < data.total) {
-      data.counter += 1;
-    } else {
-      clearInterval(this.critico);
-    }
+
+  animate(data: Statistics, interval: ReturnType<typeof setInterval>) {
+    data.counter < data.total ? (data.counter += 1) : clearInterval(interval);
   }
 
   ngOnDestroy(): void {

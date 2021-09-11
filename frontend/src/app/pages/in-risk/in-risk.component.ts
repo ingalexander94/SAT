@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { inRisk } from 'src/app/model/data';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
+import { getValueOfLocalStorage } from 'src/app/helpers/localStorage';
+import { capitalizeText } from 'src/app/helpers/ui';
+import { StatisticsRisk } from 'src/app/model/risk';
 import { Title } from 'src/app/model/ui';
+import {
+  DesactiveCourseAction,
+  LoadStudentsAction,
+} from 'src/app/reducer/course/course.actions';
+import { RiskService } from 'src/app/services/risk.service';
 import { UiService } from 'src/app/services/ui.service';
 
 @Component({
@@ -10,18 +19,32 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class InRiskComponent implements OnInit {
   title: Title = {
-    title: 'Riesgo Crítico',
-    subtitle: 'Estudiantes que se encuentran en riesgo crítico de deserción',
+    title: 'Cargando...',
+    subtitle: '',
   };
 
-  myProps = {
-    type: 'risk',
-    students: inRisk,
-  };
-
-  constructor(private uiService: UiService) {
+  constructor(
+    private uiService: UiService,
+    private riskService: RiskService,
+    private store: Store<AppState>
+  ) {
     this.uiService.updateTitleNavbar('En Riesgo');
+    this.store.dispatch(new DesactiveCourseAction());
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const statisticsRisk: StatisticsRisk =
+      getValueOfLocalStorage('statisticsRisk');
+    const risk = capitalizeText(statisticsRisk.risk);
+    this.title = {
+      ...this.title,
+      title: `Riesgo ${risk}`,
+    };
+    this.getStudentsInRisk(statisticsRisk);
+  }
+
+  async getStudentsInRisk(statisticsRisk) {
+    const res = await this.riskService.getStudentsInRisk(statisticsRisk);
+    if (res.ok) this.store.dispatch(new LoadStudentsAction(res.data));
+  }
 }

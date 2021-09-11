@@ -9,6 +9,7 @@
   width: 80px;
   height: 80px;
   margin-left: 16px;
+  cursor: pointer;
 }
 
 .statistics div:nth-child(1) {
@@ -39,10 +40,6 @@
 }
 .critico h3 {
   background: var(--red-primary-color);
-}
-
-.critico {
-  cursor: pointer;
 }
 
 /* Tablet */
