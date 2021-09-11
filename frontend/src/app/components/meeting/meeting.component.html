@@ -12,7 +12,7 @@
           Fecha: <span>{{ meet.dateFormat }}</span>
         </h5>
         <h5>
-          Con:<span class="role"> {{ meet.role }}</span>
+          Con:<span> {{ meet.role }}</span>
         </h5>
         <h5>
           Lugar:<span> {{ meet.ubication }}</span>
@@ -48,7 +48,7 @@
       <tr *ngFor="let meet of meets; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ meet.date }}</td>
-        <td>{{ meet.role | uppercase }}</td>
+        <td>{{ normalize(meet.role) }}</td>
         <td>{{ meet.state }}</td>
         <td *ngIf="meet.attendance"><i class="fas fa-check"></i></td>
         <td *ngIf="!meet.attendance"><i class="fas fa-times"></i></td>

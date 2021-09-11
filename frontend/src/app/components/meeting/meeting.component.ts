@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, pluck, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
+import { normalizeRoles } from 'src/app/helpers/ui';
 import { Meet } from 'src/app/model/meet';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -56,8 +57,17 @@ export class MeetingComponent implements OnInit, OnDestroy {
 
   async loadMeets(code: String) {
     const data = await this.wellnessService.getMeetOfStudent(code);
-    this.meet = data;
+    if (data) {
+      this.meet = {
+        ...data,
+        role: normalizeRoles(data.role),
+      };
+    }
     this.loading = false;
+  }
+
+  normalize(role) {
+    return normalizeRoles(role);
   }
 
   async accept(option: boolean) {

@@ -29,6 +29,12 @@
   background: var(--gray-table);
 }
 
+button {
+  width: auto;
+  margin: 0;
+  padding: 0 16px;
+}
+
 .pagination {
   margin: auto;
   display: flex;

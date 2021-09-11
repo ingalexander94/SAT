@@ -18,7 +18,7 @@ class Report:
         suggestions = []
         output = []
         for suggestion in mongo.db.suggestion.find({
-            "state":res,
+            "state":False,
             "response":res,
             "date": {'$lte': end, '$gte': start}
         }).sort("date", DESCENDING):
@@ -34,6 +34,11 @@ class Report:
             }
             profit = mongo.db.profit.find_one({"_id": idProfit}, {"_id": False})
             infoAdmin = mongo.db.administrative.find_one({"_id": idAdmin}, {"nombre":1,"apellido":1,"rol":1, "_id": False})  
+            role = mongo.db.role.find_one({"_id":infoAdmin["rol"]}, {"_id":False})["role"]
+            infoAdmin = {
+                **infoAdmin,
+                "rol": role
+            }
             output.append({"student":student, "date":date, "_id": str(id),"profit": {**profit}, "admin":{**infoAdmin}})
         if len(output) == 0:
             return response.reject("No se encontrarón resultados para mostrar")

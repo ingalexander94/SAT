@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { showAlert } from 'src/app/helpers/alert';
+import { normalizeRoles } from 'src/app/helpers/ui';
 import { User } from 'src/app/model/auth';
 import { Role } from 'src/app/model/role';
 import { AuthService } from 'src/app/services/auth.service';
@@ -101,28 +102,16 @@ export class CreateUserComponent implements OnInit {
   addRole(res) {
     const role = {
       _id: res._id,
-      role: res.role
-        .split('')
-        .map((letra) => (/^[A-Z]*$/.test(letra) ? [' ', letra] : letra))
-        .flat()
-        .join('')
-        .toUpperCase(),
+      role: normalizeRoles(res.role),
     };
     this.roles = [role, ...this.roles];
   }
 
   async listRoles() {
     const res = await this.authService.listRoles();
-    console.log(res);
     const roles = res.map((rol) => ({
       _id: rol._id.$oid,
-      role: rol.role
-        .split('')
-        .map((letra) =>
-          /^[A-Z]*$/.test(letra) ? [' ', letra].join('') : letra
-        )
-        .join('')
-        .toUpperCase(),
+      role: normalizeRoles(rol.role),
     }));
     this.roles = roles;
   }

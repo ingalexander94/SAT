@@ -96,7 +96,9 @@ export const menuRoutes: MenuOptions[] = [
     name: 'Ver chat',
     icon: 'list',
     isAllowed: (role: String) =>
-      role !== 'estudiante' && role !== 'psicologo' ? true : false,
+      role !== 'estudiante' && role !== 'psicologo' && role !== 'vicerrector'
+        ? true
+        : false,
   },
   {
     path: '/estudiante/reunion',

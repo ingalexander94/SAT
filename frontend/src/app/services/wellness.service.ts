@@ -9,7 +9,7 @@ import {
   MeetPaginateResponse,
   MeetResponse,
 } from '../model/meet';
-import { Profit } from '../model/risk';
+import { Postulation, Profit } from '../model/risk';
 import {
   ResponseSuggestion,
   Suggestion,
@@ -192,6 +192,7 @@ export class WellnessService {
       return null;
     }
   }
+
   reponseSuggestion(data) {
     try {
       return this.http
@@ -199,6 +200,17 @@ export class WellnessService {
           `${this.URL_BACKEND}/suggestion/response`,
           data
         )
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  getPostulationById(id) {
+    try {
+      return this.http
+        .get<Postulation>(`${this.URL_BACKEND}/wellness/postulation/${id}`)
         .toPromise();
     } catch (error) {
       console.error(error);
