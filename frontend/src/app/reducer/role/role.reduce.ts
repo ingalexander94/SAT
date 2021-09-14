@@ -2,11 +2,11 @@ import { Role } from 'src/app/model/role';
 import * as fromRole from './role.action';
 
 export interface RoleState {
-  role: Role[];
+  roles: Role[];
 }
 
 const initState: RoleState = {
-  role: [],
+  roles: [],
 };
 export const roloReduce = (
   state = initState,
@@ -14,10 +14,10 @@ export const roloReduce = (
 ): RoleState => {
   switch (actions.type) {
     case fromRole.LOAD_ROLE:
-      return { ...state, role: [...actions.payload] };
+      return { ...state, roles: [...actions.payload] };
 
     case fromRole.REMOVE_ROLE:
-      return { ...state, role: [] };
+      return { ...state, roles: [] };
 
     default:
       return { ...state };

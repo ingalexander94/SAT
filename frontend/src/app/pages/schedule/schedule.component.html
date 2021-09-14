@@ -17,6 +17,7 @@
             <th>Estudiante</th>
             <th>Estado</th>
             <th *ngIf="state === 'RECHAZADA'">Motivo</th>
+            <th *ngIf="state === 'RECHAZADA'">Notificar</th>
             <th>Ir</th>
             <th *ngIf="state !== 'RECHAZADA'">¿Asistió?</th>
           </tr>
@@ -28,6 +29,21 @@
             <td>{{ meet.student.nombre }}</td>
             <td>{{ meet.state }}</td>
             <td *ngIf="state === 'RECHAZADA'">{{ meet.reason }}</td>
+            <td *ngIf="state === 'RECHAZADA'">
+              <button title="Crear nueva cita">
+                <i
+                  *ngIf="!loadingNewMeet"
+                  (click)="
+                    openModalNotification(meet.postulation, meet.student.codigo)
+                  "
+                  class="fas fa-clipboard"
+                ></i>
+                <i
+                  *ngIf="loadingNewMeet"
+                  class="fas fa-spinner fa-pulse fa-fw"
+                ></i>
+              </button>
+            </td>
             <td class="pointer" (click)="toStudent(meet.student.codigo)">
               <i class="fas fa-search red"></i>
             </td>
@@ -64,3 +80,9 @@
   *ngIf="showModal"
   (isClosed)="onShowModal($event)"
 ></app-modal-meet>
+
+<app-notification-date
+  *ngIf="showDate"
+  (isClosed)="showDateNotification($event)"
+  [postulation]="postulation"
+></app-notification-date>

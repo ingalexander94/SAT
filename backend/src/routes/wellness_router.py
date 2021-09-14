@@ -26,6 +26,12 @@ def getStudent(_, code=None):
 def paginatePostulationsWellness(_):
     return instancePostulation.paginatePostulationsWellness()
 
+@wellness_rest.route("/postulation/")
+@wellness_rest.route("/postulation/<id>")
+@token_required
+def getPostulationById(_, id=None): 
+    return instancePostulation.getPostulationById(id)
+
 @wellness_rest.route("/semester/program")
 @wellness_rest.route("/semester/program/<nameProgram>")
 @token_required
@@ -36,3 +42,4 @@ def validateProgram(_, nameProgram=None):
 @token_required
 def getProfits(_):
     return instanceAdministrativo.getProfits()
+

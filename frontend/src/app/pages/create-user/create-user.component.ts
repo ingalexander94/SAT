@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
+import { normalizeRoles } from 'src/app/helpers/ui';
 import { User } from 'src/app/model/auth';
 import { Role } from 'src/app/model/role';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -53,7 +54,16 @@ export class CreateUserComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.store
       .select('role')
-      .subscribe(({ role }) => (this.roles = role));
+      .pipe(
+        map(({ roles }) =>
+          roles.map((role) => ({
+            ...role,
+            role: normalizeRoles(role.role),
+          }))
+        ),
+        distinctUntilChanged()
+      )
+      .subscribe((roles) => (this.roles = roles));
   }
 
   async onSubmit() {
@@ -105,12 +115,7 @@ export class CreateUserComponent implements OnInit {
   addRole(res) {
     const role = {
       _id: res._id,
-      role: res.role
-        .split('')
-        .map((letra) => (/^[A-Z]*$/.test(letra) ? [' ', letra] : letra))
-        .flat()
-        .join('')
-        .toUpperCase(),
+      role: normalizeRoles(res.role),
     };
     this.roles = [role, ...this.roles];
   }

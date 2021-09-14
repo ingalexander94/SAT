@@ -13,10 +13,13 @@
       <div class="form_input">
         <label for="role">Con</label>
         <select formControlName="role" name="role" id="role">
-          <option value="psicologo">Psicologo</option>
-          <option value="medico">Médico</option>
-          <option value="trabajador social">Trabajador social</option>
-          <option value="sacerdote">Sacerdote</option>
+          <option
+            *ngFor="let rol of roles"
+            value="{{ rol._id }}"
+            [selected]="true"
+          >
+            {{ rol.role }}
+          </option>
         </select>
       </div>
       <div class="form_input">

@@ -106,6 +106,7 @@ export class AuthService {
       .post<RoleResponse>(`${this.endpoint}/role/`, role)
       .toPromise();
   }
+
   listRoles() {
     return this.httpClient.get<Role[]>(`${this.endpoint}/role/`).toPromise();
   }

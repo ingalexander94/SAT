@@ -28,4 +28,11 @@ const getColor = (value: number) =>
 const capitalizeText = (risk: String) =>
   risk === 'critico' ? 'Crítico' : risk.charAt(0).toUpperCase() + risk.slice(1);
 
-export { normalizeText, resetDate, getColor, capitalizeText };
+const normalizeRoles = (role) =>
+  role
+    .split('')
+    .map((letra) => (/^[A-Z]*$/.test(letra) ? [' ', letra].join('') : letra))
+    .join('')
+    .toUpperCase();
+
+export { normalizeText, resetDate, getColor, capitalizeText, normalizeRoles };

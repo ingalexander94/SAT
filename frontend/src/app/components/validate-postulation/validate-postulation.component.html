@@ -20,7 +20,9 @@
 </div>
 
 <app-button-notification
-  *ngIf="user.rol === 'vicerrector' && postulation"
+  *ngIf="
+    (user.rol === 'vicerrector' || user.rol === 'psicologo') && postulation
+  "
   [postulation]="postulation"
 ></app-button-notification>
 

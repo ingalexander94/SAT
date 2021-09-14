@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
 import { showAlert, showQuestion } from 'src/app/helpers/alert';
@@ -13,9 +13,12 @@ import {
   getValueOfLocalStorage,
   saveInLocalStorage,
 } from 'src/app/helpers/localStorage';
+import { normalizeRoles } from 'src/app/helpers/ui';
 import { Profits } from 'src/app/model/profits';
-import { Suggestion, SuggestionItem } from 'src/app/model/suggestion';
+import { Role } from 'src/app/model/role';
+import { SuggestionItem } from 'src/app/model/suggestion';
 import { Title } from 'src/app/model/ui';
+import { AuthService } from 'src/app/services/auth.service';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
@@ -38,6 +41,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
   show: String = '';
+  roles: Role[] = [];
   startDate: string = new Date().toISOString().split('T')[0];
   endDate: string = new Date().toISOString().split('T')[0];
   @ViewChild('options') options: ElementRef;
@@ -45,6 +49,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
 
   constructor(
     private uiService: UiService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private wellnessService: WellnessService
   ) {
@@ -53,6 +58,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProfits();
+    this.getRoles();
     this.subscription = this.route.params
       .pipe(pluck('pagina'))
       .subscribe((page = 1) => {
@@ -109,6 +115,15 @@ export class SuggestionComponent implements OnInit, OnDestroy {
       }
       this.selections.length = 0;
     }
+  }
+
+  async getRoles() {
+    const res = await this.authService.listRoles();
+    const roles = res.map((rol) => ({
+      _id: rol._id.$oid,
+      role: normalizeRoles(rol.role),
+    }));
+    this.roles = roles;
   }
 
   nextPage() {

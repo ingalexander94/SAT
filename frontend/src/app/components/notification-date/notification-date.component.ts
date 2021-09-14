@@ -13,9 +13,12 @@ import { Subscription } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
+import { normalizeRoles } from 'src/app/helpers/ui';
 import { Meet } from 'src/app/model/meet';
 import { Postulation } from 'src/app/model/risk';
+import { Role } from 'src/app/model/role';
 import { UpdateCounterAction } from 'src/app/reducer/notification/notification.actions';
+import { AuthService } from 'src/app/services/auth.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
 @Component({
@@ -30,10 +33,11 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   student: any = null;
   loading: boolean = false;
+  roles: Role[] = [];
 
   createFormDate(): FormGroup {
     return new FormGroup({
-      role: new FormControl('psicologo', Validators.required),
+      role: new FormControl('', Validators.required),
       date: new FormControl('', Validators.required),
       ubication: new FormControl('', Validators.required),
     });
@@ -41,9 +45,11 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private wellnessService: WellnessService
+    private wellnessService: WellnessService,
+    private authService: AuthService
   ) {
     this.formDate = this.createFormDate();
+    this.getRoles();
   }
 
   ngOnInit(): void {
@@ -68,6 +74,15 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
     if (target.className === 'wrapper_alert') {
       this.close();
     }
+  }
+
+  async getRoles() {
+    const res = await this.authService.listRoles();
+    const roles = res.map((rol) => ({
+      _id: rol._id.$oid,
+      role: normalizeRoles(rol.role),
+    }));
+    this.roles = roles;
   }
 
   async onSubmit() {

@@ -33,10 +33,10 @@ import { OrderByPipe } from '../pipes/order-by.pipe';
 import { FilterStudentPipe } from '../pipes/filter-student.pipe';
 import { AcademyListCourseComponent } from './academy-list-course/academy-list-course.component';
 import { NoteIndexComponent } from './note-index/note-index.component';
-import { ButtonNotificationComponent } from './button-notification/button-notification.component';
 import { ModalMeetComponent } from './modal-meet/modal-meet.component';
 import { DownloadPdfComponent } from './download-pdf/download-pdf.component';
 import { SearchGlobalComponent } from './search-global/search-global.component';
+import { ButtonNotificationComponent } from './button-notification/button-notification.component';
 
 @NgModule({
   declarations: [
@@ -71,10 +71,10 @@ import { SearchGlobalComponent } from './search-global/search-global.component';
     FilterStudentPipe,
     AcademyListCourseComponent,
     NoteIndexComponent,
-    ButtonNotificationComponent,
     ModalMeetComponent,
     DownloadPdfComponent,
     SearchGlobalComponent,
+    ButtonNotificationComponent,
   ],
   exports: [
     AlertComponent,
@@ -88,6 +88,7 @@ import { SearchGlobalComponent } from './search-global/search-global.component';
     MeetingComponent,
     SearchStudentComponent,
     TableComponent,
+    NotificationDateComponent,
     StatisticsRiskComponent,
     TableRiskComponent,
     ButtonFollowComponent,
@@ -98,10 +99,10 @@ import { SearchGlobalComponent } from './search-global/search-global.component';
     OrderByPipe,
     FilterStudentPipe,
     NoteIndexComponent,
-    ButtonNotificationComponent,
     ModalMeetComponent,
     DownloadPdfComponent,
     SearchGlobalComponent,
+    ButtonNotificationComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
 })

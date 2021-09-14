@@ -11,7 +11,7 @@
         <input type="checkbox" name="showLastReport" id="showLastReport" />
         <label for="showLastReport"><i class="fas fa-chevron-down"></i></label>
         <app-loading class="loading" *ngIf="loading"></app-loading>
-        <div class="tarjet" *ngIf="!loading">
+        <div class="tarjet" *ngIf="!loading && lastReport">
           <p>
             El último reporte se generó para las sugerencias que fuerón
             <strong>{{

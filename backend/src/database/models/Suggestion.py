@@ -42,7 +42,7 @@ class Suggestion:
         if typeFilter == "byProfit":
             return self.filterByProfit(value)
         nameDB = "administrative" if typeFilter == "byRole" else "profit"
-        where = {"estado":True, "rol":value} if typeFilter=="byRole" else {"riesgo": value}
+        where = {"estado":True, "rol":ObjectId(value)} if typeFilter=="byRole" else {"riesgo": value}
         return self.filterByValue(nameDB, where)
     
     def filterByDate(self):
@@ -91,7 +91,12 @@ class Suggestion:
                 "codigo": codeStudent
             }
             profit = mongo.db.profit.find_one({"_id": idProfit}, {"_id": False})
-            infoAdmin = mongo.db.administrative.find_one({"_id": idAdmin}, {"nombre":1,"apellido":1,"rol":1, "_id": False})  
+            infoAdmin = mongo.db.administrative.find_one({"_id": idAdmin}, {"nombre":1,"apellido":1,"rol":1, "_id": False}) 
+            role = mongo.db.role.find_one({"_id":infoAdmin["rol"]}, {"_id":False})["role"]
+            infoAdmin = {
+                **infoAdmin,
+                "rol": role
+            }
             output.append({"student":student, "date":date, "_id": str(id),"profit": {**profit}, "admin":{**infoAdmin}})
         res = json_util.dumps({"data": output, "totalPages": totalPages})
         return Response(res, mimetype="applicaton/json") 
@@ -105,7 +110,7 @@ class Suggestion:
             "state": False,
             "response": action,
             "inReview": action
-        }
+        } 
         try:
             mongo.db.suggestion.update_many(
             {"state": True, "_id": {"$in":data}  }, {"$set": setData})

@@ -6,12 +6,16 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map, pluck, tap } from 'rxjs/operators';
+import { AppState } from 'src/app/app.reducers';
 import { showAlert, showQuestion } from 'src/app/helpers/alert';
 import { saveInLocalStorage } from 'src/app/helpers/localStorage';
 import { FilterMeet, Meet } from 'src/app/model/meet';
+import { Postulation } from 'src/app/model/risk';
 import { Title } from 'src/app/model/ui';
+import { SetUserActiveAction } from 'src/app/reducer/ui/ui.actions';
 import { StudentService } from 'src/app/services/student.service';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -22,6 +26,7 @@ import { WellnessService } from 'src/app/services/wellness.service';
   styleUrls: ['./schedule.component.css'],
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
+  showDate: Boolean = false;
   title: Title = {
     title: 'Lista de Citas',
     subtitle: '',
@@ -31,14 +36,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   page: number = 0;
   meets: Meet[] = [];
   loading: Boolean = true;
+  loadingNewMeet: Boolean = false;
   state: string = 'ACEPTADA';
   date: string = new Date().toISOString().split('T')[0];
   showModal: Boolean = false;
+  postulation: Postulation = null;
   @ViewChild('checkbox') checkbox: ElementRef;
 
   constructor(
     private uiService: UiService,
     private route: ActivatedRoute,
+    private store: Store<AppState>,
     private wellnessService: WellnessService,
     private studentService: StudentService,
     private router: Router
@@ -68,7 +76,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .fill(0)
       .map((_, i) => i + 1);
     this.meets = data;
-
     this.loading = false;
   }
 
@@ -92,6 +99,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
+  showDateNotification(show: boolean = true) {
+    this.showDate = show;
+  }
+
   async onChange(id: String, e: any, code: String, i: number) {
     const { isConfirmed, dismiss } = await showQuestion(
       '¿El estudiante asistio a la reunión?',
@@ -102,6 +113,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       await this.wellnessService.attendanceMeet(id, isConfirmed, code);
       if (isConfirmed) this.meets.splice(i, 1);
     } else this.checkbox.nativeElement.checked = !e.target.checked;
+  }
+
+  async openModalNotification(id, code) {
+    this.loadingNewMeet = true;
+    const { data } = await this.studentService.getByCode(code);
+    this.store.dispatch(new SetUserActiveAction(data));
+    const { ...postulation } = await this.wellnessService.getPostulationById(
+      id
+    );
+    this.postulation = postulation;
+    this.loadingNewMeet = false;
+    this.showDateNotification();
   }
 
   ngOnDestroy(): void {

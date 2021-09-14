@@ -15,7 +15,7 @@ export class ButtonNotificationComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  ShowDateNotification(show: boolean = true) {
+  showDateNotification(show: boolean = true) {
     this.showDate = show;
   }
 }

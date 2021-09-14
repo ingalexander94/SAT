@@ -1,6 +1,5 @@
 import math
 from flask import request, Response
-from os import stat
 from util import response, emails
 from database import config
 from bson import json_util
@@ -96,7 +95,7 @@ class Postulation:
         )
         return True
 
-    def paginatePostulationsWellness(self):
+    def paginatePostulationsWellness(self): 
         totalPostulations = mongo.db.postulation.count_documents(
             {"state": "EN REVISIÓN"}
         )
@@ -112,3 +111,10 @@ class Postulation:
         )
         postulations = json_util.dumps({"totalPages": totalPages, "data": data})
         return Response(postulations, mimetype="applicaton/json")
+
+    def getPostulationById(self, id):
+        if(not id or len(id) != 24):
+            return response.error("Se necesita un id de 24 caracteres", 400)
+        data = mongo.db.postulation.find_one({"_id":ObjectId(id)})
+        postulation = json_util.dumps(data)
+        return Response(postulation, mimetype="applicaton/json")
