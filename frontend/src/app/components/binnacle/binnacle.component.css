@@ -15,6 +15,10 @@ textarea {
   margin: 16px 0;
 }
 
+.pdf {
+  margin-left: 8px;
+}
+
 .wrapper_binnacle {
   margin: 32px 16px;
   text-align: center;

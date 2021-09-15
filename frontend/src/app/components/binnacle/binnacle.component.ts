@@ -2,11 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
+import { generatePDF } from 'src/app/helpers/pdf';
+import { createReportBinnacle } from 'src/app/helpers/report';
 import { isAdministrative, normalizeRoles } from 'src/app/helpers/ui';
 import { Binnacle } from 'src/app/model/administrative';
+import { User } from 'src/app/model/auth';
 import { BinnacleService } from 'src/app/services/binnacle.service';
 import { UiService } from 'src/app/services/ui.service';
 
@@ -17,6 +20,7 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class BinnacleComponent implements OnInit, OnDestroy {
   binnacle: Binnacle[] = [];
+  userShow: User = null;
   subscription: Subscription = new Subscription();
   role: String = '';
   code: String = '';
@@ -44,6 +48,7 @@ export class BinnacleComponent implements OnInit, OnDestroy {
     this.subscription = this.store
       .pipe(
         filter(({ ui, auth }) => auth.user !== null && ui.userActive !== null),
+        tap(({ ui }) => (this.userShow = ui.userActive)),
         map(({ ui, auth, role }) => ({
           code: ui.userActive.codigo,
           role: auth.user.rol,
@@ -86,6 +91,15 @@ export class BinnacleComponent implements OnInit, OnDestroy {
 
   normalize(role: String) {
     return normalizeRoles(role);
+  }
+
+  download() {
+    if (this.binnacle.length < 1) {
+      showAlert('warning', 'No hay nada para descargar');
+    } else {
+      const msg = `Historial del seguimiento realizado al estudiante ${this.userShow.nombre} ${this.userShow.apellido} en el sistema de alertas de la UFPS`;
+      generatePDF(this.binnacle, msg, createReportBinnacle);
+    }
   }
 
   ngOnDestroy(): void {

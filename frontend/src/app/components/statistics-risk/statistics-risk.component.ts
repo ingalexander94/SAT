@@ -45,11 +45,7 @@ export class StatisticsRiskComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private riskService: RiskService
-  ) {
-    // this.leve = setInterval(() => this.animate1(), 1000);
-    // this.moderado = setInterval(() => this.animate2(), 1000);
-    // this.critico = setInterval(() => this.animate3(), 1000);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this.store

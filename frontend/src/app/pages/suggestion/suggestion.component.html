@@ -90,12 +90,8 @@
         <div class="form_input">
           <label for="toSelect2">Rol</label>
           <select name="toSelect2" id="toSelect2">
-            <option
-              *ngFor="let rol of roles"
-              value="{{ rol._id }}"
-              [selected]="true"
-            >
-              {{ rol.role }}
+            <option *ngFor="let rol of roles" value="{{ rol._id.$oid }}">
+              {{ normalize(rol.role) }}
             </option>
           </select>
         </div>

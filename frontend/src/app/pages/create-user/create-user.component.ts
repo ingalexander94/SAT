@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { normalizeRoles } from 'src/app/helpers/ui';
@@ -63,7 +63,10 @@ export class CreateUserComponent implements OnInit {
         ),
         distinctUntilChanged()
       )
-      .subscribe((roles) => (this.roles = roles));
+      .subscribe((roles) => {
+        this.roles = roles;
+        this.setRole(this.roles[0]._id.$oid);
+      });
   }
 
   async onSubmit() {
@@ -112,11 +115,12 @@ export class CreateUserComponent implements OnInit {
   createRole(answer: boolean = true) {
     this.create = answer;
   }
-  addRole(res) {
-    const role = {
-      _id: res._id,
-      role: normalizeRoles(res.role),
-    };
+
+  addRole(role) {
     this.roles = [role, ...this.roles];
+  }
+
+  setRole(role: String) {
+    this.formCreateUser.get('rol').setValue(role);
   }
 }

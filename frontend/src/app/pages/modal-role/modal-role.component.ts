@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { showAlert } from 'src/app/helpers/alert';
 import { Role } from '../../model/role';
 import { AuthService } from 'src/app/services/auth.service';
+import { normalizeRoles } from 'src/app/helpers/ui';
 
 @Component({
   selector: 'app-modal-role',
@@ -58,8 +59,10 @@ export class ModalRoleComponent implements OnInit {
     if (res.ok) {
       showAlert('success', 'El rol fue creado exitosamente');
       const role = {
-        ...res.data,
-        _id: res.data._id.$oid,
+        _id: {
+          $oid: res.data._id,
+        },
+        role: normalizeRoles(res.data.role),
       };
       this.listRoles.emit(role);
       this.close();
