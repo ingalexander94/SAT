@@ -8,6 +8,7 @@ export interface RoleState {
 const initState: RoleState = {
   roles: [],
 };
+
 export const roloReduce = (
   state = initState,
   actions: fromRole.actions
@@ -17,7 +18,7 @@ export const roloReduce = (
       return { ...state, roles: [...actions.payload] };
 
     case fromRole.REMOVE_ROLE:
-      return { ...state, roles: [] };
+      return { ...initState };
 
     default:
       return { ...state };

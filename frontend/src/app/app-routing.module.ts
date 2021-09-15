@@ -3,7 +3,6 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { BossWellnessGuard } from './guards/boss-wellness.guard';
 import { PrivateGuard } from './guards/private.guard';
 import { PublicGuard } from './guards/public.guard';
-import { AdministrativeProfileComponent } from './pages/administrative-profile/administrative-profile.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { LoginAdminComponent } from './pages/auth/login-admin/login-admin.component';
 import { LoginStudentComponent } from './pages/auth/login-student/login-student.component';
@@ -37,10 +36,6 @@ const routes: Routes = [
     path: 'auth/recovery_password/:token',
     component: RecoveryPasswordComponent,
     canActivate: [PublicGuard],
-  },
-  {
-    path: 'administrativo/perfil',
-    component: AdministrativeProfileComponent,
   },
   {
     path: 'error',
@@ -78,7 +73,7 @@ const routes: Routes = [
     canActivate: [PrivateGuard],
   },
   {
-    path: 'psicologo',
+    path: 'administrativo',
     loadChildren: () =>
       import('./dashboard-psychology/psychology.module').then(
         (m) => m.PsychologyModule

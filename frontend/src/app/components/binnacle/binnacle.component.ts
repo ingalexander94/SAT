@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
+import { isAdministrative, normalizeRoles } from 'src/app/helpers/ui';
 import { Binnacle } from 'src/app/model/administrative';
 import { BinnacleService } from 'src/app/services/binnacle.service';
 import { UiService } from 'src/app/services/ui.service';
@@ -22,6 +23,7 @@ export class BinnacleComponent implements OnInit, OnDestroy {
   formBinnacle: FormGroup;
   show: Boolean = false;
   loading: Boolean = false;
+  isAdmin: Boolean = false;
 
   createFormBinnacle(): FormGroup {
     return new FormGroup({
@@ -42,14 +44,16 @@ export class BinnacleComponent implements OnInit, OnDestroy {
     this.subscription = this.store
       .pipe(
         filter(({ ui, auth }) => auth.user !== null && ui.userActive !== null),
-        map(({ ui, auth }) => ({
+        map(({ ui, auth, role }) => ({
           code: ui.userActive.codigo,
           role: auth.user.rol,
+          isAdmin: isAdministrative(role.roles, auth.user.rol) ? true : false,
         }))
       )
-      .subscribe(({ code, role }) => {
+      .subscribe(({ code, role, isAdmin }) => {
         this.role = role;
         this.code = code;
+        this.isAdmin = isAdmin;
         this.loadBinnacle();
       });
   }
@@ -78,6 +82,10 @@ export class BinnacleComponent implements OnInit, OnDestroy {
       this.show = false;
     }
     this.loading = false;
+  }
+
+  normalize(role: String) {
+    return normalizeRoles(role);
   }
 
   ngOnDestroy(): void {

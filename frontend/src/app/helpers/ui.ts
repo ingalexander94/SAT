@@ -1,3 +1,5 @@
+import { Role } from '../model/role';
+
 const normalizeText = (text: String) =>
   text
     .normalize('NFD')
@@ -35,4 +37,17 @@ const normalizeRoles = (role) =>
     .join('')
     .toUpperCase();
 
-export { normalizeText, resetDate, getColor, capitalizeText, normalizeRoles };
+const isAdministrative = (roles: Role[], roleAuth: String) =>
+  roles.find(({ role }) => role === roleAuth);
+
+const isTeacher = (role: String) => role === 'docente' || role === 'jefe';
+
+export {
+  normalizeText,
+  resetDate,
+  getColor,
+  capitalizeText,
+  normalizeRoles,
+  isAdministrative,
+  isTeacher,
+};

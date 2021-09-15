@@ -7,15 +7,24 @@ import { environment } from 'src/environments/environment.prod';
 import { AppState } from '../app.reducers';
 import { showAlert } from '../helpers/alert';
 import { saveInLocalStorage } from '../helpers/localStorage';
+import { isTeacher } from '../helpers/ui';
 import { AuthResponse, UserAuth } from '../model/auth';
 import { Role, RoleResponse } from '../model/role';
-import { AddUserAction } from '../reducer/auth/auth.actions';
+import { AddUserAction, RemoveUserAction } from '../reducer/auth/auth.actions';
 import { AuthState } from '../reducer/auth/auth.reducer';
-import { LoadRoleAction } from '../reducer/role/role.action';
+import { DeleteChatAction } from '../reducer/Chat/chat.actions';
+import {
+  DeleteCourseAction,
+  DesactiveCourseAction,
+} from '../reducer/course/course.actions';
+import { DeleteNotificationsAction } from '../reducer/notification/notification.actions';
+import { RemoveRiskAction } from '../reducer/risk/risk.action';
+import { RemoverRoleAction } from '../reducer/role/role.action';
 import {
   StartLoadingAction,
   FinishLoadingAction,
   SetError,
+  UnsetUserActiveAction,
 } from '../reducer/ui/ui.actions';
 
 @Injectable({
@@ -51,7 +60,9 @@ export class AuthService {
         showAlert('success', msg);
         this.store.dispatch(new AddUserAction(req.data));
         saveInLocalStorage('user-show', req.data);
-        this.router.navigate([`/${req.data.rol.toLowerCase()}`]);
+        typeUser === 'administrative'
+          ? this.router.navigate(['/administrativo'])
+          : this.router.navigate([`/${req.data.rol.toLowerCase()}`]);
       } else {
         showAlert('error', msg);
       }
@@ -108,6 +119,25 @@ export class AuthService {
   }
 
   listRoles() {
-    return this.httpClient.get<Role[]>(`${this.endpoint}/role/`).toPromise();
+    return this.withOutToken.get<Role[]>(`${this.endpoint}/role/`).toPromise();
+  }
+
+  logout(role: String) {
+    this.store.dispatch(new RemoveUserAction());
+    this.store.dispatch(new DeleteCourseAction());
+    this.store.dispatch(new UnsetUserActiveAction());
+    this.store.dispatch(new DesactiveCourseAction());
+    this.store.dispatch(new DeleteChatAction());
+    this.store.dispatch(new DeleteNotificationsAction());
+    this.store.dispatch(new FinishLoadingAction());
+    this.store.dispatch(new RemoveRiskAction());
+    this.store.dispatch(new RemoverRoleAction());
+    localStorage.clear();
+    const path = isTeacher(role)
+      ? 'docente'
+      : role === 'estudiante'
+      ? 'estudiante'
+      : 'administrativo';
+    this.router.navigate([`${path}/iniciar-sesion`]);
   }
 }

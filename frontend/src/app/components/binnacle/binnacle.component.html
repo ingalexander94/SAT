@@ -1,12 +1,12 @@
 <div
   class="wrapper_binnacle animate__animated animate__fadeIn"
-  [ngClass]="{ show: role !== 'psicologo' || !show }"
+  [ngClass]="{ show: !isAdmin || !show }"
 >
   <div class="binnacle">
     <h3>
       Bitácora estudiante
       <i
-        *ngIf="role === 'psicologo'"
+        *ngIf="isAdmin"
         class="far fa-edit red pointer"
         (click)="show = !show"
       ></i>
@@ -14,7 +14,7 @@
     <div class="binnacle-text">
       <div class="text" *ngFor="let item of binnacle">
         <p>
-          <span>{{ item.role | uppercase }}:</span> {{ item.text }}
+          <span>{{ normalize(item.role) }}:</span> {{ item.text }}
           <i class="fas fa-check-circle red"></i>
         </p>
         <blockquote>
@@ -27,7 +27,7 @@
 
     <form
       class="recommendation animate__animated animate__fadeInDown"
-      *ngIf="role === 'psicologo' && show"
+      *ngIf="isAdmin && show"
       [formGroup]="formBinnacle"
       (submit)="onSubmit()"
     >

@@ -14,7 +14,6 @@ def createRole(_):
     return instance.createRole()
 
 @role_router.route("/")
-@token_required
-def listRoles(_):
+def listRoles():
     return instance.listRoles();
     

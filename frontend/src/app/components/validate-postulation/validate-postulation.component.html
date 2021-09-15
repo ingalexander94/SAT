@@ -1,8 +1,5 @@
 <div *ngIf="!postulation">
-  <button
-    (click)="updateShowDescription()"
-    *ngIf="user.rol === 'docente' || user.rol === 'jefe'"
-  >
+  <button (click)="updateShowDescription()" *ngIf="isTeacher">
     Postular estudiante <i class="fas fa-hand-holding-medical"></i>
   </button>
   <button (click)="updateShowDescription()" *ngIf="user.rol === 'estudiante'">
@@ -20,9 +17,7 @@
 </div>
 
 <app-button-notification
-  *ngIf="
-    (user.rol === 'vicerrector' || user.rol === 'psicologo') && postulation
-  "
+  *ngIf="isAdmin && postulation"
   [postulation]="postulation"
 ></app-button-notification>
 

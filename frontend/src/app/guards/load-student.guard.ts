@@ -27,7 +27,7 @@ export class LoadStudentGuard implements CanActivate {
     if (
       (user && user.rol === 'estudiante') ||
       state.url === '/estudiante/chat#contenedor' ||
-      state.url === '/psicologo'
+      state.url === '/administrativo'
     )
       return true;
     else {

@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { AppState } from '../app.reducers';
 import { getValueOfLocalStorage } from '../helpers/localStorage';
 import { tapN } from '../helpers/observers';
+import { isAdministrative } from '../helpers/ui';
 import { SetUserActiveAction } from '../reducer/ui/ui.actions';
 import { StudentService } from '../services/student.service';
 import { TeacherService } from '../services/teacher.service';
@@ -26,11 +27,8 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
     this.subscription = this.store
       .pipe(
         filter(({ auth }) => auth.user !== null),
-        tapN(1, ({ auth }) => {
-          if (
-            auth.user.rol !== 'vicerrector' &&
-            auth.user.rol !== 'psicologo'
-          ) {
+        tapN(1, ({ auth, role }) => {
+          if (!isAdministrative(role.roles, auth.user.rol)) {
             auth.user.rol === 'estudiante'
               ? this.studentService.listCourses(auth.user.codigo)
               : this.teacherService.listCourses(auth.user.codigo);

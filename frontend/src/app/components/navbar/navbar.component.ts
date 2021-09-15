@@ -9,18 +9,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
-import { RemoveUserAction } from 'src/app/reducer/auth/auth.actions';
 import { filter, map } from 'rxjs/operators';
-import {
-  DeleteCourseAction,
-  DesactiveCourseAction,
-} from 'src/app/reducer/course/course.actions';
-import {
-  FinishLoadingAction,
-  UnsetUserActiveAction,
-} from 'src/app/reducer/ui/ui.actions';
-import { DeleteChatAction } from 'src/app/reducer/Chat/chat.actions';
-import { DeleteNotificationsAction } from 'src/app/reducer/notification/notification.actions';
+import { isTeacher } from 'src/app/helpers/ui';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -33,7 +24,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   @ViewChild('menuNavBar') menuNavBar: ElementRef;
 
-  constructor(private router: Router, private store: Store<AppState>) {}
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this.store
@@ -51,22 +46,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.store.dispatch(new RemoveUserAction());
-    this.store.dispatch(new DeleteCourseAction());
-    this.store.dispatch(new UnsetUserActiveAction());
-    this.store.dispatch(new DesactiveCourseAction());
-    this.store.dispatch(new DeleteChatAction());
-    this.store.dispatch(new DeleteNotificationsAction());
-    this.store.dispatch(new FinishLoadingAction());
-    localStorage.clear();
-    this.roleUser =
-      this.roleUser === 'jefe'
-        ? 'docente'
-        : this.roleUser === 'vicerrector' || this.roleUser === 'psicologo'
-        ? 'administrativo'
-        : this.roleUser;
-
-    this.router.navigate([`${this.roleUser}/iniciar-sesion`]);
+    this.authService.logout(this.roleUser);
   }
 
   closeMenu() {
@@ -78,7 +58,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   toHome() {
-    this.router.navigate([`/${this.roleUser}`]);
+    if (isTeacher(this.roleUser) || this.roleUser === 'estudiante') {
+      this.router.navigate([`/${this.roleUser}`]);
+    } else {
+      this.router.navigate(['/administrativo']);
+    }
     this.closeMenu();
+  }
+
+  isTeacher(role: String) {
+    return isTeacher(role);
   }
 }
