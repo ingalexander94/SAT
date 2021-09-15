@@ -13,8 +13,9 @@
             >Inicio</a
           >
         </li>
-        <li *ngIf="roleUser !== 'vicerrector' && roleUser !== 'psicologo'">
+        <li *ngIf="roleUser === 'estudiante' || isTeacher(roleUser)">
           <a
+            (click)="closeMenu()"
             routerLink="/docente"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
@@ -57,7 +58,7 @@
             >Ver sugerencias</a
           >
         </li>
-        <li *ngIf="roleUser === 'vicerrector' || roleUser === 'psicologo'">
+        <li *ngIf="roleUser !== 'estudiante' && !isTeacher(roleUser)">
           <a
             (click)="closeMenu()"
             routerLink="/administrativo/perfil"

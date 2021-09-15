@@ -38,19 +38,11 @@
               <p *ngIf="profit.isSuggested && !profit.response">Sugerido</p>
               <p *ngIf="!profit.isSuggested && profit.response">En revisión</p>
               <i
-                *ngIf="
-                  role !== 'psicologo' &&
-                  !profit.isSuggested &&
-                  !profit.response
-                "
+                *ngIf="!isAdmin && !profit.isSuggested && !profit.response"
                 class="far fa-times-circle"
               ></i>
               <button
-                *ngIf="
-                  role === 'psicologo' &&
-                  !profit.isSuggested &&
-                  !profit.response
-                "
+                *ngIf="isAdmin && !profit.isSuggested && !profit.response"
                 (click)="createSuggestion(profit.id, i)"
               >
                 Recomendar

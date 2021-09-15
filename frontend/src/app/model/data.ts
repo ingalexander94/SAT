@@ -1,4 +1,4 @@
-import { getColor } from '../helpers/ui';
+import { getColor, isTeacher } from '../helpers/ui';
 import { Risk } from './risk';
 import { ActivitiesList, ItemRisk, MenuOptions, StudentInDanger } from './ui';
 
@@ -95,10 +95,7 @@ export const menuRoutes: MenuOptions[] = [
     path: '/estudiante/chat',
     name: 'Ver chat',
     icon: 'list',
-    isAllowed: (role: String) =>
-      role !== 'estudiante' && role !== 'psicologo' && role !== 'vicerrector'
-        ? true
-        : false,
+    isAllowed: (role: String) => isTeacher(role),
   },
   {
     path: '/estudiante/reunion',
@@ -129,7 +126,7 @@ export const menuRoutes: MenuOptions[] = [
     name: 'Bitácora',
     icon: 'file-signature',
     isAllowed: (role: String) =>
-      role === 'psicologo' || role === 'estudiante' ? true : false,
+      !isTeacher(role) || role === 'estudiante' ? true : false,
   },
 ];
 

@@ -83,6 +83,11 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
       role: normalizeRoles(rol.role),
     }));
     this.roles = roles;
+    this.setRole(this.roles[0]._id);
+  }
+
+  setRole(role: String) {
+    this.formDate.get('role').setValue(role);
   }
 
   async onSubmit() {

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { normalizeText } from 'src/app/helpers/ui';
+import { normalizeText, isAdministrative } from 'src/app/helpers/ui';
 import { Suggestion } from 'src/app/model/suggestion';
 import { ItemRisk } from 'src/app/model/ui';
 import { StudentService } from 'src/app/services/student.service';
@@ -21,7 +21,7 @@ export class DetailRisksComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   loadingSuggestion: boolean = false;
   subscription: Subscription = new Subscription();
-  role: String = '';
+  isAdmin: Boolean = false;
   codeStudent: String = '';
 
   constructor(
@@ -35,8 +35,10 @@ export class DetailRisksComponent implements OnInit, OnDestroy {
       .pipe(
         filter(({ auth, ui }) => auth.user !== null && ui.userActive !== null)
       )
-      .subscribe(({ auth, ui }) => {
-        this.role = auth.user.rol;
+      .subscribe(({ auth, ui, role }) => {
+        this.isAdmin = isAdministrative(role.roles, auth.user.rol)
+          ? true
+          : false;
         this.codeStudent = ui.userActive.codigo;
         this.loadProfits(ui.userActive.codigo, normalizeText(ui.titleNavbar));
       });

@@ -67,7 +67,7 @@
     <div class="pagination">
       <a
         *ngFor="let item of totalPages"
-        routerLink="/psicologo/{{ item }}"
+        routerLink="/administrativo/{{ item }}"
         routerLinkActive="active"
         [ngClass]="{ active: page === 1 && item === page }"
         >{{ item }}</a
