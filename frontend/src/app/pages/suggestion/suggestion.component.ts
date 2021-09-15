@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
+import { distinctUntilChanged, filter, pluck, map } from 'rxjs/operators';
 import { showAlert, showQuestion } from 'src/app/helpers/alert';
 import {
   getValueOfLocalStorage,
@@ -20,6 +20,8 @@ import { SuggestionItem } from 'src/app/model/suggestion';
 import { Title } from 'src/app/model/ui';
 import { AuthService } from 'src/app/services/auth.service';
 import { UiService } from 'src/app/services/ui.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 import { WellnessService } from 'src/app/services/wellness.service';
 
 @Component({
@@ -40,6 +42,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
   totalPages: number[] = [1];
   subscription: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
+  subscription3: Subscription = new Subscription();
   show: String = '';
   roles: Role[] = [];
   startDate: string = new Date().toISOString().split('T')[0];
@@ -49,16 +52,15 @@ export class SuggestionComponent implements OnInit, OnDestroy {
 
   constructor(
     private uiService: UiService,
-    private authService: AuthService,
     private route: ActivatedRoute,
-    private wellnessService: WellnessService
+    private wellnessService: WellnessService,
+    private store: Store<AppState>
   ) {
     this.uiService.updateTitleNavbar('Sugerencias');
   }
 
   ngOnInit(): void {
     this.getProfits();
-    this.getRoles();
     this.subscription = this.route.params
       .pipe(pluck('pagina'))
       .subscribe((page = 1) => {
@@ -77,6 +79,18 @@ export class SuggestionComponent implements OnInit, OnDestroy {
           showAlert('warning', 'Código incorrecto');
         }
       });
+    this.subscription3 = this.store
+      .select('role')
+      .pipe(
+        map(({ roles }) =>
+          roles.map((role) => ({
+            ...role,
+            role: normalizeRoles(role.role),
+          }))
+        ),
+        distinctUntilChanged()
+      )
+      .subscribe((roles) => (this.roles = roles));
   }
 
   selected(index) {
@@ -115,15 +129,6 @@ export class SuggestionComponent implements OnInit, OnDestroy {
       }
       this.selections.length = 0;
     }
-  }
-
-  async getRoles() {
-    const res = await this.authService.listRoles();
-    const roles = res.map((rol) => ({
-      _id: rol._id.$oid,
-      role: normalizeRoles(rol.role),
-    }));
-    this.roles = roles;
   }
 
   nextPage() {
@@ -266,5 +271,6 @@ export class SuggestionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.subscription2.unsubscribe();
+    this.subscription3.unsubscribe();
   }
 }

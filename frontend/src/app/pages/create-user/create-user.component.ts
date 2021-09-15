@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { normalizeRoles } from 'src/app/helpers/ui';
@@ -118,5 +118,8 @@ export class CreateUserComponent implements OnInit {
       role: normalizeRoles(res.role),
     };
     this.roles = [role, ...this.roles];
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
