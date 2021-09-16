@@ -48,7 +48,7 @@
           <select name="rol" id="rol" formControlName="rol">
             <option
               *ngFor="let rol of roles"
-              value="{{ rol._id }}"
+              value="{{ rol._id.$oid }}"
               [selected]="true"
             >
               {{ rol.role }}
