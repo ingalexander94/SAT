@@ -13,12 +13,8 @@
       <div class="form_input">
         <label for="role">Con</label>
         <select formControlName="role" name="role" id="role">
-          <option
-            *ngFor="let rol of roles"
-            value="{{ rol._id }}"
-            selected="true"
-          >
-            {{ rol.role }}
+          <option *ngFor="let rol of roles" value="{{ rol._id.$oid }}">
+            {{ normalize(rol.role) }}
           </option>
         </select>
       </div>
@@ -32,6 +28,7 @@
           type="text"
           formControlName="ubication"
           name="ubication"
+          autofocus
           id="ubication"
         />
       </div>

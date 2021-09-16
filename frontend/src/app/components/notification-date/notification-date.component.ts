@@ -45,25 +45,28 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private wellnessService: WellnessService,
-    private authService: AuthService
+    private wellnessService: WellnessService
   ) {
     this.formDate = this.createFormDate();
-    this.getRoles();
   }
 
   ngOnInit(): void {
     this.subscription = this.store
-      .select('ui')
       .pipe(
-        pluck('userActive'),
-        map(({ codigo, nombre, apellido, correo }) => ({
-          codigo,
-          correo,
-          nombre: `${nombre} ${apellido}`,
+        map(({ ui: { userActive }, role }) => ({
+          user: {
+            codigo: userActive.codigo,
+            nombre: `${userActive.nombre} ${userActive.apellido}`,
+            correo: userActive.correo,
+          },
+          roles: role.roles,
         }))
       )
-      .subscribe((user) => (this.student = user));
+      .subscribe(({ user, roles }) => {
+        this.student = user;
+        this.roles = roles;
+        this.setRole(this.roles[0]._id.$oid);
+      });
   }
 
   close() {
@@ -76,18 +79,12 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
     }
   }
 
-  async getRoles() {
-    const res = await this.authService.listRoles();
-    const roles = res.map((rol) => ({
-      _id: rol._id.$oid,
-      role: normalizeRoles(rol.role),
-    }));
-    this.roles = roles;
-    this.setRole(this.roles[0]._id);
-  }
-
   setRole(role: String) {
     this.formDate.get('role').setValue(role);
+  }
+
+  normalize(role: String) {
+    return normalizeRoles(role);
   }
 
   async onSubmit() {

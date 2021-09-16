@@ -1,5 +1,5 @@
 from marshmallow import fields, Schema
-from marshmallow.validate import Length, OneOf
+from marshmallow.validate import Length
 
 class BinnacleSchema(Schema):
     text = fields.Str(required=True)

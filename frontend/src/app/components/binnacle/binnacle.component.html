@@ -9,6 +9,13 @@
         *ngIf="isAdmin"
         class="far fa-edit red pointer"
         (click)="show = !show"
+        title="Agregar comentario"
+      ></i>
+      <i
+        *ngIf="isAdmin"
+        title="Descargar"
+        class="fas fa-download red pointer pdf"
+        (click)="download()"
       ></i>
     </h3>
     <div class="binnacle-text">

@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, pluck, map } from 'rxjs/operators';
@@ -18,11 +19,9 @@ import { Profits } from 'src/app/model/profits';
 import { Role } from 'src/app/model/role';
 import { SuggestionItem } from 'src/app/model/suggestion';
 import { Title } from 'src/app/model/ui';
-import { AuthService } from 'src/app/services/auth.service';
 import { UiService } from 'src/app/services/ui.service';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/app.reducers';
 import { WellnessService } from 'src/app/services/wellness.service';
+import { AppState } from 'src/app/app.reducers';
 
 @Component({
   selector: 'app-suggestion',
@@ -53,8 +52,8 @@ export class SuggestionComponent implements OnInit, OnDestroy {
   constructor(
     private uiService: UiService,
     private route: ActivatedRoute,
-    private wellnessService: WellnessService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private wellnessService: WellnessService
   ) {
     this.uiService.updateTitleNavbar('Sugerencias');
   }
@@ -81,16 +80,7 @@ export class SuggestionComponent implements OnInit, OnDestroy {
       });
     this.subscription3 = this.store
       .select('role')
-      .pipe(
-        map(({ roles }) =>
-          roles.map((role) => ({
-            ...role,
-            role: normalizeRoles(role.role),
-          }))
-        ),
-        distinctUntilChanged()
-      )
-      .subscribe((roles) => (this.roles = roles));
+      .subscribe(({ roles }) => (this.roles = roles));
   }
 
   selected(index) {
@@ -129,6 +119,10 @@ export class SuggestionComponent implements OnInit, OnDestroy {
       }
       this.selections.length = 0;
     }
+  }
+
+  normalize(role: String) {
+    return normalizeRoles(role);
   }
 
   nextPage() {
@@ -217,7 +211,6 @@ export class SuggestionComponent implements OnInit, OnDestroy {
             to: to.toISOString(),
           },
         };
-        console.log(body);
       } else {
         body = {
           filter: formName,

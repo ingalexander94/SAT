@@ -63,7 +63,10 @@ export class CreateUserComponent implements OnInit {
         ),
         distinctUntilChanged()
       )
-      .subscribe((roles) => (this.roles = roles));
+      .subscribe((roles) => {
+        this.roles = roles;
+        this.setRole(this.roles[0]._id.$oid);
+      });
   }
 
   async onSubmit() {
@@ -112,14 +115,12 @@ export class CreateUserComponent implements OnInit {
   createRole(answer: boolean = true) {
     this.create = answer;
   }
-  addRole(res) {
-    const role = {
-      _id: res._id,
-      role: normalizeRoles(res.role),
-    };
+
+  addRole(role) {
     this.roles = [role, ...this.roles];
   }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+
+  setRole(role: String) {
+    this.formCreateUser.get('rol').setValue(role);
   }
 }
