@@ -60,7 +60,7 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
         })),
         tapN(1, ({ userActive }) => this.getRisk(userActive))
       )
-      .subscribe(({ user, title, userActive }) => {
+      .subscribe(({ user, title }) => {
         this.user = user;
         this.title = title;
         this.loading = false;

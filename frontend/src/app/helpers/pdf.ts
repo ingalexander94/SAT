@@ -1,6 +1,6 @@
 import { Img, ITable, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import { User } from '../model/auth';
-import { getColor } from './ui';
+import { getColor, parseDate } from './ui';
 
 type TableRow = [Number, String, String, String, String, String];
 type TableRowSuggestion = [
@@ -16,16 +16,7 @@ type TableRowSuggestion = [
 // Alumnos
 const generatePDF = async (data: any[], text: String, creator: Function) => {
   const pdf = new PdfMakeWrapper();
-  const date = new Date();
-  const dateString = date.toLocaleDateString('es-ES', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  });
+  const dateString = parseDate();
   pdf.header(
     new Txt(dateString)
       .fontSize(10)

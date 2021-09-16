@@ -1,6 +1,6 @@
 <div
   class="wrapper_binnacle animate__animated animate__fadeIn"
-  [ngClass]="{ show: !isAdmin || !show }"
+  [ngClass]="{ show: !show }"
 >
   <div class="binnacle">
     <h3>
@@ -8,7 +8,7 @@
       <i
         *ngIf="isAdmin"
         class="far fa-edit red pointer"
-        (click)="show = !show"
+        (click)="toggleShow()"
         title="Agregar comentario"
       ></i>
       <i
@@ -19,6 +19,9 @@
       ></i>
     </h3>
     <div class="binnacle-text">
+      <p *ngIf="binnacle.length < 1">
+        No hay nada para mostrar en la bitácora del estudiante
+      </p>
       <div class="text" *ngFor="let item of binnacle">
         <p>
           <span>{{ normalize(item.role) }}:</span> {{ item.text }}
@@ -31,7 +34,6 @@
         <hr />
       </div>
     </div>
-
     <form
       class="recommendation animate__animated animate__fadeInDown"
       *ngIf="isAdmin && show"
@@ -54,3 +56,4 @@
     </form>
   </div>
 </div>
+<div id="toForm"></div>

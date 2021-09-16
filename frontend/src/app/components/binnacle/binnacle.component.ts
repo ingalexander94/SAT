@@ -10,6 +10,7 @@ import { createReportBinnacle } from 'src/app/helpers/report';
 import { isAdministrative, normalizeRoles } from 'src/app/helpers/ui';
 import { Binnacle } from 'src/app/model/administrative';
 import { User } from 'src/app/model/auth';
+import { Router } from '@angular/router';
 import { BinnacleService } from 'src/app/services/binnacle.service';
 import { UiService } from 'src/app/services/ui.service';
 
@@ -37,6 +38,7 @@ export class BinnacleComponent implements OnInit, OnDestroy {
 
   constructor(
     private uiService: UiService,
+    private router: Router,
     private binnacleService: BinnacleService,
     private store: Store<AppState>
   ) {
@@ -79,7 +81,7 @@ export class BinnacleComponent implements OnInit, OnDestroy {
       };
       const data = await this.binnacleService.toWriter(binnacle);
       if (data.ok) {
-        this.binnacle = [...this.binnacle, data.data];
+        this.binnacle = [data.data, ...this.binnacle];
       } else {
         showAlert('error', 'Algo salio mal');
       }
@@ -91,6 +93,15 @@ export class BinnacleComponent implements OnInit, OnDestroy {
 
   normalize(role: String) {
     return normalizeRoles(role);
+  }
+
+  toggleShow() {
+    this.show = !this.show;
+    if (this.show) {
+      this.router.navigate(['/estudiante/bitacora'], { fragment: 'toForm' });
+    } else {
+      this.router.navigate(['/estudiante/bitacora']);
+    }
   }
 
   download() {

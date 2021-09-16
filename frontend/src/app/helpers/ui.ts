@@ -42,6 +42,19 @@ const isAdministrative = (roles: Role[], roleAuth: String) =>
 
 const isTeacher = (role: String) => role === 'docente' || role === 'jefe';
 
+const parseDate = (date: Date = new Date()) => {
+  const formatDate = date.toLocaleDateString('es-ES', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+  return formatDate;
+};
+
 export {
   normalizeText,
   resetDate,
@@ -50,4 +63,5 @@ export {
   normalizeRoles,
   isAdministrative,
   isTeacher,
+  parseDate,
 };

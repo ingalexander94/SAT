@@ -11,6 +11,10 @@ textarea {
   height: 150px;
 }
 
+#toForm {
+  margin-top: 320px;
+}
+
 .text hr {
   margin: 16px 0;
 }
@@ -63,6 +67,10 @@ button {
     text-align: center;
   }
 
+  #toForm {
+    margin-top: 300px;
+  }
+
   .binnacle,
   .recommendation,
   button {
@@ -85,10 +93,14 @@ button {
   .wrapper_binnacle {
     margin: 0 16px;
     width: 50vw;
-    height: 490px;
+    height: 480px;
     display: grid;
     grid-template-rows: 300px auto;
     gap: 0;
+  }
+
+  #toForm {
+    margin-top: 0;
   }
 
   .show {
@@ -98,7 +110,6 @@ button {
   .binnacle-text {
     height: 100%;
     margin: 16px 0;
-    height: 250px;
     overflow-y: scroll;
     text-align: justify;
     background: var(--gray-menu);
