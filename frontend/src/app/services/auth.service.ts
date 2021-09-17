@@ -131,7 +131,6 @@ export class AuthService {
     this.store.dispatch(new DeleteNotificationsAction());
     this.store.dispatch(new FinishLoadingAction());
     this.store.dispatch(new RemoveRiskAction());
-    this.store.dispatch(new RemoverRoleAction());
     localStorage.clear();
     const path = isTeacher(role)
       ? 'docente'

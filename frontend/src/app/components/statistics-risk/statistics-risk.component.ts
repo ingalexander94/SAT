@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, pluck } from 'rxjs/operators';
+import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { saveInLocalStorage } from 'src/app/helpers/localStorage';
@@ -50,7 +50,11 @@ export class StatisticsRiskComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.store
       .select('risk')
-      .pipe(pluck('statisticsRisk'), distinctUntilChanged())
+      .pipe(
+        pluck('statisticsRisk'),
+        filter((statistics) => statistics !== null),
+        distinctUntilChanged()
+      )
       .subscribe((a) => {
         this.statisticsRisk = a;
         this.calculateStatistics();

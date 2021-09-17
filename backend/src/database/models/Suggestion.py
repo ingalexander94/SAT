@@ -1,10 +1,11 @@
-import math, requests
+import math
 from flask import request, Response
 from pymongo import DESCENDING
 from database import config
 from bson import ObjectId, json_util
 from bson.json_util import loads
 from util import environment, response
+from util.request_api import request_ufps
 
 mongo = config.mongo
 
@@ -83,7 +84,7 @@ class Suggestion:
         for suggestion in mongo.db.suggestion.find(where).sort("date", DESCENDING).skip(offset).limit(perPage):
             suggestions.append( (suggestion['profit'], suggestion['admin'], suggestion["codeStudent"], suggestion['date'], suggestion['_id'])) 
         for idProfit, idAdmin, codeStudent, date, id in suggestions:
-            req = requests.get(f"{environment.API_URL}/estudiante_{codeStudent}").json()
+            req = request_ufps().get(f"{environment.API_URL}/estudiante_{codeStudent}").json()
             user = req["data"]
             student = {
                 "nombre": f'{user["nombre"]} {user["apellido"]}',

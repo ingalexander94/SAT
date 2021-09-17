@@ -58,6 +58,24 @@
             >Ver sugerencias</a
           >
         </li>
+        <li *ngIf="roleUser === 'vicerrector'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/vicerrector"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Ver Facultades</a
+          >
+        </li>
+        <li *ngIf="roleUser !== 'estudiante' && !isTeacher(roleUser)">
+          <a
+            (click)="closeMenu()"
+            routerLink="/administrativo"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Ver citas</a
+          >
+        </li>
         <li *ngIf="roleUser !== 'estudiante' && !isTeacher(roleUser)">
           <a
             (click)="closeMenu()"
