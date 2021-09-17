@@ -41,7 +41,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   date: string = new Date().toISOString().split('T')[0];
   showModal: Boolean = false;
   postulation: Postulation = null;
-  @ViewChild('checkbox') checkbox: ElementRef;
+  @ViewChild('checkboxYeah') checkboxYeah: ElementRef;
+  @ViewChild('checkboxNot') checkboxNot: ElementRef;
 
   constructor(
     private uiService: UiService,
@@ -103,16 +104,32 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.showDate = show;
   }
 
-  async onChange(id: String, e: any, code: String, i: number) {
+  async yeah(id: String, e: any, code: String, i: number) {
     const { isConfirmed, dismiss } = await showQuestion(
-      '¿El estudiante asistio a la reunión?',
-      'Puede revertir los cambios eventualmente'
+      '¿El estudiante SI asistio a la reunión?',
+      'No se pueden revertir los cambios eventualmente'
     );
     if (!dismiss) {
-      this.checkbox.nativeElement.checked = isConfirmed;
+      this.checkboxYeah.nativeElement.checked = isConfirmed;
       await this.wellnessService.attendanceMeet(id, isConfirmed, code);
       if (isConfirmed) this.meets.splice(i, 1);
-    } else this.checkbox.nativeElement.checked = !e.target.checked;
+    } else this.checkboxYeah.nativeElement.checked = !e.target.checked;
+  }
+
+  async not(id: String, e: any, i: number) {
+    const { isConfirmed, dismiss } = await showQuestion(
+      '¿El estudiante NO asistio a la reunión?',
+      'No se pueden revertir los cambios eventualmente'
+    );
+    if (!dismiss) {
+      this.checkboxNot.nativeElement.checked = isConfirmed;
+      const reason =
+        this.meets[i].state === 'SIN RESPONDER'
+          ? 'El estudiante no respondió la cita'
+          : 'El estudiante incumplió la cita';
+      await this.wellnessService.acceptMeet(id, false, reason);
+      if (isConfirmed) this.meets.splice(i, 1);
+    } else this.checkboxNot.nativeElement.checked = !e.target.checked;
   }
 
   async openModalNotification(id, code) {
