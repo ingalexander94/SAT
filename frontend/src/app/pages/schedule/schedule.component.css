@@ -65,6 +65,11 @@ button {
   cursor: pointer;
 }
 
+.option-attendance label {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
 /* Tablet */
 
 @media (min-width: 768px) and (max-width: 1151px) {
@@ -94,5 +99,11 @@ button {
 
   .quotes table * {
     font-size: 20px;
+  }
+
+  .attendance {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
   }
 }

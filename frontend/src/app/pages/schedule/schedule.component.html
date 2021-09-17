@@ -47,15 +47,27 @@
             <td class="pointer" (click)="toStudent(meet.student.codigo)">
               <i class="fas fa-search red"></i>
             </td>
-            <td *ngIf="state !== 'RECHAZADA'">
-              <input
-                type="checkbox"
-                [checked]="meet.attendance"
-                (change)="
-                  onChange(meet._id.$oid, $event, meet.student.codigo, i)
-                "
-                #checkbox
-              />
+            <td class="attendance" *ngIf="state !== 'RECHAZADA'">
+              <div class="option-attendance">
+                <label for="not"><i class="fas fa-times"></i></label>
+                <input
+                  type="checkbox"
+                  [checked]="false"
+                  (change)="not(meet._id.$oid, $event, i)"
+                  id="not"
+                  #checkboxNot
+                />
+              </div>
+              <div class="option-attendance">
+                <label for="yes"><i class="fas fa-check"></i></label>
+                <input
+                  type="checkbox"
+                  [checked]="false"
+                  (change)="yeah(meet._id.$oid, $event, meet.student.codigo, i)"
+                  id="yes"
+                  #checkboxYeah
+                />
+              </div>
             </td>
           </tr>
         </tbody>
