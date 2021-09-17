@@ -70,6 +70,9 @@ button {
   #toForm {
     margin-top: 300px;
   }
+  .binnacle-text p {
+    font-size: 20px;
+  }
 
   .binnacle,
   .recommendation,
