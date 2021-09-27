@@ -9,7 +9,7 @@ const initState: RoleState = {
   roles: [],
 };
 
-export const roloReduce = (
+export const roleReducer = (
   state = initState,
   actions: fromRole.actions
 ): RoleState => {
@@ -19,6 +19,9 @@ export const roloReduce = (
 
     case fromRole.REMOVE_ROLE:
       return { ...initState };
+
+    case fromRole.ADD_ROLE:
+      return { ...state, roles: [...state.roles, actions.payload] };
 
     default:
       return { ...state };

@@ -237,7 +237,7 @@ table tbody tr:nth-child(odd) {
   .asist textarea {
     width: 60%;
     height: 100px;
-    margin: 16px auto;
+    margin: 8px auto;
   }
 
   h2 {
@@ -276,7 +276,7 @@ table tbody tr:nth-child(odd) {
 
   h3 {
     font-size: 35px;
-    margin: 20px;
+    margin: 8px;
     font-weight: bold;
   }
 

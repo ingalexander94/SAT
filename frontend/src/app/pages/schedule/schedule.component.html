@@ -14,6 +14,7 @@
           <tr>
             <th>#</th>
             <th>Fecha</th>
+            <th>Hora 24h</th>
             <th>Estudiante</th>
             <th>Estado</th>
             <th *ngIf="state === 'RECHAZADA'">Motivo</th>
@@ -25,7 +26,8 @@
         <tbody *ngIf="!loading && meets.length">
           <tr *ngFor="let meet of meets; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ meet.date | date: "EEEE, d 'de' MMMM 'del' y" }}</td>
+            <td>{{ meet.date | date: "EEEE, d MMMM y" }}</td>
+            <td>{{ meet.hour ? meet.hour : "--:--" }}</td>
             <td>{{ meet.student.nombre }}</td>
             <td>{{ meet.state }}</td>
             <td *ngIf="state === 'RECHAZADA'">{{ meet.reason }}</td>

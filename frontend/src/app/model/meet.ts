@@ -10,6 +10,7 @@ export interface Meet {
   ubication: String;
   date: Date;
   reason?: String;
+  hour: String;
   role: string;
   dateFormat: String;
   attendance: Boolean;

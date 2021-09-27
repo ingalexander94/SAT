@@ -1,10 +1,11 @@
 import math
 from flask import request, Response
+from datetime import datetime
 from pymongo import DESCENDING
 from database import config
 from bson import ObjectId, json_util
 from bson.json_util import loads
-from util import environment, response
+from util import environment, response, emails
 from util.request_api import request_ufps
 
 mongo = config.mongo
@@ -25,8 +26,25 @@ class Suggestion:
                 "state":True,
                 "response":False,
                 "inReview": False
-                }
+                } 
         id = mongo.db.suggestion.insert_one(suggestion).inserted_id
+        profit = mongo.db.profit.find_one({"_id": idProfit}, {"_id":False})
+        name = profit["nombre"]
+        code = data["codeStudent"]
+        to = request_ufps().get(f"{environment.API_URL}/estudiante_{code}").json()["data"]["correo"]
+        risk = profit["riesgo"]
+        risk = "economico" if risk == "socioeconomico" else risk
+        message = f"Cordial saludo, ha recibido una sugerencia de bienestar universitario para el beneficio {name} como parte de solución para el riesgo {risk}. Eventualmente se activará el beneficio y se le brindará más información."
+        subject = "Nueva Sugerencia de beneficio | SAT"
+        emails.sendEmail(to, message, subject)
+        notification = {
+            "title" : "Tiene una nueva sugerencia de un beneficio",
+            "url" : f"/estudiante/riesgo-{risk}",
+            "date" : datetime.now().isoformat(),
+            "isActive" : True,
+            "codeReceiver" : code
+        }
+        mongo.db.notification.insert(notification)
         res = json_util.dumps({**suggestion, "_id": id})
         return Response(res, mimetype="applicaton/json")
         

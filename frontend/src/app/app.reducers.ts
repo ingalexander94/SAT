@@ -24,5 +24,5 @@ export const combineReducer: ActionReducerMap<AppState> = {
   chat: fromChat.chatReducer,
   notification: fromNotification.notificationReducer,
   risk: fromRisk.riskReducer,
-  role: fromRole.roloReduce,
+  role: fromRole.roleReducer,
 };

@@ -7,13 +7,7 @@
       <form [formGroup]="formCreateUser" (submit)="onSubmit()">
         <div class="campu">
           <label for="nombre">Nombres</label>
-          <input
-            formControlName="nombre"
-            autofocus
-            name="nombre"
-            id="nombre"
-            required
-          />
+          <input formControlName="nombre" name="nombre" id="nombre" required />
           <ul *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
             <li>* El nombre es obligatorio</li>
           </ul>
@@ -42,7 +36,7 @@
             <option value="pasaporteColombiano">Pasaporte colombiano</option>
             <option value="pasaporteExtranjero">Pasaporte extranjero</option>
             <option value="documentoVenezolano">
-              Documento nacional de identificacion venozolana
+              Documento nacional de identificacion venezolana
             </option>
           </select>
         </div>
@@ -58,7 +52,7 @@
           </select>
         </div>
         <div class="campu">
-          <label for="documento">documento</label>
+          <label for="documento">Documento</label>
           <input
             formControlName="documento"
             name="documento"
@@ -106,9 +100,5 @@
     </div>
   </div>
 </div>
-<app-modal-role
-  *ngIf="create"
-  (isClosed)="createRole($event)"
-  (listRoles)="addRole($event)"
->
+<app-modal-role *ngIf="create" (isClosed)="createRole($event)">
 </app-modal-role>
