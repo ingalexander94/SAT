@@ -1,0 +1,134 @@
+.wrapper_alert {
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  overflow: scroll;
+}
+
+.alert_container {
+  width: 294px;
+  background: var(--white);
+  text-align: center;
+  border-radius: 25px;
+  margin-top: 156px;
+  margin-bottom: 100px;
+}
+
+.alert_container h1 {
+  font-weight: bold;
+  font-size: 21px;
+}
+
+.alert_container p {
+  margin: 16px 0;
+}
+
+.alert_container ul li {
+  margin: 16px 0;
+  cursor: pointer;
+}
+
+.alert_container ul li:hover {
+  background: var(--gray-menu);
+}
+
+.alert_options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.alert_options button:nth-child(1) {
+  background: var(--gray-dark-color);
+  color: black;
+}
+button {
+  margin-right: 100px;
+}
+h2 {
+  top: 0;
+  position: relative;
+  margin-left: 80%;
+  font-size: 30px;
+  color: var(--red-primary-color);
+}
+button:disabled {
+  background: #ff7686;
+}
+.campu {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.campu input {
+  border-radius: 5px;
+  padding: 8px;
+  border: none;
+  outline: none;
+  background: var(--gray-table);
+}
+
+.campu select {
+  padding: 8px;
+  background: var(--gray-table);
+  border-radius: 5px;
+}
+
+ul {
+  margin-left: 25px;
+  list-style: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  color: var(--red-primary-color);
+}
+
+.campu label {
+  font-weight: bold;
+  margin-left: 5px;
+  text-align: left;
+}
+
+/* Tablet */
+
+@media (min-width: 768px) and (max-width: 1151px) {
+  .alert_container {
+    width: 458px;
+  }
+
+  .alert_container h1 {
+    font-size: 33px;
+  }
+
+  .alert_container p {
+    font-size: 22px;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 1152px) {
+  .alert_container {
+    width: 500px;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .campu {
+    width: 400px;
+  }
+}

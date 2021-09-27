@@ -1,19 +1,20 @@
-import requests
 from flask import request
 from util import jwt, response, environment, helpers
 from database import config
+from util.request_api import request_ufps
 
 mongo = config.mongo
 
 
 class Institutional:
+    
     def login(self):
         info = request.get_json()
         code = info["code"]
         role = info["role"]
         endpoint = f"{role}_{code}"
         try:
-            req = requests.get(f"{environment.API_URL}/{endpoint}")
+            req = request_ufps().get(f"{environment.API_URL}/{endpoint}")
             data = req.json()
             if data["ok"]:
                 user = data["data"]
@@ -29,7 +30,7 @@ class Institutional:
         if not code or not code.isdigit() or len(code) != 7:
             return response.reject("Se necesita un código de 7 caracteres")
         try:
-            req = requests.get(f"{environment.API_URL}/{role}_{code}")
+            req = request_ufps().get(f"{environment.API_URL}/{role}_{code}")
             data = req.json()
             if data["ok"]:
                 user = data["data"]
@@ -44,7 +45,7 @@ class Institutional:
         if not code or not code.isdigit() or len(code) != 7:
             return response.reject("Se necesita un código de 7 caracteres")
         try:
-            req = requests.get(f"{environment.API_URL}/materias_{code}")
+            req = request_ufps().get(f"{environment.API_URL}/materias_{code}")
             courses = req.json()
             if courses:
                 return response.success("Todo ok!", courses, "")
@@ -57,7 +58,7 @@ class Institutional:
         if not code or not code.isdigit() or len(code) != 7:
             return response.reject("Se necesita un código de 7 caracteres")
 
-        req = requests.get(f"{environment.API_URL}/cursos_{code}")
+        req = request_ufps().get(f"{environment.API_URL}/cursos_{code}")
         courses = req.json()
         # Borrar el docente
         return response.success("Todo ok!", courses, "")
@@ -66,12 +67,12 @@ class Institutional:
         if not code or not code.isdigit() or len(code) != 7:
             return response.reject("Se necesita un código de 7 caracteres")
         try:
-            res = requests.get(f"{environment.API_URL}/listado_{code}_{group}")
+            res = request_ufps().get(f"{environment.API_URL}/listado_{code}_{group}")
             students = res.json()
             if students: 
                 for student in students:
                     code = student["codigo"]
-                    student["riesgo"] = requests.get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
+                    student["riesgo"] = request_ufps().get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
                 return response.success("Todo ok!", students, "")
             else:
                 return response.reject("Esta dirección  no es válida")
@@ -81,7 +82,7 @@ class Institutional:
     def getProfits(self, code, risk):
         if not code or not code.isdigit() or len(code) != 7:
             return response.error("Se necesita un código de 7 caracteres", 400)
-        req = requests.get(f"{environment.API_URL}/beneficios_{code}")
+        req = request_ufps().get(f"{environment.API_URL}/beneficios_{code}")
         data = list(req.json())
         profits = list(
             mongo.db.profit.find({"riesgo": risk}, {"nombre": 1, "_id": False})
@@ -95,7 +96,7 @@ class Institutional:
     def adminProfits(self):
         code = request.args.get("code")
         risk = request.args.get("risk")
-        req = requests.get(f"{environment.API_URL}/beneficios_{code}")
+        req = request_ufps().get(f"{environment.API_URL}/beneficios_{code}")
         dataUFPS = list(req.json())
         profits = list(filter(lambda profit: not profit["fechaFinal"], dataUFPS))
         profits = list(map(lambda profit : profit["nombre"], profits))
@@ -125,24 +126,23 @@ class Institutional:
         return response 
 
     def studentsOfPeriod(self):
-        data = request.get_json()
         program = "sistemas"
         period = "2021-1"
         split = period.split("-")
         year = split[0]
         semester = split[1]
-        res = requests.get(f"{environment.API_URL}/{program}_{year}_{semester}") 
+        res = request_ufps().get(f"{environment.API_URL}/{program}_{year}_{semester}") 
         students = res.json() 
         if students:  
             for student in students:
                 code = student["codigo"]
-                student["riesgo"] = requests.get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
+                student["riesgo"] = request_ufps().get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
         return response.success("todo ok!", students, "")
 
     def getSemesters(self, code):
         if not code or len(code) != 7 or not code.isdigit():
             return response.error("Se necesita un código de 7 caracteres", 400)
-        res = requests.get(f"{environment.API_URL}/semestres_{code}")
+        res = request_ufps().get(f"{environment.API_URL}/semestres_{code}")
         data = res.json()
         data = helpers.updateSemestersRegistered(data)
         dataRes = {"data": data, "registered": helpers.countSemesters(data)}

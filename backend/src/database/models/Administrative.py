@@ -1,5 +1,5 @@
 from pymongo.collection import ReturnDocument
-import requests, random
+import random
 from flask import json, request, jsonify, Response
 from util import jwt, response, environment, emails
 from database import config
@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
 from bson import json_util
 from util import jwt, environment
+from util.request_api import request_ufps
 
 mongo = config.mongo
 
@@ -94,7 +95,7 @@ class Administrative:
         if(not code or not code.isdigit() or len(code) < 7):
             return response.error("Se necesita un código de 7 caracteres", 400)
         try:
-            req = requests.get(f"{environment.API_URL}/vicerrector_{code}")
+            req = request_ufps().get(f"{environment.API_URL}/vicerrector_{code}")
             data = req.json()
             if(data["ok"]):
                 user = data["data"]
@@ -106,12 +107,12 @@ class Administrative:
           return response.success("No se encontraron resultados", None, "")   
         
     def getFaculties(self): 
-        req = requests.get(f"{environment.API_URL}/facultades")
+        req = request_ufps().get(f"{environment.API_URL}/facultades")
         data = req.json()
         return response.success("Todo ok!", data, "")
     
     def validateProgram(self, nameProgram):
-        req = requests.get(f"{environment.API_URL}/facultades")
+        req = request_ufps().get(f"{environment.API_URL}/facultades")
         data = req.json()
         for i in data: 
             for  j in i["programas"]:            

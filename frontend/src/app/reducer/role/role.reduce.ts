@@ -9,7 +9,7 @@ const initState: RoleState = {
   roles: [],
 };
 
-export const roloReduce = (
+export const roleReduce = (
   state = initState,
   actions: fromRole.actions
 ): RoleState => {

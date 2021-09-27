@@ -10,6 +10,7 @@ import { saveInLocalStorage } from '../helpers/localStorage';
 import { isTeacher } from '../helpers/ui';
 import { AuthResponse, UserAuth } from '../model/auth';
 import { Role, RoleResponse } from '../model/role';
+import { removerActivityAction } from '../reducer/activity/activity.action';
 import { AddUserAction, RemoveUserAction } from '../reducer/auth/auth.actions';
 import { AuthState } from '../reducer/auth/auth.reducer';
 import { DeleteChatAction } from '../reducer/Chat/chat.actions';
@@ -131,7 +132,7 @@ export class AuthService {
     this.store.dispatch(new DeleteNotificationsAction());
     this.store.dispatch(new FinishLoadingAction());
     this.store.dispatch(new RemoveRiskAction());
-    this.store.dispatch(new RemoverRoleAction());
+    this.store.dispatch(new removerActivityAction());
     localStorage.clear();
     const path = isTeacher(role)
       ? 'docente'

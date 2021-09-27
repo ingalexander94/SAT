@@ -15,6 +15,7 @@ from routes.suggestion_router  import suggestion_router
 from routes.report_router  import report_router
 from routes.role_router  import role_router
 from routes.risk_router  import risk_router
+from routes.activity_router import activity_router
 from util import environment, jwt
 from database import config
 
@@ -45,6 +46,7 @@ app.register_blueprint(suggestion_router, url_prefix='/suggestion')
 app.register_blueprint(report_router, url_prefix='/report')
 app.register_blueprint(role_router, url_prefix='/role')
 app.register_blueprint(risk_router, url_prefix='/risk')
+app.register_blueprint(activity_router, url_prefix='/activity')
 
 @app.route("/auth/renew")
 @token_required
