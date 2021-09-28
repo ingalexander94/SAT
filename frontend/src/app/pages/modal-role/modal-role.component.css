@@ -1,3 +1,14 @@
+input[type="time"]::-webkit-datetime-edit-ampm-field {
+  color: transparent;
+  display: none;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+  position: relative;
+  z-index: -1;
+}
+
 .wrapper_alert {
   position: fixed;
   min-width: 100vw;
@@ -17,6 +28,9 @@
   background: var(--white);
   text-align: center;
   border-radius: 25px;
+  height: 70%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .alert_container h1 {
@@ -82,5 +96,9 @@ button:disabled {
 @media (min-width: 1152px) {
   .alert_container {
     width: 450px;
+    margin-top: 60px;
+    height: unset;
+    overflow-y: unset;
+    overflow-x: unset;
   }
 }

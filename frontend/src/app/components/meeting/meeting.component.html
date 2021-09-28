@@ -12,6 +12,14 @@
           Fecha: <span>{{ meet.dateFormat }}</span>
         </h5>
         <h5>
+          Seleccione la Hora:
+          <select #time name="hour" id="hour">
+            <option value="{{ item }}" *ngFor="let item of times">
+              {{ item }}
+            </option>
+          </select>
+        </h5>
+        <h5>
           Con:<span> {{ meet.role }}</span>
         </h5>
         <h5>
@@ -32,22 +40,25 @@
       </div>
     </div>
   </div>
+  <p *ngIf="!this.meets.length">No tiene reuniones programadas</p>
   <div
     class="table_meet animate__animated animate__fadeIn"
-    *ngIf="this.meets.length > 0"
+    *ngIf="this.meets.length"
   >
     <p>Historial de reuniones</p>
     <table>
       <tr>
         <th>#</th>
         <th>Fecha</th>
+        <th>Hora 24h</th>
         <th>Con</th>
         <th>Estado</th>
         <th>Asistencia</th>
       </tr>
       <tr *ngFor="let meet of meets; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ meet.date }}</td>
+        <td>{{ meet.date | date: "MMM d" }}</td>
+        <td>{{ meet.hour ? meet.hour : "--:--" }}</td>
         <td>{{ normalize(meet.role) }}</td>
         <td>{{ meet.state }}</td>
         <td *ngIf="meet.attendance"><i class="fas fa-check"></i></td>

@@ -9,9 +9,11 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, pluck, tap } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { showAlert } from 'src/app/helpers/alert';
+import { showAlert, showQuestion } from 'src/app/helpers/alert';
 import { normalizeRoles } from 'src/app/helpers/ui';
+import { buildWorkingDay } from 'src/app/helpers/times';
 import { Meet } from 'src/app/model/meet';
+import { AuthService } from 'src/app/services/auth.service';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
@@ -26,11 +28,14 @@ export class MeetingComponent implements OnInit, OnDestroy {
   meets: Meet[] = [];
   loading: Boolean = true;
   res: Boolean = true;
+  times: String[] = [];
   @ViewChild('reasons') reasons: ElementRef;
+  @ViewChild('time') time: ElementRef;
 
   constructor(
     private uiService: UiService,
     private wellnessService: WellnessService,
+    private authService: AuthService,
     private store: Store<AppState>
   ) {
     this.uiService.updateTitleNavbar('Asistencia Reunion');
@@ -62,8 +67,28 @@ export class MeetingComponent implements OnInit, OnDestroy {
         ...data,
         role: normalizeRoles(data.role),
       };
+      const res = await this.getScheduleOfRole(
+        data.role,
+        this.meet.date.toString()
+      );
+      if (res.ok) {
+        const { morningStart, morningEnd, afternoonStart, afternoonEnd } =
+          res.data.schedule;
+        const morning = buildWorkingDay(morningStart, morningEnd, [
+          morningStart,
+        ]);
+        const afternoon = buildWorkingDay(afternoonStart, afternoonEnd, [
+          afternoonStart,
+        ]);
+        const times = [...morning, ...afternoon];
+        this.times = times.filter((x) => !res.data.reservations.includes(x));
+      }
     }
     this.loading = false;
+  }
+
+  async getScheduleOfRole(role: String, date: String) {
+    return await this.authService.getScheduleOfRole(role, date);
   }
 
   normalize(role) {
@@ -71,26 +96,36 @@ export class MeetingComponent implements OnInit, OnDestroy {
   }
 
   async accept(option: boolean) {
-    this.loading = true;
-    const reason = this.reasons.nativeElement.value;
-    if (option) {
-      await this.wellnessService.acceptMeet(this.meet._id.$oid, option);
-      this.updateStateMeet('ACEPTADA');
-      this.res = false;
-    } else {
-      if (!reason.length) {
-        showAlert('warning', 'Debe escribir los motivos');
-      } else {
-        await this.wellnessService.acceptMeet(
-          this.meet._id.$oid,
-          option,
-          reason
-        );
-        this.updateStateMeet('RECHAZADA');
+    const hour = this.time.nativeElement.value;
+    const msg = option
+      ? `¿Está seguro de programar la cita para las ${hour}?`
+      : '¿Está seguro que quiere rechazar la cita?';
+    const { isConfirmed } = await showQuestion(
+      msg,
+      'No se pueden revertir los cambios eventualmente'
+    );
+    if (isConfirmed) {
+      this.loading = true;
+      if (option) {
+        await this.wellnessService.acceptMeet(this.meet._id.$oid, option, hour);
+        this.updateStateMeet('ACEPTADA');
         this.res = false;
+      } else {
+        const reason = this.reasons.nativeElement.value;
+        if (!reason.length) {
+          showAlert('warning', 'Debe escribir los motivos');
+        } else {
+          await this.wellnessService.acceptMeet(
+            this.meet._id.$oid,
+            option,
+            reason
+          );
+          this.updateStateMeet('RECHAZADA');
+          this.res = false;
+        }
       }
+      this.loading = false;
     }
-    this.loading = false;
   }
 
   updateStateMeet(newState: String) {

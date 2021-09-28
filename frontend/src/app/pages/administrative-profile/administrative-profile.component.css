@@ -1,3 +1,21 @@
+input[type="time"]::-webkit-datetime-edit-ampm-field {
+  color: transparent;
+  display: none;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+  position: relative;
+  z-index: -1;
+}
+
+select {
+  appearance: none;
+  outline: none;
+  border: none;
+  width: 100%;
+}
+
 .card_profile {
   margin: 16px;
   text-align: center;

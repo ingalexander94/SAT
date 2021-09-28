@@ -9,8 +9,13 @@ import { showAlert } from '../helpers/alert';
 import { saveInLocalStorage } from '../helpers/localStorage';
 import { isTeacher } from '../helpers/ui';
 import { AuthResponse, UserAuth } from '../model/auth';
-import { Role, RoleResponse } from '../model/role';
 import { removerActivityAction } from '../reducer/activity/activity.action';
+import {
+  Role,
+  RoleResponse,
+  RoleSchedule,
+  ScheduleResponse,
+} from '../model/role';
 import { AddUserAction, RemoveUserAction } from '../reducer/auth/auth.actions';
 import { AuthState } from '../reducer/auth/auth.reducer';
 import { DeleteChatAction } from '../reducer/Chat/chat.actions';
@@ -113,7 +118,7 @@ export class AuthService {
       .toPromise();
   }
 
-  createRole(role: Role) {
+  createRole(role: RoleSchedule) {
     return this.httpClient
       .post<RoleResponse>(`${this.endpoint}/role/`, role)
       .toPromise();
@@ -121,6 +126,26 @@ export class AuthService {
 
   listRoles() {
     return this.withOutToken.get<Role[]>(`${this.endpoint}/role/`).toPromise();
+  }
+
+  updateSchedule(schedule) {
+    return this.httpClient
+      .put<any>(`${this.endpoint}/role/schedule`, schedule)
+      .toPromise();
+  }
+
+  getSchedule(role: String) {
+    return this.httpClient
+      .get<any>(`${this.endpoint}/role/schedule/${role}`)
+      .toPromise();
+  }
+
+  getScheduleOfRole(role: String, date: String) {
+    return this.httpClient
+      .get<ScheduleResponse>(
+        `${this.endpoint}/role/schedule/role/${role}/${date}`
+      )
+      .toPromise();
   }
 
   logout(role: String) {

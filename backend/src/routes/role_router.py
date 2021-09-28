@@ -16,4 +16,20 @@ def createRole(_):
 @role_router.route("/")
 def listRoles():
     return instance.listRoles();
-    
+
+@role_router.route("/schedule", methods=["PUT"])
+@token_required
+def updateSchedule(_):
+    return instance.updateSchedule()
+
+@role_router.route("/schedule")
+@role_router.route("/schedule/<role>")
+@token_required
+def getSchedule(_, role=None):
+    return instance.getSchedule(role)
+
+@role_router.route("/schedule/role")
+@role_router.route("/schedule/role/<role>/<date>")
+@token_required
+def getScheduleOfRole(_, role=None, date=None):
+    return instance.getScheduleOfRole(role, date) 

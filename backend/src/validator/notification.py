@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields
-from marshmallow.validate import Length, OneOf
+from marshmallow.validate import Length
 
 class NotificationSchema(Schema):
     title = fields.Str(required=True)
@@ -8,5 +8,5 @@ class NotificationSchema(Schema):
     isActive = fields.Bool(required=True)
     codeReceiver = fields.Str(required=True, validate=Length(min=7))
     codeTransmitter = fields.Str(required=True, validate=Length(min=7))
-    roleTransmitter = fields.Str(required=True, validate=OneOf(["docente", "estudiante","jefe"]))
+    roleTransmitter = fields.Str(required=True)
     

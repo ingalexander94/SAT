@@ -57,7 +57,7 @@ export class FloatingButtonComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteNotificatio(id: String) {
+  deleteNotification(id: String) {
     this.notificationService.deleteNotification(id);
   }
 

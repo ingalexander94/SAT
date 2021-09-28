@@ -1,7 +1,6 @@
 import math
 from datetime import datetime
 from flask import request, Response
-from util import response, emails
 from flask import request, Response
 from pymongo import DESCENDING
 from util import response, emails
@@ -20,6 +19,7 @@ class Meet:
         role = data["role"]
         data = {
             **data,
+            "hour":None,
             "role": ObjectId(role)
         }
         id = mongo.db.meet.insert(data) 
@@ -33,7 +33,7 @@ class Meet:
         instance_postulation.updateState(postulation, "NOTIFICADO PARA CITA")
         date = data["dateFormat"]
         to = data["student"]["correo"]
-        message = f"Cordial saludo\nSe le informa que se  encuentra en proceso de seguimiento por bienestar universitario.\nTiene unos minutos libres para que podamos hablar sobre su situación actual o sobre cualquier otra ayuda que te brindemos y  mejorar tu estadía en  la universidad.\nTe recordamos que la reunió esta programada para el {date}.\nQuedamos atentos a cualquier inquietud y respuesta sobre tu asistencia"
+        message = f"Cordial saludo\nSe le informa que se encuentra en proceso de seguimiento por bienestar universitario.\nTiene 30 minutos para que podamos hablar sobre su situación actual o sobre cualquier otra ayuda que te brindemos y mejorar tu estadía en  la universidad.\nTe recordamos que la reunión está programada para el {date}, debe ingresar a la plataforma de SAT y definir una hora para su reunión.\nQuedamos atentos a cualquier inquietud y respuesta sobre tu asistencia. Muchas gracias."
         subject = f"Notificación cita con {role} | SAT"
         emails.sendEmail(to, message, subject)
         notification = {
@@ -65,6 +65,12 @@ class Meet:
                 **set,
                 "reason": request.json["reason"]
             }
+        else:  
+            set = {
+                **set,
+                "hour": request.json["hour"]
+            }
+        
         mongo.db.meet.update_one({"_id": ObjectId(id)}, {"$set": set})
         return response.success(f"Reunión {state.lower()}", {}, "")
     

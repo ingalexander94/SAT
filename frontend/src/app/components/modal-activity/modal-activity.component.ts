@@ -23,6 +23,7 @@ export class ModalActivityComponent implements OnInit {
     private store: Store<AppState>
   ) {
     this.formCreateActivity = this.createFormCreateActivity();
+    console.log(this.currentDate);
   }
 
   createFormCreateActivity(): FormGroup {
@@ -64,6 +65,7 @@ export class ModalActivityComponent implements OnInit {
   get date() {
     return this.formCreateActivity.get('date');
   }
+
   get hour() {
     return this.formCreateActivity.get('hour');
   }

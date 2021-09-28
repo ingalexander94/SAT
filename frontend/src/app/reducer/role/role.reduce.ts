@@ -20,6 +20,9 @@ export const roleReduce = (
     case fromRole.REMOVE_ROLE:
       return { ...initState };
 
+    case fromRole.ADD_ROLE:
+      return { ...state, roles: [...state.roles, actions.payload] };
+
     default:
       return { ...state };
   }

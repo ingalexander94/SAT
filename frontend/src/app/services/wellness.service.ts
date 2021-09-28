@@ -83,13 +83,11 @@ export class WellnessService {
     }
   }
 
-  acceptMeet(id: String, accept: Boolean, reason?: String) {
+  acceptMeet(id: String, accept: Boolean, data: String) {
     try {
+      const body = accept ? { accept, hour: data } : { accept, reason: data };
       return this.http
-        .put<MeetAsistenResponse>(`${this.URL_BACKEND}/meet/${id}`, {
-          accept,
-          reason,
-        })
+        .put<MeetAsistenResponse>(`${this.URL_BACKEND}/meet/${id}`, body)
         .toPromise();
     } catch (error) {
       console.error(error);
