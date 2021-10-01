@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { ResponseChatAdmin, UserChat } from 'src/app/model/chat';
 import { ChatService } from 'src/app/services/chat.service';
 import { StudentService } from 'src/app/services/student.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { isTeacher } from 'src/app/helpers/ui';
 
 @Component({
   selector: 'app-chat-admin',
@@ -35,6 +36,7 @@ export class ChatAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private chatService: ChatService,
     private notificationService: NotificationService,
     private studentService: StudentService,
@@ -65,12 +67,18 @@ export class ChatAdminComponent implements OnInit, OnDestroy {
     let receiver = null;
     if (this.role === 'estudiante') {
       receiver = await this.chatService.getAdmin(byData);
+      if (!receiver) return this.toHome();
     } else {
-      const {
-        data: { nombre, apellido, correo, documento, codigo },
-      } = await this.studentService.getByCode(byData);
-      this.codeStudent = codigo;
-      receiver = { nombre, apellido, documento, correo };
+      const res = await this.studentService.getByCode(byData);
+      if (res.ok) {
+        const {
+          data: { nombre, apellido, correo, documento, codigo },
+        } = res;
+        receiver = { nombre, apellido, documento, correo };
+        this.codeStudent = codigo;
+      } else {
+        return this.toHome();
+      }
     }
     this.receiver = receiver;
     this.loadChat();
@@ -119,6 +127,14 @@ export class ChatAdminComponent implements OnInit, OnDestroy {
     });
     this.chat = data;
     this.loading = false;
+  }
+
+  toHome() {
+    if (isTeacher(this.role) || this.role === 'estudiante') {
+      this.router.navigate([`/${this.role}`]);
+    } else {
+      this.router.navigate(['/administrativo']);
+    }
   }
 
   ngOnDestroy(): void {

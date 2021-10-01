@@ -7,7 +7,13 @@
       <form [formGroup]="formCreateUser" (submit)="onSubmit()">
         <div class="campu">
           <label for="nombre">Nombres</label>
-          <input formControlName="nombre" name="nombre" id="nombre" required />
+          <input
+            formControlName="nombre"
+            autocomplete="off"
+            name="nombre"
+            id="nombre"
+            required
+          />
           <ul *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
             <li>* El nombre es obligatorio</li>
           </ul>
@@ -18,6 +24,7 @@
             formControlName="apellido"
             name="apellido"
             id="apellido"
+            autocomplete="off"
             required
           />
           <ul *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
@@ -56,6 +63,7 @@
           <input
             formControlName="documento"
             name="documento"
+            autocomplete="off"
             id="documento"
             required
           />
@@ -71,6 +79,7 @@
           <input
             formControlName="telefono"
             name="telefono"
+            autocomplete="off"
             id="telefono"
             required
           />
@@ -85,6 +94,7 @@
             autocomplete="off"
             formControlName="correo"
             name="correo"
+            autocomplete="off"
             id="correo"
             required
           />
