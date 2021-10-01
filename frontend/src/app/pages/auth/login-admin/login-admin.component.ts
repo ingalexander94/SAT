@@ -27,7 +27,7 @@ export class LoginAdminComponent implements OnInit, OnDestroy {
         Validators.maxLength(10),
         Validators.pattern(/^[0-9]+$/i),
       ]),
-      password: new FormControl('6879', [
+      password: new FormControl('2188', [
         Validators.required,
         Validators.minLength(4),
       ]),

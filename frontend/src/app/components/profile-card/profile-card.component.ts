@@ -71,6 +71,10 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  toChatAdmin() {
+    this.router.navigate(['/estudiante/chat-admin/' + this.userShow.codigo]);
+  }
+
   toNavigate() {
     this.checkbox.nativeElement.checked = false;
   }

@@ -27,6 +27,8 @@ export class MeetingComponent implements OnInit, OnDestroy {
   meet: Meet = null;
   meets: Meet[] = [];
   loading: Boolean = true;
+  showModalChat: boolean = false;
+  role: String = '';
   res: Boolean = true;
   times: String[] = [];
   @ViewChild('reasons') reasons: ElementRef;
@@ -108,7 +110,7 @@ export class MeetingComponent implements OnInit, OnDestroy {
       this.loading = true;
       if (option) {
         await this.wellnessService.acceptMeet(this.meet._id.$oid, option, hour);
-        this.updateStateMeet('ACEPTADA');
+        this.updateStateMeet('ACEPTADA', hour);
         this.res = false;
       } else {
         const reason = this.reasons.nativeElement.value;
@@ -120,7 +122,7 @@ export class MeetingComponent implements OnInit, OnDestroy {
             option,
             reason
           );
-          this.updateStateMeet('RECHAZADA');
+          this.updateStateMeet('RECHAZADA', '');
           this.res = false;
         }
       }
@@ -128,11 +130,19 @@ export class MeetingComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateStateMeet(newState: String) {
+  updateStateMeet(newState: String, hour: String) {
     this.meets = this.meets.map((meet) => {
-      if (meet._id.$oid === this.meet._id.$oid) meet.state = newState;
+      if (meet._id.$oid === this.meet._id.$oid) {
+        meet.state = newState;
+        meet.hour = hour;
+      }
       return meet;
     });
+  }
+
+  updateModal(show: boolean = true, role: String = '') {
+    this.showModalChat = show;
+    this.role = role;
   }
 
   ngOnDestroy(): void {
