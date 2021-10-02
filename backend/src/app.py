@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask
 from flask_cors import CORS
 from middleware.validate_token import token_required
 from routes.institutonal_router import institutional_rest
@@ -16,7 +16,7 @@ from routes.suggestion_router  import suggestion_router
 from routes.report_router  import report_router
 from routes.role_router  import role_router
 from routes.risk_router  import risk_router
-from util import environment, jwt, emails
+from util import environment, jwt
 from database import config
 
 app = Flask(__name__)
@@ -56,13 +56,6 @@ def renew(current_user):
 @app.route("/ping")
 def ping():
     return "Todo ok!"
-
-@app.route("/test-emails")
-def sendMultipleEmails():
-    data = request.get_json()
-    recipients = data["recipients"]
-    emails.sendMultipleEmail(recipients, "Esto es una prueba realizada por Alexander.", "Enviando múltiples mensajes.")
-    return "correos enviados" 
 
 # Lanzar servidor
 if __name__ == "__main__":

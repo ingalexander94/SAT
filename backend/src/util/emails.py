@@ -20,7 +20,7 @@ def sendEmail(to, message, subject):
     server.quit()
     print("Correo enviado")
     
-def sendMultipleEmail(recipients, message, subject, ):
+def sendMultipleEmail(recipients, message, subject ):
     coding = "UTF-8"
     msg = MIMEMultipart()
     msg["From"] = f'Sistema de alertas tempranas <noreply>'

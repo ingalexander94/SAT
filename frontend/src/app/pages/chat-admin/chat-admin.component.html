@@ -25,12 +25,13 @@
     </div>
   </div>
   <form [formGroup]="formChatAdmin" (submit)="onSubmit()" class="form_chat">
-    <textarea
+    <input
+      type="text"
       name="message"
       formControlName="message"
       id="message"
       placeholder="Escriba su mensaje..."
-    ></textarea>
+    />
     <i
       (click)="onSubmit()"
       *ngIf="!loading"
