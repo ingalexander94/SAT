@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from middleware.validate_token import token_required
 from routes.institutonal_router import institutional_rest
@@ -8,6 +8,7 @@ from routes.boss_router import boss_rest
 from routes.student_router import student_rest
 from routes.teacher_router import teacher_rest
 from routes.chat_router import chat_rest
+from routes.chatAdmin_router import chat_admin_rest
 from routes.wellness_router  import wellness_rest
 from routes.meet_router  import meet_rest
 from routes.binnacle_router  import binnacle_rest
@@ -17,6 +18,7 @@ from routes.role_router  import role_router
 from routes.risk_router  import risk_router
 from routes.activity_router import activity_router
 from util import environment, jwt
+from util import environment, jwt, emails
 from database import config
 
 app = Flask(__name__)
@@ -38,6 +40,7 @@ app.register_blueprint(student_rest, url_prefix='/students')
 app.register_blueprint(teacher_rest, url_prefix='/teachers')
 app.register_blueprint(boss_rest, url_prefix='/boss')
 app.register_blueprint(chat_rest, url_prefix='/chat')
+app.register_blueprint(chat_admin_rest, url_prefix='/chatAdmin')
 app.register_blueprint(notification_rest, url_prefix='/notification')
 app.register_blueprint(wellness_rest, url_prefix='/wellness')
 app.register_blueprint(meet_rest, url_prefix='/meet')
@@ -56,6 +59,13 @@ def renew(current_user):
 @app.route("/ping")
 def ping():
     return "Todo ok!"
+
+@app.route("/test-emails")
+def sendMultipleEmails():
+    data = request.get_json()
+    recipients = data["recipients"]
+    emails.sendMultipleEmail(recipients, "Esto es una prueba realizada por Alexander.", "Enviando múltiples mensajes.")
+    return "correos enviados" 
 
 # Lanzar servidor
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, map, pluck, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, pluck, tap, filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert, showQuestion } from 'src/app/helpers/alert';
 import { saveInLocalStorage } from 'src/app/helpers/localStorage';
@@ -19,6 +19,7 @@ import { SetUserActiveAction } from 'src/app/reducer/ui/ui.actions';
 import { StudentService } from 'src/app/services/student.service';
 import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-schedule',
@@ -32,6 +33,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     subtitle: '',
   };
   subscription: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
   totalPages: number[] = [];
   page: number = 0;
   meets: Meet[] = [];
@@ -49,6 +51,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private wellnessService: WellnessService,
+    private notificationService: NotificationService,
     private studentService: StudentService,
     private router: Router
   ) {
@@ -64,6 +67,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         tap((page) => (this.page = parseInt(page)))
       )
       .subscribe((page) => this.loadMeets(page, this.state, this.date));
+
+    this.subscription2 = this.store
+      .select('auth')
+      .pipe(
+        pluck('user'),
+        filter((user) => user !== null),
+        distinctUntilChanged()
+      )
+      .subscribe(({ documento }) =>
+        this.notificationService.getNotifications(documento)
+      );
   }
 
   async loadMeets(page: string, state: string, date: string) {
@@ -146,5 +160,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }

@@ -24,8 +24,8 @@ class Notification:
         return response.success("Notificación eliminada", None, "")        
     
     def getNotifications(self, code):
-        if(not code  or not code.isdigit() or len(code) != 7):
-            return response.error("Se necesita un código de 7 caracteres", 400)
+        if(not code  or not code.isdigit()):
+            return response.error("Se necesita un código válido", 400)
         data = mongo.db.notification.find({"codeReceiver": code}).sort("date").limit(10)
         notifications = json_util.dumps(data)
         return Response(notifications, mimetype="applicaton/json")

@@ -38,6 +38,7 @@ import { DownloadPdfComponent } from './download-pdf/download-pdf.component';
 import { SearchGlobalComponent } from './search-global/search-global.component';
 import { ButtonNotificationComponent } from './button-notification/button-notification.component';
 import { ModalActivityComponent } from './modal-activity/modal-activity.component';
+import { ModalChatComponent } from './modal-chat/modal-chat.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { ModalActivityComponent } from './modal-activity/modal-activity.componen
     SearchGlobalComponent,
     ButtonNotificationComponent,
     ModalActivityComponent,
+    ModalChatComponent,
   ],
   exports: [
     AlertComponent,
@@ -106,6 +108,7 @@ import { ModalActivityComponent } from './modal-activity/modal-activity.componen
     SearchGlobalComponent,
     ButtonNotificationComponent,
     ModalActivityComponent,
+    ModalChatComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
 })

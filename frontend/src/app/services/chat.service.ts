@@ -9,7 +9,14 @@ import {
   saveInLocalStorage,
 } from '../helpers/localStorage';
 import { User } from '../model/auth';
-import { ResponseChat, ResponseSendMessage } from '../model/chat';
+import {
+  ResponseChat,
+  ResponseChatAdmin,
+  ResponseSendMessage,
+  ResponseSendMessageAdmin,
+  UserChat,
+  UsersChat,
+} from '../model/chat';
 import {
   AddMsgChatAction,
   LoadingChatAction,
@@ -109,5 +116,49 @@ export class ChatService {
       isActive: true,
     };
     this.notificationService.sendNotification(notification);
+  }
+
+  getAdmins(role: String) {
+    try {
+      return this.http
+        .get<UserChat[]>(this.url + '/chatAdmin/' + role)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  getAdmin(document: String) {
+    try {
+      return this.http
+        .get<UserChat>(this.url + '/chatAdmin/admin/' + document)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async sendMessageChatAdmin(message: ResponseChatAdmin) {
+    try {
+      return this.http
+        .post<ResponseSendMessageAdmin>(this.url + '/chatAdmin/', message)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async listChatAdmin(usersChat: UsersChat) {
+    try {
+      return this.http
+        .post<ResponseChatAdmin[]>(this.url + '/chatAdmin/list', usersChat)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 }

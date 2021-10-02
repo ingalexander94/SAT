@@ -59,7 +59,14 @@
         <td>{{ i + 1 }}</td>
         <td>{{ meet.date | date: "MMM d" }}</td>
         <td>{{ meet.hour ? meet.hour : "--:--" }}</td>
-        <td>{{ normalize(meet.role) }}</td>
+        <td class="pointer" (click)="updateModal(true, meet.role)">
+          {{ normalize(meet.role) }}
+          <i
+            *ngIf="meet.state === 'ACEPTADA'"
+            class="fas fa-angle-down red"
+            title="Contactar"
+          ></i>
+        </td>
         <td>{{ meet.state }}</td>
         <td *ngIf="meet.attendance"><i class="fas fa-check"></i></td>
         <td *ngIf="!meet.attendance"><i class="fas fa-times"></i></td>
@@ -67,3 +74,9 @@
     </table>
   </div>
 </div>
+
+<app-modal-chat
+  *ngIf="showModalChat"
+  (isClosed)="updateModal($event)"
+  [role]="role"
+></app-modal-chat>

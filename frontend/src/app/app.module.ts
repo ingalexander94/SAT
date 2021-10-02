@@ -56,6 +56,7 @@ import { SuggestionComponent } from './pages/suggestion/suggestion.component';
 import { ModalRoleComponent } from './pages/modal-role/modal-role.component';
 import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ModalActivityComponent } from './components/modal-activity/modal-activity.component';
+import { ChatAdminComponent } from './pages/chat-admin/chat-admin.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -91,6 +92,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
     SuggestionComponent,
     ModalRoleComponent,
     ActivitiesComponent,
+    ChatAdminComponent,
   ],
 
   imports: [

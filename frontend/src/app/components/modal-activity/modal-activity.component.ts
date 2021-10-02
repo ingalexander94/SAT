@@ -42,7 +42,10 @@ export class ModalActivityComponent implements OnInit {
       showAlert('error', 'La fecha es incorrecta');
       return false;
     }
-    if (this.currentDate.getHours() + 2 > acceptedTime) {
+    if (
+      this.currentDate.toISOString() === formDate.toISOString() &&
+      this.currentDate.getHours() + 2 > acceptedTime
+    ) {
       this.formCreateActivity.setValue({
         name: this.formCreateActivity.get('name').value,
         date: this.formCreateActivity.get('date').value,

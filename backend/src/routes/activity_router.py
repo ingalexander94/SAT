@@ -14,3 +14,8 @@ def createActivity():
 def listRoles():
     return instance.listActivities();
 
+@activity_router.route("/activities-student")
+@token_required
+def listActivitiesStundent(student):
+    return instance.listActivitiesStudente(student["codigo"]);
+
