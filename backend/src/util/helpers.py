@@ -31,3 +31,16 @@ def updateSemestersRegistered(semesters):
 def countSemesters(semesters):
     registered = list(filter(lambda semester: semester["promedio"] != "empty", semesters))
     return len(registered)
+
+def convertLevelRisk(value):
+   if value < 1.9:
+     return "critico" 
+   if value >  2 and value <= 2.9:
+     return "moderado"   
+   if value >  3 and value <= 3.9:
+     return "leve"  
+   if value >  4 and value <= 5:
+     return "sinRiesgo"
+     
+            
+  

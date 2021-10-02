@@ -11,6 +11,7 @@ import { SemesterWellnessComponent } from '../pages/semester-wellness/semester-w
 import { SemesterComponent } from '../pages/semester/semester.component';
 import { SuggestionComponent } from '../pages/suggestion/suggestion.component';
 import { DashboardWellnessComponent } from './dashboard-wellness.component';
+import { ActivitiesComponent } from '../pages/activities/activities.component';
 
 const children: Routes = [
   { path: '', component: FacultiesComponent, canActivate: [WellnessGuard] },
@@ -47,6 +48,10 @@ const children: Routes = [
   {
     path: 'sugerencias/:pagina',
     component: SuggestionComponent,
+  },
+  {
+    path: 'actividades',
+    component: ActivitiesComponent,
   },
 ];
 

@@ -8,7 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
+import { distinctUntilChanged, filter, pluck, map } from 'rxjs/operators';
 import { showAlert, showQuestion } from 'src/app/helpers/alert';
 import {
   getValueOfLocalStorage,

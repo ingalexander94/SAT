@@ -9,6 +9,7 @@ import { showAlert } from '../helpers/alert';
 import { saveInLocalStorage } from '../helpers/localStorage';
 import { isTeacher } from '../helpers/ui';
 import { AuthResponse, UserAuth } from '../model/auth';
+import { removerActivityAction } from '../reducer/activity/activity.action';
 import {
   Role,
   RoleResponse,
@@ -156,6 +157,7 @@ export class AuthService {
     this.store.dispatch(new DeleteNotificationsAction());
     this.store.dispatch(new FinishLoadingAction());
     this.store.dispatch(new RemoveRiskAction());
+    this.store.dispatch(new removerActivityAction());
     localStorage.clear();
     const path = isTeacher(role)
       ? 'docente'

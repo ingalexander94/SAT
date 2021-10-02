@@ -6,6 +6,7 @@ import * as fromChat from './reducer/Chat/chat.reducer';
 import * as fromRisk from './reducer/risk/risk.reducer';
 import * as fromNotification from './reducer/notification/notifications.reducer';
 import * as fromRole from './reducer/role/role.reduce';
+import * as fromActivity from './reducer/activity/activity.reduce';
 
 export interface AppState {
   ui: fromUI.UIState;
@@ -15,6 +16,7 @@ export interface AppState {
   notification: fromNotification.NotificationState;
   risk: fromRisk.RiskState;
   role: fromRole.RoleState;
+  activity: fromActivity.ActivityState;
 }
 
 export const combineReducer: ActionReducerMap<AppState> = {
@@ -24,5 +26,6 @@ export const combineReducer: ActionReducerMap<AppState> = {
   chat: fromChat.chatReducer,
   notification: fromNotification.notificationReducer,
   risk: fromRisk.riskReducer,
-  role: fromRole.roleReducer,
+  role: fromRole.roleReduce,
+  activity: fromActivity.activityReducer,
 };

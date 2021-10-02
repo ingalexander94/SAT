@@ -171,11 +171,12 @@
 @media (min-width: 768px) {
   .risks_options {
     gap: 16px 40px;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
   }
 
-  .risks_options {
-    margin-bottom: 16px;
+  .risks_options h4,
+  span {
+    font-size: 20px;
   }
 
   .timeline .center-line {
@@ -200,6 +201,12 @@
 
   .row-1 section .icon {
     left: initial;
+  }
+  section p {
+    font-size: 20px;
+  }
+  .row section .bottom i {
+    font-size: 20px;
   }
 }
 
