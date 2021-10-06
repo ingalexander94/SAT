@@ -44,12 +44,15 @@ table * {
 .red {
   background: var(--red-primary-color);
 }
+
 .green {
   background: var(--green-primary-color);
 }
+
 .orange {
   background: var(--orange-primary-color);
 }
+
 .yellow {
   background: var(--yellow-primary-color);
 }

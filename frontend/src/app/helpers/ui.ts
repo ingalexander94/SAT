@@ -55,6 +55,16 @@ const parseDate = (date: Date = new Date()) => {
   return formatDate;
 };
 
+const getColorByRisk = (value: String) => {
+  return value === 'critico'
+    ? 'red'
+    : value === 'moderado'
+    ? 'orange'
+    : value === 'leve'
+    ? 'yellow'
+    : 'green';
+};
+
 export {
   normalizeText,
   resetDate,
@@ -64,4 +74,5 @@ export {
   isAdministrative,
   isTeacher,
   parseDate,
+  getColorByRisk,
 };

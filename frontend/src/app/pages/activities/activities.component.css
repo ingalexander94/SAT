@@ -34,31 +34,6 @@ button {
   padding: 0 16px;
 }
 
-.pagination {
-  margin: auto;
-  display: flex;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.pagination a {
-  font-size: 18px;
-  border: 1px solid var(--red-primary-color);
-  width: 32px;
-  height: 32px;
-  border-radius: 5px;
-  text-align: center;
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
-.pagination a.active,
-.pagination a:hover {
-  background: var(--red-primary-color);
-  color: white !important;
-}
-
 .filter {
   color: var(--red-primary-color);
   cursor: pointer;
@@ -68,19 +43,60 @@ button {
   margin-right: 8px;
   cursor: pointer;
 }
+
 .titleActivity {
   text-align: center;
 }
+
 .titleActivity h1 {
   font-size: 20px;
   font-weight: bold;
 }
 
+.info_risk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info_risk p {
+  margin-right: 8px;
+}
+
+.info_risk .point {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.icon-red {
+  color: var(--red-primary-color);
+}
+
+.red {
+  background: var(--red-primary-color);
+}
+
+.green {
+  background: var(--green-primary-color);
+}
+
+.orange {
+  background: var(--orange-primary-color);
+}
+
+.yellow {
+  background: var(--yellow-primary-color);
+}
+
+.gray {
+  background: var(--gray-menu);
+}
+
 /* Tablet */
 
 @media (min-width: 768px) and (max-width: 1151px) {
-  .quotes,
-  .pagination {
+  .quotes {
     width: 90vw;
     margin: auto;
   }
@@ -107,8 +123,7 @@ button {
     margin-top: 80px;
   }
 
-  .quotes,
-  .pagination {
+  .quotes {
     width: 60vw;
     margin: 32px auto;
   }

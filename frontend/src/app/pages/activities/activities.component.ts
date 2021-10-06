@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
+import { showQuestion } from 'src/app/helpers/alert';
+import { getColorByRisk } from 'src/app/helpers/ui';
 import { Activity } from 'src/app/model/activity';
-import { loandActivitiesAction } from 'src/app/reducer/activity/activity.action';
+import {
+  DeleteActivityAction,
+  LoadingActivityAction,
+  loandActivitiesAction,
+  SetActiveAction,
+} from 'src/app/reducer/activity/activity.action';
 import { ActivityService } from 'src/app/services/activity.service';
 
 @Component({
@@ -12,7 +18,7 @@ import { ActivityService } from 'src/app/services/activity.service';
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.css'],
 })
-export class ActivitiesComponent implements OnInit {
+export class ActivitiesComponent implements OnInit, OnDestroy {
   create: boolean = false;
   activities: Activity[] = [];
   subscription: Subscription = new Subscription();
@@ -27,17 +33,42 @@ export class ActivitiesComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.store
       .select('activity')
-      .pipe(filter((activity) => activity !== null))
-      .subscribe((activity) => {
-        this.activities = activity.activities;
-      });
+      .subscribe(({ activities }) => (this.activities = activities));
   }
 
-  createActivity(answer: boolean = true) {
+  createActivity(answer: boolean = true, active: Activity = null) {
     this.create = answer;
+    if (active) this.setActive(active);
   }
+
   async listActivity() {
     const activities = await this.activityService.listActivities();
     this.store.dispatch(new loandActivitiesAction(activities));
+  }
+
+  getColor(value: String) {
+    return getColorByRisk(value);
+  }
+
+  async desactiveActivity(id: String, index: number) {
+    const { isConfirmed } = await showQuestion(
+      '¿Está seguro de desactivar la actividad?',
+      'No se pueden revertir los cambios'
+    );
+    if (isConfirmed) {
+      this.store.dispatch(new LoadingActivityAction(id));
+      const res = await this.activityService.desactiveActivity(id);
+      if (res.ok) {
+        this.store.dispatch(new DeleteActivityAction(id));
+      }
+    }
+  }
+
+  setActive(activity: Activity) {
+    this.store.dispatch(new SetActiveAction(activity));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

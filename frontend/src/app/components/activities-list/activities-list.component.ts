@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter, pluck, distinctUntilChanged } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
+import { getColorByRisk } from 'src/app/helpers/ui';
 import { Activity } from 'src/app/model/activity';
 import { ActivityService } from 'src/app/services/activity.service';
 import { UiService } from 'src/app/services/ui.service';
@@ -44,13 +45,7 @@ export class ActivitiesListComponent implements OnInit, OnDestroy {
   }
 
   getColor(value: String) {
-    return value === 'critico'
-      ? 'red'
-      : value === 'moderado'
-      ? 'orange'
-      : value === 'leve'
-      ? 'yellow'
-      : 'green';
+    return getColorByRisk(value);
   }
 
   ngOnDestroy(): void {
