@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { normalizeText } from 'src/app/helpers/ui';
+import { getColorByRisk, normalizeText } from 'src/app/helpers/ui';
 import { Activity } from 'src/app/model/activity';
 import { Title } from 'src/app/model/ui';
 import { ActivityService } from 'src/app/services/activity.service';
@@ -49,13 +49,7 @@ export class ActivitiesStudentComponent implements OnInit {
   }
 
   getColor(value: String) {
-    return value === 'critico'
-      ? 'red'
-      : value === 'moderado'
-      ? 'orange'
-      : value === 'leve'
-      ? 'yellow'
-      : 'green';
+    return getColorByRisk(value);
   }
 
   normalize(text: String) {

@@ -9,6 +9,7 @@ export interface Activity {
   description?: String;
   counter: number;
   asistance: Boolean;
+  loading?: Boolean;
 }
 export interface ResponseActivity {
   data: Activity;

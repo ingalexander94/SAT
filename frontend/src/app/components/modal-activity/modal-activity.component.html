@@ -1,6 +1,6 @@
 <div class="wrapper_alert" (click)="onClick($event)">
   <div class="alert_container">
-    <h3>Crear una actividad</h3>
+    <h3>{{ title }}</h3>
     <hr />
     <form [formGroup]="formCreateActivity" (submit)="onSubmit()">
       <div class="row">
@@ -39,6 +39,7 @@
             name="date"
             id="date"
             type="datetime-local"
+            min="{{ today | date: 'yyyy-MM-ddTHH:mm' }}"
             required
           />
         </div>
@@ -93,7 +94,8 @@
         </ul>
       </div>
       <button [disabled]="formCreateActivity.invalid" type="submit">
-        Crear <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
+        {{ textButton }}
+        <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>
     </form>
   </div>
