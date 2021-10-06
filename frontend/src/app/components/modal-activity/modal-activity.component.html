@@ -1,95 +1,100 @@
 <div class="wrapper_alert" (click)="onClick($event)">
   <div class="alert_container">
-    <h2 (click)="close()" class="pointer">
-      <i class="fas fa-times fa-fw"></i>
-    </h2>
-    <h1>Crear una actividad</h1>
-    <div class="form">
-      <form [formGroup]="formCreateActivity" (submit)="onSubmit()">
-        <div class="row">
-          <div class="campu">
-            <label for="nombre">Nombre</label>
-            <input formControlName="name" name="name" id="name" required />
-            <ul *ngIf="name.invalid && (name.dirty || name.touched)">
-              <li>* El nombre es obligatorio</li>
-            </ul>
-          </div>
-          <div class="campu">
-            <label for="place">Lugar</label>
-            <input formControlName="place" name="place" id="place" required />
-            <ul *ngIf="place.invalid && (place.dirty || place.touched)">
-              <li>* El lugar es obligatorio</li>
-            </ul>
-          </div>
+    <h3>Crear una actividad</h3>
+    <hr />
+    <form [formGroup]="formCreateActivity" (submit)="onSubmit()">
+      <div class="row">
+        <div class="campu">
+          <label for="name">Nombre</label>
+          <input
+            formControlName="name"
+            name="name"
+            id="name"
+            type="text"
+            required
+          />
         </div>
+        <ul *ngIf="name.invalid && (name.dirty || name.touched)">
+          <li>* El campo es obligatorio</li>
+        </ul>
+        <div class="campu">
+          <label for="place">Lugar</label>
+          <input
+            formControlName="place"
+            name="place"
+            type="text"
+            id="place"
+            required
+          />
+        </div>
+        <ul *ngIf="place.invalid && (place.dirty || place.touched)">
+          <li>* El campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="campu">
+          <label for="date">Fecha</label>
+          <input
+            formControlName="date"
+            name="date"
+            id="date"
+            type="datetime-local"
+            required
+          />
+        </div>
+        <ul *ngIf="date.invalid && (date.dirty || date.touched)">
+          <li>* El campo es obligatorio</li>
+        </ul>
+      </div>
 
-        <div class="row">
-          <div class="campu">
-            <label for="date">Fecha</label>
-            <input
-              formControlName="date"
-              name="date"
-              id="date"
-              type="date"
-              required
-            />
-            <ul *ngIf="date.invalid && (date.dirty || date.touched)">
-              <li>* La fecha es obligatoria</li>
-            </ul>
-          </div>
-          <div class="campu">
-            <label for="hour">Hora</label>
-            <input
-              formControlName="hour"
-              name="hour"
-              type="time"
-              min="8:00"
-              max="18:00"
-              id="hour"
-              required
-            />
-            <ul *ngIf="hour.invalid && (hour.dirty || hour.touched)">
-              <li>* la hora es obligatoria</li>
-            </ul>
-          </div>
+      <div class="row">
+        <div class="campu">
+          <label for="nombre">Riesgo</label>
+          <select name="risk" id="risk" formControlName="risk">
+            <option value="">Selecione</option>
+            <option value="Académico">Academico</option>
+            <option value="Individual">Individual</option>
+            <option value="Institucional">Insititucional</option>
+            <option value="Económico">Economico</option>
+          </select>
         </div>
-
-        <div class="row">
-          <div class="campu">
-            <label for="nombre">Riesgo</label>
-            <select name="risk" id="risk" formControlName="risk">
-              <option value="">Selecione</option>
-              <option value="Académico">Academico</option>
-              <option value="Individual">Individual</option>
-              <option value="Institucional">Insititucional</option>
-              <option value="Económico">Economico</option>
-            </select>
-            <ul *ngIf="risk.invalid && (risk.dirty || risk.touched)">
-              <li>* El riesgo es obligatorio</li>
-            </ul>
-          </div>
-          <div class="campu">
-            <label for="nombre">Nivel</label>
-            <select name="riskLevel" id="riskLevel" formControlName="riskLevel">
-              <option value="">Seleccione</option>
-              <option value="sin riesgo">Sin riesgo</option>
-              <option value="leve">Leve</option>
-              <option value="moderado">Moderado</option>
-              <option value="critico">Critico</option>
-            </select>
-            <ul
-              *ngIf="
-                riskLevel.invalid && (riskLevel.dirty || riskLevel.touched)
-              "
-            >
-              <li>* El nivel es obligatorio</li>
-            </ul>
-          </div>
+        <ul *ngIf="risk.invalid && (risk.dirty || risk.touched)">
+          <li>* El campo es obligatorio</li>
+        </ul>
+        <div class="campu">
+          <label for="nombre">Nivel</label>
+          <select name="riskLevel" id="riskLevel" formControlName="riskLevel">
+            <option value="">Seleccione</option>
+            <option value="sin riesgo">Sin riesgo</option>
+            <option value="leve">Leve</option>
+            <option value="moderado">Moderado</option>
+            <option value="critico">Critico</option>
+          </select>
         </div>
-        <button [disabled]="formCreateActivity.invalid" type="submit">
-          Crear
-        </button>
-      </form>
-    </div>
+        <ul *ngIf="riskLevel.invalid && (riskLevel.dirty || riskLevel.touched)">
+          <li>* El campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="campu">
+          <label for="description">Descripción</label>
+          <textarea
+            name="description"
+            id="description"
+            formControlName="description"
+          ></textarea>
+        </div>
+        <ul
+          *ngIf="
+            description.invalid && (description.dirty || description.touched)
+          "
+        >
+          <li>* El campo es obligatorio</li>
+        </ul>
+      </div>
+      <button [disabled]="formCreateActivity.invalid" type="submit">
+        Crear <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
+      </button>
+    </form>
   </div>
 </div>

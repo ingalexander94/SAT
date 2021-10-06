@@ -2,10 +2,13 @@ export interface Activity {
   _id: any;
   name: String;
   date: Date;
-  hour: String;
   place: String;
   risk: String;
   riskLevel: String;
+  state: Boolean;
+  description?: String;
+  counter: number;
+  asistance: Boolean;
 }
 export interface ResponseActivity {
   data: Activity;

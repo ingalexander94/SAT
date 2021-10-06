@@ -1,6 +1,6 @@
 import { getColor, isTeacher } from '../helpers/ui';
 import { Risk } from './risk';
-import { ActivitiesList, ItemRisk, MenuOptions, StudentInDanger } from './ui';
+import { ItemRisk, MenuOptions } from './ui';
 
 // Item Riesgos
 export const itemsaEconomicRisks: ItemRisk = {
@@ -62,25 +62,6 @@ export const itemsaInstitucionalRisks: ItemRisk = {
   ],
 };
 
-// Actividades
-export const activities: ActivitiesList[] = [
-  {
-    date: '12/05/2020',
-    name: 'Amigos Academicos',
-    icon: 'fa-check-circle',
-  },
-  {
-    date: '12/05/2020',
-    name: 'Apoyo Psicologico',
-    icon: 'fa-times-circle',
-  },
-  {
-    date: '12/05/2020',
-    name: 'Amigos Academicos',
-    icon: 'fa-spinner',
-  },
-];
-
 // Rutas
 
 export const menuRoutes: MenuOptions[] = [
@@ -88,8 +69,7 @@ export const menuRoutes: MenuOptions[] = [
     path: '/estudiante/actividades',
     name: 'Ver actividades',
     icon: 'list',
-    isAllowed: (role: String) =>
-      role === 'estudiante' || role === 'vicerrector' ? true : false,
+    isAllowed: () => true,
   },
   {
     path: '/estudiante/chat',

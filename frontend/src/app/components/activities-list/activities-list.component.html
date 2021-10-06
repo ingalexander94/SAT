@@ -1,22 +1,34 @@
 <div class="content animate__animated animate__fadeIn">
   <h2>Lista de actividades <i class="fas fa-list-ul"></i></h2>
-  <table>
+  <p *ngIf="!loading && activities.length < 1">
+    El estudiante no ha participado en actividades.
+  </p>
+  <p *ngIf="!loading && activities.length > 0">
+    Actividades en las que el estudiante ha asistido.
+  </p>
+  <app-loading *ngIf="loading"></app-loading>
+  <table *ngIf="!loading && activities.length > 0">
     <thead>
       <tr>
         <th>Fecha</th>
         <th>Actividades</th>
-        <th>Asistencia</th>
+        <th>Riesgo</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of activitiesList">
+      <tr *ngFor="let item of activities">
         <td>
-          <h5>{{ item.date }}</h5>
+          {{ item.date | date: "MMM d, y, hh:mm a" }}
         </td>
         <td>
-          <h5>{{ item.name }}</h5>
+          {{ item.name }}
         </td>
-        <td><i class="fas {{ item.icon }}"></i></td>
+        <td>
+          <div class="info_risk">
+            <p>{{ item.risk }}</p>
+            <div class="point {{ getColor(item.riskLevel) }}"></div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

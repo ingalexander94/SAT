@@ -17,6 +17,7 @@ export class ModalActivityComponent implements OnInit {
 
   formCreateActivity: FormGroup;
   currentDate: Date = new Date();
+  loading: boolean = false;
 
   constructor(
     private activityService: ActivityService,
@@ -25,50 +26,14 @@ export class ModalActivityComponent implements OnInit {
     this.formCreateActivity = this.createFormCreateActivity();
   }
 
-  validarDate(formDate: Date, hour: string) {
-    formDate = new Date(formDate);
-    let acceptedTime: number = parseInt(hour.split(':')[0], 10);
-    this.currentDate.setDate(this.currentDate.getDate() - 1);
-    if (this.currentDate.toISOString() > formDate.toISOString()) {
-      this.formCreateActivity.setValue({
-        name: this.formCreateActivity.get('name').value,
-        date: '',
-        hour: this.formCreateActivity.get('hour').value,
-        place: this.formCreateActivity.get('place').value,
-        risk: this.formCreateActivity.get('risk').value,
-        riskLevel: this.formCreateActivity.get('riskLevel').value,
-      });
-      this.currentDate.setDate(this.currentDate.getDate() + 1);
-      showAlert('error', 'La fecha es incorrecta');
-      return false;
-    }
-    if (
-      this.currentDate.toISOString() === formDate.toISOString() &&
-      this.currentDate.getHours() + 2 > acceptedTime
-    ) {
-      this.formCreateActivity.setValue({
-        name: this.formCreateActivity.get('name').value,
-        date: this.formCreateActivity.get('date').value,
-        hour: '',
-        place: this.formCreateActivity.get('place').value,
-        risk: this.formCreateActivity.get('risk').value,
-        riskLevel: this.formCreateActivity.get('riskLevel').value,
-      });
-      this.currentDate.setDate(this.currentDate.getDate() + 1);
-      showAlert('error', 'La hora programada de ser 2 horas mayor a la actual');
-      return false;
-    }
-    this.currentDate.setDate(this.currentDate.getDate() + 1);
-    return true;
-  }
   createFormCreateActivity(): FormGroup {
     return new FormGroup({
       name: new FormControl('', Validators.required),
       date: new FormControl('', Validators.required),
-      hour: new FormControl('', Validators.required),
       place: new FormControl('', Validators.required),
-      risk: new FormControl('', [Validators.required]),
-      riskLevel: new FormControl('', [Validators.required]),
+      risk: new FormControl('', Validators.required),
+      riskLevel: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
     });
   }
 
@@ -83,35 +48,44 @@ export class ModalActivityComponent implements OnInit {
   }
 
   async onSubmit() {
-    const activities: Activity = this.formCreateActivity.value;
-    let date: Date = this.formCreateActivity.get('date').value;
-    const hour = this.formCreateActivity.get('hour').value;
-
-    if (this.validarDate(date, hour)) {
+    this.loading = true;
+    if (!this.formCreateActivity.invalid) {
+      const date = new Date(
+        this.formCreateActivity.get('date').value
+      ).toISOString();
+      const activities = {
+        ...this.formCreateActivity.value,
+        date,
+      };
       const activity = await this.activityService.createActivities(activities);
       this.store.dispatch(new loandActivityAction(activity.data));
       this.close();
-      showAlert('success', 'Actividad fue creada con  exito');
+      showAlert('success', 'Actividad fue creada con exito');
     }
+    this.loading = false;
   }
 
   get name() {
     return this.formCreateActivity.get('name');
   }
+
   get date() {
     return this.formCreateActivity.get('date');
   }
 
-  get hour() {
-    return this.formCreateActivity.get('hour');
-  }
   get place() {
     return this.formCreateActivity.get('place');
   }
+
   get risk() {
     return this.formCreateActivity.get('risk');
   }
+
   get riskLevel() {
     return this.formCreateActivity.get('riskLevel');
+  }
+
+  get description() {
+    return this.formCreateActivity.get('description');
   }
 }

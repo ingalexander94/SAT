@@ -4,11 +4,10 @@
 
 .wrapper_schedule p {
   text-align: center;
-  margin-top: 16px;
+  margin: 16px 0;
 }
 
 .quotes {
-  margin-top: 32px;
   overflow-x: scroll;
 }
 
@@ -89,9 +88,15 @@ button {
   .quotes table * {
     font-size: 20px;
   }
+
   .titleActivity h1 {
     font-size: 32px;
     font-weight: bold;
+  }
+
+  .wrapper_schedule p {
+    font-size: 20px;
+    margin: 16px 0;
   }
 }
 

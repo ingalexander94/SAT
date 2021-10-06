@@ -22,6 +22,15 @@
             >Ver materias</a
           >
         </li>
+        <li *ngIf="roleUser === 'estudiante'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/estudiante/listado-actividades"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Ver Actividades</a
+          >
+        </li>
         <li *ngIf="roleUser === 'jefe' || roleUser === 'vicerrector'">
           <a
             (click)="closeMenu()"
