@@ -29,7 +29,7 @@
               {{ activity.name }}
               <i
                 (click)="createActivity(true, activity)"
-                class="fas fa-pencil-alt icon-red pointer"
+                class="fas fa-pencil-alt icon_red pointer"
               ></i>
             </td>
             <td>{{ activity.date | date: "EEEE, d 'de' MMMM 'del' y" }}</td>
@@ -41,9 +41,23 @@
                 <div class="point {{ getColor(activity.riskLevel) }}"></div>
               </div>
             </td>
-            <td>{{ activity.counter }}</td>
             <td>
-              <button (click)="desactiveActivity(activity._id.$oid, i)">
+              {{ activity.counter }}
+              <i
+                *ngIf="activity.counter > 0 && !activity.loading"
+                (click)="
+                  download(
+                    activity._id.$oid,
+                    activity.name,
+                    activity.date,
+                    activity.place
+                  )
+                "
+                class="fas fa-download icon_red pointer"
+              ></i>
+            </td>
+            <td>
+              <button (click)="desactiveActivity(activity._id.$oid)">
                 <i *ngIf="!activity.loading" class="fas fa-stopwatch"></i>
                 <i
                   *ngIf="activity.loading"

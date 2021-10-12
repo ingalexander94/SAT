@@ -53,6 +53,7 @@ export class ActivitiesStudentComponent implements OnInit {
   }
 
   normalize(text: String) {
+    if (text === 'global') return 'Logo_SAT';
     return normalizeText(text);
   }
 }

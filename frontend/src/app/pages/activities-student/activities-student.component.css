@@ -114,6 +114,13 @@
     gap: 16px;
   }
 
+  .card_img {
+    height: 310px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .empty p {
     font-size: 20px;
   }
@@ -139,6 +146,13 @@
     display: flex;
     justify-content: center;
     padding-top: 48px;
+  }
+
+  .card_img {
+    height: 310px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .list_activities {

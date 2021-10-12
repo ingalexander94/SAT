@@ -75,6 +75,8 @@ export class ModalActivityComponent implements OnInit, OnDestroy {
             riskLevel,
             description
           );
+          this.formCreateActivity.get('risk').disable();
+          this.formCreateActivity.get('riskLevel').disable();
         } else {
           this.title = 'Crear una actividad';
           this.textButton = 'Crear';
@@ -91,6 +93,12 @@ export class ModalActivityComponent implements OnInit, OnDestroy {
     if (target.className === 'wrapper_alert') {
       this.close();
     }
+  }
+
+  change() {
+    this.formCreateActivity.get('risk').value === 'global'
+      ? this.formCreateActivity.get('riskLevel').setValue('global')
+      : this.formCreateActivity.get('riskLevel').setValue('');
   }
 
   async onSubmit() {

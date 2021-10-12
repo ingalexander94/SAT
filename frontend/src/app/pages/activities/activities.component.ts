@@ -3,11 +3,14 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
 import { showQuestion } from 'src/app/helpers/alert';
-import { getColorByRisk } from 'src/app/helpers/ui';
+import { generatePDF } from 'src/app/helpers/pdf';
+import { createTableActivity } from 'src/app/helpers/report';
+import { getColorByRisk, parseDate } from 'src/app/helpers/ui';
 import { Activity } from 'src/app/model/activity';
 import {
   DeleteActivityAction,
   LoadingActivityAction,
+  UnsetLoadingActivityAction,
   loandActivitiesAction,
   SetActiveAction,
 } from 'src/app/reducer/activity/activity.action';
@@ -50,7 +53,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     return getColorByRisk(value);
   }
 
-  async desactiveActivity(id: String, index: number) {
+  async desactiveActivity(id: String) {
     const { isConfirmed } = await showQuestion(
       '¿Está seguro de desactivar la actividad?',
       'No se pueden revertir los cambios'
@@ -66,6 +69,15 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
   setActive(activity: Activity) {
     this.store.dispatch(new SetActiveAction(activity));
+  }
+
+  async download(activity: String, name: String, date: Date, place: String) {
+    this.store.dispatch(new LoadingActivityAction(activity));
+    const students = await this.activityService.downloadReport(activity);
+    const formatDate = parseDate(new Date(date));
+    const msg = `Listado de asistencia para la actividad ${name} realizada el ${formatDate} en ${place}`;
+    this.store.dispatch(new UnsetLoadingActivityAction(activity));
+    generatePDF(students, msg, createTableActivity);
   }
 
   ngOnDestroy(): void {
