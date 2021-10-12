@@ -36,6 +36,14 @@ export const activityReducer = (
         ),
       };
 
+    case fromActivity.UNSET_LOADING_ACTIVITY:
+      return {
+        ...state,
+        activities: state.activities.map((x) =>
+          x._id.$oid === action.payload ? { ...x, loading: false } : x
+        ),
+      };
+
     case fromActivity.DELETE_ACTIVITY:
       return {
         ...state,

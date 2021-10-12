@@ -41,6 +41,12 @@ def desactiveActivity(_, id=None):
 def updateActivity(_):
     return instance.updateActivity()
 
+@activity_router.route("/download/")
+@activity_router.route("/download/<id>")
+@token_required
+def download(_, id=None):
+    return instance.download(id)
+
 
 
 

@@ -50,9 +50,15 @@
 
       <div class="row">
         <div class="campu">
-          <label for="nombre">Riesgo</label>
-          <select name="risk" id="risk" formControlName="risk">
-            <option value="">Selecione</option>
+          <label for="risk">Riesgo</label>
+          <select
+            name="risk"
+            id="risk"
+            formControlName="risk"
+            (change)="change()"
+          >
+            <option value="">Seleccione</option>
+            <option value="global">Global</option>
             <option value="Académico">Academico</option>
             <option value="Individual">Individual</option>
             <option value="Institucional">Insititucional</option>
@@ -62,14 +68,21 @@
         <ul *ngIf="risk.invalid && (risk.dirty || risk.touched)">
           <li>* El campo es obligatorio</li>
         </ul>
-        <div class="campu">
-          <label for="nombre">Nivel</label>
+        <div class="campu" *ngIf="risk.value === 'global'">
+          <label for="riskLevel">Nivel</label>
+          <select name="riskLevel" id="riskLevel" formControlName="riskLevel">
+            <option value="">Seleccione</option>
+            <option value="global">Global</option>
+          </select>
+        </div>
+        <div class="campu" *ngIf="risk.value !== 'global'">
+          <label for="riskLevel">Nivel</label>
           <select name="riskLevel" id="riskLevel" formControlName="riskLevel">
             <option value="">Seleccione</option>
             <option value="sin riesgo">Sin riesgo</option>
             <option value="leve">Leve</option>
+            <option value="critico">Crítico</option>
             <option value="moderado">Moderado</option>
-            <option value="critico">Critico</option>
           </select>
         </div>
         <ul *ngIf="riskLevel.invalid && (riskLevel.dirty || riskLevel.touched)">

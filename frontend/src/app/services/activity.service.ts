@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { Activity, ResponseActivity } from '../model/activity';
+import { User } from '../model/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,12 @@ export class ActivityService {
     const data = { id, activity };
     return this.httpClient
       .put<any>(`${this.endpoint}/activity/`, data)
+      .toPromise();
+  }
+
+  downloadReport(id: String) {
+    return this.httpClient
+      .get<User[]>(`${this.endpoint}/activity/download/${id}`)
       .toPromise();
   }
 }

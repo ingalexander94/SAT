@@ -5,6 +5,7 @@ export const LOAD_ACTIVITIES = '[ACTIVITY] Cargar activities';
 export const LOAD_ACTIVITY = '[ACTIVITY] Cargar activity';
 export const REMOVE_ACTIVITY = '[ACTIVITY] Limpiar activity';
 export const LOADING_ACTIVITY = '[ACTIVITY] Cargando activity';
+export const UNSET_LOADING_ACTIVITY = '[ACTIVITY] Desactivar carga activity';
 export const DELETE_ACTIVITY = '[ACTIVITY] Eliminar activity';
 export const SET_ACTIVE = '[ACTIVITY] Activar Activity';
 export const UNSET_ACTIVE = '[ACTIVITY] Desactivar Activity';
@@ -27,6 +28,11 @@ export class removerActivityAction implements Action {
 
 export class LoadingActivityAction implements Action {
   readonly type = LOADING_ACTIVITY;
+  constructor(public payload: any) {}
+}
+
+export class UnsetLoadingActivityAction implements Action {
+  readonly type = UNSET_LOADING_ACTIVITY;
   constructor(public payload: any) {}
 }
 
@@ -58,4 +64,5 @@ export type actions =
   | DeleteActivityAction
   | SetActiveAction
   | UnsetActiveAction
-  | UpdateActivityAction;
+  | UpdateActivityAction
+  | UnsetLoadingActivityAction;

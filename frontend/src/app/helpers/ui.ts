@@ -56,6 +56,7 @@ const parseDate = (date: Date = new Date()) => {
 };
 
 const getColorByRisk = (value: String) => {
+  if (value === 'global') return 'gray';
   return value === 'critico'
     ? 'red'
     : value === 'moderado'

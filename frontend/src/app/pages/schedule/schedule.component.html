@@ -25,7 +25,7 @@
             <th *ngIf="state !== 'RECHAZADA'">¿Asistió?</th>
           </tr>
         </thead>
-        <tbody *ngIf="!loading && meets.length">
+        <tbody *ngIf="!loading && meets.length > 0">
           <tr *ngFor="let meet of meets; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ meet.date | date: "EEEE, d MMMM y" }}</td>
@@ -78,7 +78,7 @@
       </table>
     </div>
 
-    <p *ngIf="!meets.length">No se encontrarón citas programadas</p>
+    <p *ngIf="meets.length === 0">No se encontrarón citas programadas</p>
 
     <div class="pagination">
       <a
