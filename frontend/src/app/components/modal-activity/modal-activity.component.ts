@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
+import { getDateUTC } from 'src/app/helpers/ui';
 import { Activity } from 'src/app/model/activity';
 import {
   loandActivityAction,
@@ -42,7 +43,7 @@ export class ModalActivityComponent implements OnInit, OnDestroy {
 
   createFormCreateActivity(
     name: String = '',
-    date: String = new Date().toISOString().slice(0, 16),
+    date: String = new Date(getDateUTC()).toISOString().slice(0, -1),
     place: String = '',
     risk: String = '',
     riskLevel: String = '',
@@ -69,7 +70,7 @@ export class ModalActivityComponent implements OnInit, OnDestroy {
           const { name, date, place, risk, riskLevel, description } = active;
           this.formCreateActivity = this.createFormCreateActivity(
             name,
-            new Date(date).toISOString().slice(0, 16),
+            new Date(getDateUTC(new Date(date))).toISOString().slice(0, -1),
             place,
             risk,
             riskLevel,

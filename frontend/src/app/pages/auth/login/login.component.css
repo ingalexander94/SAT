@@ -16,17 +16,6 @@ h1 {
   margin-top: -16px;
 }
 
-ul {
-  list-style: none;
-  text-align: justify;
-  margin-left: 16px;
-}
-
-ul li {
-  font-size: 14px;
-  color: var(--red-primary-color);
-}
-
 .auth_container {
   text-align: center;
 }
@@ -81,20 +70,12 @@ ul li {
   color: var(--red-primary-color);
 }
 
-button:disabled {
-  background: #ff7686;
-}
-
 /* Tablet */
 
 @media (min-width: 768px) and (max-width: 1151px) {
   img {
     width: 315px;
     height: 200px;
-  }
-
-  ul li {
-    font-size: 16px;
   }
 
   .content {
@@ -138,10 +119,6 @@ button:disabled {
   button {
     margin-top: 16px;
     width: 100%;
-  }
-
-  ul li {
-    margin: 0;
   }
 
   .content {

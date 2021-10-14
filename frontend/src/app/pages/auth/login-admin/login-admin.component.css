@@ -68,10 +68,6 @@ ul li {
   color: var(--red-primary-color);
 }
 
-button:disabled {
-  background: #ff7686;
-}
-
 /* Tablet */
 
 @media (min-width: 768px) and (max-width: 1151px) {

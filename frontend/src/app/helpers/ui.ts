@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Role } from '../model/role';
 
 const normalizeText = (text: String) =>
@@ -14,6 +15,13 @@ const resetDate = (date: string) => {
   newDate.setMilliseconds(0);
   newDate.setDate(newDate.getDate() + 1);
   return newDate.toISOString();
+};
+
+const getDateUTC = (date: Date = new Date()) => {
+  return new DatePipe('es-Ar').transform(
+    date.toISOString(),
+    "MMM d, y, HH:mm 'UTC'"
+  );
 };
 
 const getColor = (value: number) =>
@@ -76,4 +84,5 @@ export {
   isTeacher,
   parseDate,
   getColorByRisk,
+  getDateUTC,
 };

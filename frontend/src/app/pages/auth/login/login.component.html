@@ -33,7 +33,10 @@
           </label>
         </div>
       </div>
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{ error: code.invalid && (code.dirty || code.touched) }"
+      >
         <input
           type="text"
           placeholder="Código"
@@ -43,16 +46,22 @@
           formControlName="code"
           autocomplete="off"
           name="code"
-          id="code"
           autofocus
           required
         />
-        <i class="fas fa-user fa-fw"></i>
+        <i *ngIf="!code.invalid" class="fas fa-user fa-fw"></i>
+        <i
+          *ngIf="code.invalid"
+          class="fas fa-exclamation-triangle pointer"
+          id="code"
+        ></i>
+        <div class="popover">
+          <ul>
+            <li>* Debe tener 7 caracteres</li>
+            <li>* Solo se aceptan números</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="code.invalid && (code.dirty || code.touched)">
-        <li>* Debe tener 7 caracteres</li>
-        <li>* Solo se aceptan números</li>
-      </ul>
       <div class="form_input">
         <input
           [type]="typeDocument"
@@ -65,7 +74,6 @@
           formControlName="document"
           name="document"
           autocomplete="off"
-          id="document"
           required
         />
         <i class="fas fa-address-card fa-fw"></i>
@@ -83,7 +91,6 @@
           max="20"
           formControlName="password"
           name="password"
-          id="password"
           required
         />
         <i
@@ -102,7 +109,7 @@
       </ul>
       <button [disabled]="formLogin.invalid" type="submit">
         Iniciar sesión
-        <i *ngIf="loading" class="fas fa-pulse fa-fw"></i>
+        <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>
     </form>
     <p class="copyright">2021 © Todos los derechos reservados</p>

@@ -20,7 +20,10 @@
           </label>
         </div>
       </div>
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{ error: code.invalid && (code.dirty || code.touched) }"
+      >
         <input
           type="text"
           placeholder="Código"
@@ -30,17 +33,28 @@
           formControlName="code"
           name="code"
           autocomplete="off"
-          id="code"
           autofocus
           required
         />
-        <i class="fas fa-user fa-fw"></i>
+        <i *ngIf="!code.invalid" class="fas fa-user fa-fw"></i>
+        <i
+          *ngIf="code.invalid"
+          class="fas fa-exclamation-triangle pointer"
+          id="code"
+        ></i>
+        <div class="popover">
+          <ul>
+            <li>* Debe tener 7 caracteres</li>
+            <li>* Solo se aceptan números</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="code.invalid && (code.dirty || code.touched)">
-        <li>* Debe tener 7 caracteres</li>
-        <li>* Solo se aceptan números</li>
-      </ul>
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{
+          error: document.invalid && (document.dirty || document.touched)
+        }"
+      >
         <input
           [type]="typeDocument"
           placeholder="Documento"
@@ -52,15 +66,21 @@
           formControlName="document"
           autocomplete="off"
           name="document"
-          id="document"
           required
         />
-        <i class="fas fa-address-card fa-fw"></i>
+        <i *ngIf="!code.invalid" class="fas fa-address-card fa-fw"></i>
+        <i
+          *ngIf="code.invalid"
+          class="fas fa-exclamation-circle pointer"
+          id="document"
+        ></i>
+        <div class="popover">
+          <ul>
+            <li>* Debe tener 8 ó 10 caracteres</li>
+            <li>* Solo se aceptan números</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="document.invalid && (document.dirty || document.touched)">
-        <li>* Debe tener 8 ó 10 caracteres</li>
-        <li>* Solo se aceptan números</li>
-      </ul>
       <div class="form_input">
         <input
           [type]="typePassword"
@@ -70,7 +90,6 @@
           max="20"
           formControlName="password"
           name="password"
-          id="password"
           required
         />
         <i
