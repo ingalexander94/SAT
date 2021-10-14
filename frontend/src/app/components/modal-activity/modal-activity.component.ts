@@ -42,7 +42,9 @@ export class ModalActivityComponent implements OnInit, OnDestroy {
 
   createFormCreateActivity(
     name: String = '',
-    date: String = new Date().toISOString().slice(0, 16),
+    date: String = new Date('Oct 14, 2021, 13:36 UTC')
+      .toISOString()
+      .slice(0, -1),
     place: String = '',
     risk: String = '',
     riskLevel: String = '',
@@ -104,13 +106,13 @@ export class ModalActivityComponent implements OnInit, OnDestroy {
   async onSubmit() {
     this.loading = true;
     if (!this.formCreateActivity.invalid) {
-      const date = new Date(
-        this.formCreateActivity.get('date').value
-      ).toISOString();
+      const date = new Date(this.formCreateActivity.get('date').value);
+      date.toISOString();
       const activities = {
         ...this.formCreateActivity.value,
         date,
       };
+
       if (!this.active) {
         const activity = await this.activityService.createActivities(
           activities
@@ -122,6 +124,7 @@ export class ModalActivityComponent implements OnInit, OnDestroy {
             $oid: aux._id,
           },
         };
+        console.log(aux, 'cargarda en el redux');
         this.store.dispatch(new loandActivityAction(aux));
         this.close();
         showAlert('success', 'Actividad fue creada con exito');

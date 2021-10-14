@@ -33,7 +33,9 @@
               ></i>
             </td>
             <td>{{ activity.date | date: "EEEE, d 'de' MMMM 'del' y" }}</td>
-            <td>{{ activity.date | date: "hh:mm a" }}</td>
+            <td>
+              {{ activity.date | date: "h:mm:ss" }}
+            </td>
             <td>{{ activity.place }}</td>
             <td>
               <div class="info_risk">

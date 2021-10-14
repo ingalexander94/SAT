@@ -24,8 +24,8 @@ import { ActivityService } from 'src/app/services/activity.service';
 export class ActivitiesComponent implements OnInit, OnDestroy {
   create: boolean = false;
   activities: Activity[] = [];
+  hours: Date[] = [];
   subscription: Subscription = new Subscription();
-
   constructor(
     private activityService: ActivityService,
     private store: Store<AppState>
