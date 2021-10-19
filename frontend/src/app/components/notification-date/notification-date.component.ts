@@ -10,7 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { normalizeRoles } from 'src/app/helpers/ui';
@@ -18,7 +18,6 @@ import { Meet } from 'src/app/model/meet';
 import { Postulation } from 'src/app/model/risk';
 import { Role } from 'src/app/model/role';
 import { UpdateCounterAction } from 'src/app/reducer/notification/notification.actions';
-import { AuthService } from 'src/app/services/auth.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
 @Component({

@@ -1,7 +1,3 @@
-form button:disabled {
-  background: rgb(248, 157, 157);
-}
-
 .wrapper_alert {
   position: fixed;
   min-width: 100vw;

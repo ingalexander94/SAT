@@ -5,21 +5,29 @@
     </h2>
     <h1>Crear un nuevo Rol</h1>
     <form [formGroup]="formRole" class="form" (submit)="onSubmit()">
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{
+          error: role.invalid && (role.dirty || role.touched)
+        }"
+      >
         <input
           formControlName="role"
           type="text"
           placeholder="Ingrese el rol"
           autocomplete="off"
           name="role"
-          id="role"
         />
-        <i class="fas fa-user fa-fw"></i>
-      </div>
-      <div>
-        <ul *ngIf="role.invalid && (role.dirty || role.touched)">
-          <li>* El rol es obligatorio</li>
-        </ul>
+        <i
+          *ngIf="role.invalid && (role.dirty || role.touched)"
+          class="fas fa-exclamation-triangle pointer"
+          id="role"
+        ></i>
+        <div class="popover">
+          <ul *ngIf="role.invalid && (role.dirty || role.touched)">
+            <li>* El rol es obligatorio</li>
+          </ul>
+        </div>
       </div>
       <p>Horario de la mañana</p>
       <div class="form_input">

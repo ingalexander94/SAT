@@ -15,7 +15,10 @@ export class ForgotPasswordComponent implements OnInit {
 
   createFormLogin(): FormGroup {
     return new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('tucorreo@gmail.com', [
+        Validators.required,
+        Validators.email,
+      ]),
     });
   }
 

@@ -6,7 +6,12 @@
       <p>Sistema de alertas tempranas</p>
     </div>
     <form [formGroup]="formLogin" (submit)="onSubmit()" class="form_auth">
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{
+          error: document.invalid && (document.dirty || document.touched)
+        }"
+      >
         <input
           [type]="typeDocument"
           placeholder="Documento"
@@ -15,39 +20,57 @@
           formControlName="document"
           autocomplete="off"
           name="document"
-          id="document"
-          autofocus
           required
         />
-        <i class="fas fa-address-card fa-fw"></i>
+        <i *ngIf="!document.invalid" class="fas fa-address-card fa-fw"></i>
+        <i
+          *ngIf="document.invalid"
+          class="fas fa-exclamation-triangle pointer"
+          id="document"
+        ></i>
+        <div class="popover">
+          <ul *ngIf="document.invalid && (document.dirty || document.touched)">
+            <li>* Debe tener 8 ó 10 caracteres</li>
+            <li>* Solo se aceptan números</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="document.invalid && (document.dirty || document.touched)">
-        <li>* Debe tener 8 ó 10 caracteres</li>
-        <li>* Solo se aceptan números</li>
-      </ul>
-      <div class="form_input">
+
+      <div
+        class="form_input"
+        [ngClass]="{
+          error: password.invalid && (password.dirty || password.touched)
+        }"
+      >
         <input
           [type]="typePassword"
           placeholder="Contraseña"
           formControlName="password"
           name="password"
-          id="password"
           required
         />
         <i
-          *ngIf="!showPassword"
+          *ngIf="!password.invalid && !showPassword"
           (click)="changeShowPassword()"
           class="fas fa-eye fa-fw"
         ></i>
         <i
-          *ngIf="showPassword"
+          *ngIf="!password.invalid && showPassword"
           (click)="changeShowPassword()"
           class="fas fa-eye-slash fa-fw"
         ></i>
+        <i
+          *ngIf="password.invalid"
+          class="fas fa-exclamation-triangle pointer"
+          id="password"
+        ></i>
+        <div class="popover">
+          <ul *ngIf="password.invalid && (password.dirty || password.touched)">
+            <li>* El campo es obligatorio</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="password.invalid && (password.dirty || password.touched)">
-        <li>* El campo es obligatorio</li>
-      </ul>
+
       <div class="forgot">
         <a routerLink="/auth/forgot-password">¿Olvidó su contraseña?</a>
       </div>

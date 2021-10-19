@@ -126,6 +126,7 @@ export class AdministrativeProfileComponent implements OnInit, OnDestroy {
   ): ValidationErrors | null => {
     const pass = group.get('newPassword').value;
     const confirmPass = group.get('confirmPassword').value;
+    console.log(group.get('confirmPassword').value);
     return pass === confirmPass ? null : { notSame: true };
   };
 

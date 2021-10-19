@@ -23,6 +23,7 @@ form select {
 }
 
 .campu {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -53,7 +54,7 @@ ul {
 }
 
 ul li {
-  color: var(--red-primary-color);
+  color: var(--white);
 }
 
 .campu select {
@@ -64,13 +65,68 @@ ul li {
   font-weight: bold;
   margin-left: 5px;
 }
-
-button:disabled {
-  background: #ff7686;
+.campu .alert {
+  color: red;
+  position: absolute;
+  top: 40px;
+  margin-left: 270px;
 }
+.errorUser {
+  border: 1px solid var(--red-primary-color) !important;
+  position: relative;
+}
+
+.errorUser i,
+.errorUser input,
+.errorUser input::placeholder {
+  color: var(--red-primary-color) !important;
+}
+
+#nombre:hover ~ .popoverUser,
+#apellido:hover ~ .popoverUser,
+#documento:hover ~ .popoverUser,
+#telefono:hover ~ .popoverUser,
+#correo:hover ~ .popoverUser {
+  visibility: visible;
+  transition: all 0.5s ease-in;
+}
+
+.popoverUser {
+  position: absolute;
+  top: 30px;
+  right: 48px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--red-primary-color);
+  color: var(--white);
+  z-index: 1;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.popoverUser::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  background: var(--red-primary-color);
+  right: -6px;
+  z-index: -1;
+  transform: rotate(45deg);
+}
+
+.popoverUser ul {
+  list-style: none;
+}
+
 /* Tablet */
 
 @media (min-width: 768px) {
+  .popoverUser {
+    top: 25px;
+    margin-bottom: 5px;
+  }
 }
 /* Desktop */
 
@@ -100,6 +156,7 @@ button:disabled {
     text-align: center;
     justify-content: center;
   }
+
   .role {
     margin: 0px;
   }
@@ -115,5 +172,13 @@ button:disabled {
   .campu select,
   .campu input {
     background: var(--white);
+  }
+  .campu .alert {
+    margin-left: 195px;
+  }
+  .popoverUser {
+    right: 30px;
+    top: 25px;
+    padding: 0px;
   }
 }

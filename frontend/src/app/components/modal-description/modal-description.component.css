@@ -16,10 +16,6 @@
   font-size: 14px;
 }
 
-button[type="submit"]:disabled {
-  background: rgb(248, 75, 75);
-}
-
 .alert_container {
   width: 294px;
   padding-top: 32px;

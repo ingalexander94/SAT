@@ -3,6 +3,7 @@
 :root {
   --white: #ffff;
   --red-primary-color: #bb0b20;
+  --red-disable: #ce4949;
   --green-primary-color: #14c25a;
   --orange-primary-color: #ff8300;
   --yellow-primary-color: #ede605;
@@ -53,8 +54,13 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  background: var(--red-disable);
+  filter: brightness(180%);
+}
+
 button:hover {
-  background: #d30a22;
+  filter: brightness(80%);
 }
 
 input:focus {
@@ -74,6 +80,60 @@ a {
 
 .pointer {
   cursor: pointer;
+}
+
+.error {
+  border: 1px solid var(--red-primary-color) !important;
+  position: relative;
+}
+
+.error i,
+.error input,
+.error input::placeholder {
+  color: var(--red-primary-color) !important;
+}
+
+#code:hover ~ .popover,
+#document:hover ~ .popover,
+#password:hover ~ .popover,
+#email:hover ~ .popover,
+#newPassword:hover ~ .popover,
+#confirmPassword:hover ~ .popover,
+#role:hover ~ .popover {
+  visibility: visible;
+  transition: all 0.5s ease-in;
+}
+
+.popover {
+  position: absolute;
+  right: 48px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--red-primary-color);
+  color: var(--white);
+  z-index: 1;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.popover::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  background: var(--red-primary-color);
+  right: -6px;
+  z-index: -1;
+  transform: rotate(45deg);
+}
+
+.popover ul {
+  list-style: none;
+}
+
+.popover ul li {
+  font-size: 14px;
 }
 
 .form_input {

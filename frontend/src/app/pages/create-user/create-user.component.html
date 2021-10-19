@@ -8,28 +8,50 @@
         <div class="campu">
           <label for="nombre">Nombres</label>
           <input
+            [ngClass]="{
+              errorUser: nombre.invalid && (nombre.dirty || nombre.touched)
+            }"
             formControlName="nombre"
             autocomplete="off"
             name="nombre"
-            id="nombre"
             required
           />
-          <ul *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
-            <li>* El nombre es obligatorio</li>
-          </ul>
+          <i
+            *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+            class="fas fa-exclamation-triangle pointer fa-fw alert"
+            id="nombre"
+          ></i>
+
+          <div class="popoverUser">
+            <ul *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+              <li>* El nombre es obligatorio</li>
+            </ul>
+          </div>
         </div>
         <div class="campu">
           <label for="apellido">Apellidos</label>
           <input
+            [ngClass]="{
+              errorUser:
+                apellido.invalid && (apellido.dirty || apellido.touched)
+            }"
             formControlName="apellido"
             name="apellido"
-            id="apellido"
             autocomplete="off"
             required
           />
-          <ul *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
-            <li>* El apellido es obligatorio</li>
-          </ul>
+          <i
+            *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"
+            class="fas fa-exclamation-triangle pointer fa-fw alert"
+            id="apellido"
+          ></i>
+          <div class="popoverUser">
+            <ul
+              *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"
+            >
+              <li>* El apellido es obligatorio</li>
+            </ul>
+          </div>
         </div>
         <div class="campu">
           <label for="tipoDocumento">Tipo de documento</label>
@@ -61,46 +83,76 @@
         <div class="campu">
           <label for="documento">Documento</label>
           <input
+            [ngClass]="{
+              errorUser:
+                documento.invalid && (documento.dirty || documento.touched)
+            }"
             formControlName="documento"
             name="documento"
             autocomplete="off"
-            id="documento"
             required
           />
-          <ul
+          <i
             *ngIf="documento.invalid && (documento.dirty || documento.touched)"
-          >
-            <li>* Debe tener 8 ó 10 caracteres</li>
-            <li>* Solo se permiten números</li>
-          </ul>
+            class="fas fa-exclamation-triangle pointer fa-fw alert"
+            id="documento"
+          ></i>
+          <div class="popoverUser">
+            <ul
+              *ngIf="
+                documento.invalid && (documento.dirty || documento.touched)
+              "
+            >
+              <li>* Debe tener 8 ó 10 caracteres</li>
+            </ul>
+          </div>
         </div>
         <div class="campu">
           <label for="telefono">Telefono</label>
           <input
+            [ngClass]="{
+              errorUser:
+                documento.invalid && (documento.dirty || documento.touched)
+            }"
             formControlName="telefono"
             name="telefono"
             autocomplete="off"
-            id="telefono"
             required
           />
-          <ul *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">
-            <li>* Debe tener 7 ó 10 caracteres</li>
-            <li>* Solo se permiten números</li>
-          </ul>
+          <i
+            *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
+            class="fas fa-exclamation-triangle pointer fa-fw alert"
+            id="telefono"
+          ></i>
+          <div class="popoverUser">
+            <ul
+              *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
+            >
+              <li>* Debe tener 7 ó 10 caracteres</li>
+            </ul>
+          </div>
         </div>
         <div class="campu">
           <label for="correo">Correo</label>
           <input
+            [ngClass]="{
+              errorUser: correo.invalid && (correo.dirty || correo.touched)
+            }"
             autocomplete="off"
             formControlName="correo"
             name="correo"
-            autocomplete="off"
-            id="correo"
             required
           />
-          <ul *ngIf="correo.invalid && (correo.dirty || correo.touched)">
-            <li>* El correo es obligatorio</li>
-          </ul>
+          <i
+            *ngIf="correo.invalid && (correo.dirty || correo.touched)"
+            class="fas fa-exclamation-triangle pointer fa-fw alert"
+            id="correo"
+          ></i>
+          <div class="popoverUser">
+            <ul *ngIf="correo.invalid && (correo.dirty || correo.touched)">
+              <li>* El correo es obligatorio</li>
+            </ul>
+          </div>
         </div>
         <button [disabled]="formCreateUser.invalid" type="submit">
           Crear usuario

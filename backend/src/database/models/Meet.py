@@ -33,7 +33,7 @@ class Meet:
         instance_postulation.updateState(postulation, "NOTIFICADO PARA CITA")
         date = data["dateFormat"]
         to = data["student"]["correo"]
-        message = f"Cordial saludo\nSe le informa que se encuentra en proceso de seguimiento por bienestar universitario.\nTiene 30 minutos para que podamos hablar sobre su situación actual o sobre cualquier otra ayuda que te brindemos y mejorar tu estadía en  la universidad.\nTe recordamos que la reunión está programada para el {date}, debe ingresar a la plataforma de SAT y definir una hora para su reunión.\nQuedamos atentos a cualquier inquietud y respuesta sobre tu asistencia. Muchas gracias."
+        message = f"Cordial saludo\nSe le informa que se encuentra en proceso de seguimiento por bienestar universitario.\nTiene 30 minutos para que podamos hablar sobre su situación actual o sobre cualquier otra ayuda que te brindemos y mejorar tu estadía en  la universidad.\nTe recordamos que la reunión está programada para el {date}, debe ingresar a la plataforma de SAT y definir una hora para su reunión.\nQuedamos atentos a cualquier inquietud y respuesta sobre su asistencia. Muchas gracias."
         subject = f"Notificación cita con {role} | SAT"
         emails.sendEmail(to, message, subject)
         notification = {
@@ -44,6 +44,27 @@ class Meet:
             "codeReceiver" : data["student"]["codigo"]
         }
         mongo.db.notification.insert(notification)
+        return response.success("todo ok", data, "")
+    
+    def createMeetByStudent(self):
+        data = request.get_json()
+        role = data["role"]
+        data = {
+            **data,
+            "role": ObjectId(role)
+        }
+        id = mongo.db.meet.insert(data) 
+        data = {
+            **data,
+            "role": role,
+            "_id": str(id)
+        }
+        role = mongo.db.role.find_one({"_id": ObjectId(role)}, {"_id": False})["role"]
+        date = data["dateFormat"]
+        to = data["student"]["correo"]
+        message = f"Cordial saludo\nSe le informa que se ha agendado una cita en el sistema de SAT.\nTiene 30 minutos para que podamos hablar sobre su situación actual o sobre cualquier otra ayuda que te brindemos y mejorar tu estadía en  la universidad.\nTe recordamos que la reunión está programada para el {date}.\nQuedamos atentos a cualquier inquietud y respuesta sobre su asistencia. Muchas gracias."
+        subject = f"Notificación cita con {role} | SAT"
+        emails.sendEmail(to, message, subject)
         return response.success("todo ok", data, "")
     
     def getMeetOfStudent(self, code):

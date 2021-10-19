@@ -13,6 +13,12 @@ instance = Meet.Meet()
 def createMeet(_):
     return instance.createMeet()
 
+@meet_rest.route("/student", methods=["POST"])
+@token_required
+@required_params(MeetSchema())
+def createMeetByStudent(_):
+    return instance.createMeetByStudent()
+
 @meet_rest.route("/")
 @meet_rest.route("/<code>") 
 @token_required
@@ -31,7 +37,7 @@ def acceptMeet(_, id=None):
 def updateAttendanceMeet(_, id=None):
     return instance.updateAttendanceMeet(id)
 
-@meet_rest.route("/meet")
+@meet_rest.route("/meets")
 @meet_rest.route("/meets/<code>")
 @token_required
 def getMeeetsStudent(_, code=None):

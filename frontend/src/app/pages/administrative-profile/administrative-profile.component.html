@@ -52,17 +52,21 @@
       class="editProfile"
       *ngIf="active === '2'"
     >
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{
+          error: password.invalid && (password.dirty || password.touched)
+        }"
+      >
         <input
           placeholder="Contraseña actual"
           formControlName="password"
           name="password"
-          id="password"
           [type]="typePassword"
           required
         />
         <i
-          *ngIf="!showPassword"
+          *ngIf="!password.invalid && !showPassword"
           (click)="changeShowPassword()"
           class="fas fa-eye fa-fw pointer"
         ></i>
@@ -71,21 +75,34 @@
           (click)="changeShowPassword()"
           class="fas fa-eye-slash fa-fw pointer"
         ></i>
+        <i
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+          class="fas fa-exclamation-triangle pointer"
+          id="password"
+        ></i>
+        <div class="popover">
+          <ul *ngIf="password.invalid && (password.dirty || password.touched)">
+            <li>* Debe tener mínimo 4 caracteres</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="password.invalid && (password.dirty || password.touched)">
-        <li>* Debe tener mínimo 4 caracteres</li>
-      </ul>
-      <div class="form_input">
+
+      <div
+        class="form_input"
+        [ngClass]="{
+          error:
+            newPassword.invalid && (newPassword.dirty || newPassword.touched)
+        }"
+      >
         <input
-          placeholder="Nueva Contraseña"
+          placeholder="nueva contraseña"
           formControlName="newPassword"
           name="newPassword"
-          id="newPassword"
           [type]="typePassword2"
           required
         />
         <i
-          *ngIf="!showPassword2"
+          *ngIf="!newPassword.invalid && !showPassword2"
           (click)="changeShowPassword2()"
           class="fas fa-eye fa-fw pointer"
         ></i>
@@ -94,25 +111,41 @@
           (click)="changeShowPassword2()"
           class="fas fa-eye-slash fa-fw pointer"
         ></i>
+        <i
+          *ngIf="
+            newPassword.invalid && (newPassword.dirty || newPassword.touched)
+          "
+          class="fas fa-exclamation-triangle pointer"
+          id="newPassword"
+        ></i>
+        <div class="popover">
+          <ul
+            *ngIf="
+              newPassword.invalid && (newPassword.dirty || newPassword.touched)
+            "
+          >
+            <li>* Debe tener mínimo 4 caracteres</li>
+          </ul>
+        </div>
       </div>
-      <ul
-        *ngIf="
-          newPassword.invalid && (newPassword.dirty || newPassword.touched)
-        "
+
+      <div
+        class="form_input"
+        [ngClass]="{
+          error:
+            confirmPassword.invalid &&
+            (confirmPassword.dirty || confirmPassword.touched)
+        }"
       >
-        <li>* Debe tener mínimo 4 caracteres</li>
-      </ul>
-      <div class="form_input">
         <input
-          placeholder="Confirmar Contraseña"
+          placeholder="confirmar contraseña"
           formControlName="confirmPassword"
           name="confirmPassword"
-          id="confirmPassword"
           [type]="typePassword3"
           required
         />
         <i
-          *ngIf="!showPassword3"
+          *ngIf="!confirmPassword.invalid && !showPassword3"
           (click)="changeShowPassword3()"
           class="fas fa-eye fa-fw pointer"
         ></i>
@@ -121,15 +154,26 @@
           (click)="changeShowPassword3()"
           class="fas fa-eye-slash fa-fw pointer"
         ></i>
+        <i
+          *ngIf="
+            confirmPassword.invalid &&
+            (confirmPassword.dirty || confirmPassword.touched)
+          "
+          class="fas fa-exclamation-triangle pointer"
+          id="confirmPassword"
+        ></i>
+        <div class="popover">
+          <ul
+            *ngIf="
+              confirmPassword.invalid &&
+              (confirmPassword.dirty || confirmPassword.touched)
+            "
+          >
+            <li>* Las contraseñas no coinciden</li>
+          </ul>
+        </div>
       </div>
-      <ul
-        *ngIf="
-          confirmPassword.invalid &&
-          (confirmPassword.dirty || confirmPassword.touched)
-        "
-      >
-        <li>* Las contraseñas no coinciden</li>
-      </ul>
+
       <button [disabled]="formChangePassword.invalid">
         Cambiar contraseña
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>

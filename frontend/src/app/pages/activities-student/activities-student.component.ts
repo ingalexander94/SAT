@@ -32,20 +32,23 @@ export class ActivitiesStudentComponent implements OnInit {
     this.activities = data;
     this.loading = false;
   }
+  aa = (i: number) => {
+    this.activities[i].loading = false;
+  };
 
   async asist(asist: Boolean, activity: String, i: number) {
-    this.loadingAsistence = true;
     const res = await this.activityService.asistActivity(asist, activity);
     if (res.ok) {
       if (asist) {
         this.activities[i].asistance = true;
+        this.activities[i].loading = true;
         this.activities[i].counter = this.activities[i].counter + 1;
+        // setTimeout(this.aa, 3000);
       } else {
         this.activities[i].asistance = false;
         this.activities[i].counter = this.activities[i].counter - 1;
       }
     }
-    this.loadingAsistence = false;
   }
 
   getColor(value: String) {

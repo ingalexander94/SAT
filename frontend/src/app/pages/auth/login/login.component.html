@@ -33,7 +33,10 @@
           </label>
         </div>
       </div>
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{ error: code.invalid && (code.dirty || code.touched) }"
+      >
         <input
           type="text"
           placeholder="Código"
@@ -43,17 +46,28 @@
           formControlName="code"
           autocomplete="off"
           name="code"
-          id="code"
           autofocus
           required
         />
-        <i class="fas fa-user fa-fw"></i>
+        <i *ngIf="!code.invalid" class="fas fa-user fa-fw"></i>
+        <i
+          *ngIf="code.invalid"
+          class="fas fa-exclamation-triangle pointer"
+          id="code"
+        ></i>
+        <div class="popover">
+          <ul>
+            <li>* Debe tener 7 caracteres</li>
+            <li>* Solo se aceptan números</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="code.invalid && (code.dirty || code.touched)">
-        <li>* Debe tener 7 caracteres</li>
-        <li>* Solo se aceptan números</li>
-      </ul>
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{
+          error: document.invalid && (document.dirty || document.touched)
+        }"
+      >
         <input
           [type]="typeDocument"
           placeholder="Documento"
@@ -65,16 +79,27 @@
           formControlName="document"
           name="document"
           autocomplete="off"
-          id="document"
           required
         />
-        <i class="fas fa-address-card fa-fw"></i>
+        <i *ngIf="!document.invalid" class="fas fa-address-card fa-fw"></i>
+        <i
+          *ngIf="document.invalid"
+          class="fas fa-exclamation-triangle pointer"
+          id="document"
+        ></i>
+        <div class="popover">
+          <ul *ngIf="document.invalid && (document.dirty || document.touched)">
+            <li>* Debe tener 8 ó 10 caracteres</li>
+            <li>* Solo se aceptan números</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="document.invalid && (document.dirty || document.touched)">
-        <li>* Debe tener 8 ó 10 caracteres</li>
-        <li>* Solo se aceptan números</li>
-      </ul>
-      <div class="form_input">
+      <div
+        class="form_input"
+        [ngClass]="{
+          error: password.invalid && (password.dirty || password.touched)
+        }"
+      >
         <input
           [type]="typePassword"
           placeholder="Contraseña"
@@ -83,26 +108,33 @@
           max="20"
           formControlName="password"
           name="password"
-          id="password"
           required
         />
         <i
-          *ngIf="!showPassword"
+          *ngIf="!password.invalid && !showPassword"
           (click)="changeShowPassword()"
           class="fas fa-eye fa-fw"
         ></i>
         <i
-          *ngIf="showPassword"
+          *ngIf="!password.invalid && showPassword"
           (click)="changeShowPassword()"
           class="fas fa-eye-slash fa-fw"
         ></i>
+        <i
+          *ngIf="password.invalid"
+          class="fas fa-exclamation-triangle pointer"
+          id="password"
+        ></i>
+        <div class="popover">
+          <ul *ngIf="password.invalid && (password.dirty || password.touched)">
+            <li>* El campo es obligatorio</li>
+          </ul>
+        </div>
       </div>
-      <ul *ngIf="password.invalid && (password.dirty || password.touched)">
-        <li>* El campo es obligatorio</li>
-      </ul>
+
       <button [disabled]="formLogin.invalid" type="submit">
         Iniciar sesión
-        <i *ngIf="loading" class="fas fa-pulse fa-fw"></i>
+        <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>
     </form>
     <p class="copyright">2021 © Todos los derechos reservados</p>

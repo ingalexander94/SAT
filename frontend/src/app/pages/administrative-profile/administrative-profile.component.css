@@ -150,10 +150,6 @@ button {
   margin-top: 10px;
 }
 
-button:disabled {
-  background: rgb(238, 116, 116);
-}
-
 .floating {
   position: fixed;
   left: 8px;
@@ -163,7 +159,7 @@ button:disabled {
 ul {
   list-style: none;
   text-align: left;
-  color: var(--red-primary-color);
+  color: var(white);
 }
 
 .tarje_container {

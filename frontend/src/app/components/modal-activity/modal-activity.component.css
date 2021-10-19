@@ -71,6 +71,64 @@ ul {
   list-style: none;
 }
 
+.campu i {
+  color: red;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 245px;
+}
+.errorActivity {
+  border: 1px solid var(--red-primary-color) !important;
+  position: relative;
+}
+
+.errorActivity i,
+.errorActivity input,
+.errorActivity input::placeholder {
+  color: var(--red-primary-color) !important;
+}
+
+#name:hover ~ .popoverActivity,
+#place:hover ~ .popoverActivity,
+#risk:hover ~ .popoverActivity,
+#riskLevel:hover ~ .popoverActivity,
+#description:hover ~ .popoverActivity {
+  visibility: visible;
+  transition: all 0.5s ease-in;
+}
+
+.popoverActivity {
+  position: absolute;
+  right: 48px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--red-primary-color);
+  color: var(--white);
+  z-index: 1;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.popoverActivity::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  background: var(--red-primary-color);
+  right: -6px;
+  z-index: -1;
+  transform: rotate(45deg);
+}
+
+.popoverActivity ul {
+  list-style: none;
+}
+
+.Activity ul li {
+  font-size: 14px;
+}
+
 /* Tablet */
 
 @media (min-width: 768px) and (max-width: 1151px) {
@@ -80,6 +138,10 @@ ul {
     height: unset;
     overflow-y: unset;
     padding: 16px;
+  }
+  .campu i {
+    margin-top: 10px;
+    margin-left: 390px;
   }
 }
 
@@ -91,5 +153,8 @@ ul {
     margin-top: 50px;
     height: 500px;
     padding: 16px;
+  }
+  .campu i {
+    margin-left: 380px;
   }
 }

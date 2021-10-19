@@ -72,6 +72,17 @@ export class WellnessService {
     }
   }
 
+  createMeetStudent(meet: Meet) {
+    try {
+      return this.http
+        .post<MeetResponse>(`${this.URL_BACKEND}/meet/student`, meet)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   getMeetOfStudent(code: String) {
     try {
       return this.http

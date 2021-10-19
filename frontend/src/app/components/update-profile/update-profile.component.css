@@ -12,6 +12,17 @@
   z-index: 10;
 }
 
+select {
+  width: 100%;
+  outline: none;
+  border: none;
+  appearance: none;
+}
+
+.error {
+  border: 1px solid var(--red-primary-color);
+}
+
 .alert_container {
   width: 294px;
   background: var(--white);
@@ -37,19 +48,10 @@
   background: var(--gray-menu);
 }
 
-.alert_options {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.alert_options button:nth-child(1) {
-  background: var(--gray-dark-color);
-  color: black;
-}
 button {
   margin-right: 100px;
 }
+
 h2 {
   top: 0;
   position: relative;

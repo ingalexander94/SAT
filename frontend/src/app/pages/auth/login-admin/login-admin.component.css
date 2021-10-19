@@ -24,7 +24,7 @@ ul {
 
 ul li {
   font-size: 14px;
-  color: var(--red-primary-color);
+  color: var(white);
 }
 
 .forgot {
@@ -66,10 +66,6 @@ ul li {
 .fa-eye-slash:hover {
   cursor: pointer;
   color: var(--red-primary-color);
-}
-
-button:disabled {
-  background: #ff7686;
 }
 
 /* Tablet */
