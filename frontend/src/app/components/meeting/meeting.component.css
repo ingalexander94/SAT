@@ -106,7 +106,8 @@ h5 span {
 }
 
 .table_meet p {
-  font-size: 20px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 table {
@@ -193,7 +194,9 @@ table tbody tr:nth-child(odd) {
   .table_meet p {
     margin-bottom: 16px;
   }
-
+  .no_meet_p {
+    font-size: 30px;
+  }
   table {
     width: 100%;
     position: initial;
@@ -311,6 +314,10 @@ table tbody tr:nth-child(odd) {
   }
 
   td {
+    font-size: 20px;
+  }
+
+  .no_meet_p {
     font-size: 20px;
   }
 }

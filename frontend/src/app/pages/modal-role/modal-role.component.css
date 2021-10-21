@@ -86,6 +86,9 @@ h2 {
   .alert_container p {
     font-size: 22px;
   }
+  input {
+    font-size: 20px;
+  }
 }
 
 /* Desktop */

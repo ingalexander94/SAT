@@ -109,6 +109,9 @@ ul li {
     width: 380px;
     height: 300px;
   }
+  p {
+    font-size: 18px;
+  }
 }
 
 /* Desktop */

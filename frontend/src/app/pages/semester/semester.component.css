@@ -73,6 +73,16 @@
     width: 60vw;
     margin: 48px auto;
   }
+
+  .list_semester ul li {
+    font-size: 22px;
+  }
+  input {
+    font-size: 18px;
+  }
+  .red p {
+    font-size: 20px;
+  }
 }
 
 /* Desktop */

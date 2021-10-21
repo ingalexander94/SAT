@@ -30,7 +30,7 @@ import { AppState } from 'src/app/app.reducers';
 })
 export class SuggestionComponent implements OnInit, OnDestroy {
   title: Title = {
-    title: 'Lista de segerencias',
+    title: 'Lista de sugerencias',
   };
   suggestions: SuggestionItem[];
   profits: Profits[];

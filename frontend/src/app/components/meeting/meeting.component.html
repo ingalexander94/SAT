@@ -40,7 +40,9 @@
       </div>
     </div>
   </div>
-  <p *ngIf="!this.meets.length">No tiene reuniones programadas</p>
+  <p *ngIf="!this.meets.length" class="no_meet_p">
+    No tiene reuniones programadas
+  </p>
   <div
     class="table_meet animate__animated animate__fadeIn"
     *ngIf="this.meets.length"

@@ -2,7 +2,7 @@
   <div class="risk" *ngFor="let risk of risksDetail">
     <h4 (click)="updateRisk()">
       {{ risk.name }}
-      <i *ngIf="user?.rol === 'vicerrector'" class="fas fa-caret-down"></i>
+      <!-- <i *ngIf="user?.rol === 'vicerrector'" class="fas fa-caret-down"></i> -->
     </h4>
     <p>Actualmente está {{ risk.color().risk }}</p>
     <i

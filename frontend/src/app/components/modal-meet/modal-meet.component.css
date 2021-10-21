@@ -54,6 +54,12 @@ select {
   .alert_container h1 {
     font-size: 33px;
   }
+  input,
+  label,
+  select,
+  button {
+    font-size: 20px;
+  }
 }
 
 /* Desktop */

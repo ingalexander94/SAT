@@ -98,6 +98,9 @@ button {
     margin-top: 0px;
     margin-left: 50px;
   }
+  p {
+    font-size: 20px;
+  }
 }
 
 /* Desktop */

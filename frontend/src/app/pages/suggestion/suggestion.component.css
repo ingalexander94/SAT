@@ -206,6 +206,13 @@ button {
   button {
     width: 100px;
   }
+  p,
+  label,
+  ul li,
+  input,
+  select {
+    font-size: 20px;
+  }
 }
 
 /* Desktop */
