@@ -1,7 +1,6 @@
 import math
 from datetime import datetime
-from flask import request, Response
-from flask import request, Response
+from flask import request, Response, jsonify
 from pymongo import DESCENDING
 from util import response, emails
 from database import config
@@ -17,6 +16,9 @@ class Meet:
     def createMeet(self):
         data = request.get_json()
         role = data["role"]
+        student = data["student"]  
+        if not self.validateMeet(student, role):
+            return response.reject("La cita ya ha sido agendada")
         data = {
             **data,
             "hour":None,
@@ -49,6 +51,9 @@ class Meet:
     def createMeetByStudent(self):
         data = request.get_json()
         role = data["role"]
+        student = data["student"]
+        if not self.validateMeet(student, role):
+            return response.reject("La cita ya ha sido agendada") 
         data = {
             **data,
             "role": ObjectId(role)
@@ -95,6 +100,11 @@ class Meet:
         mongo.db.meet.update_one({"_id": ObjectId(id)}, {"$set": set})
         return response.success(f"Reunión {state.lower()}", {}, "")
     
+    def validateMeet(self, student, role):
+        filter = { "attendance": False, "student":student, "role": ObjectId(role) }
+        meets = list(mongo.db.meet.find({"$or": [{**filter, "state":"ACEPTADA"},{**filter, "state":"SIN RESPONDER"}]}))
+        return True if len(meets)==0 else False
+    
     def updateAttendanceMeet(self, id):
         attendance = request.json["attendance"]
         student = request.json["student"]
@@ -113,8 +123,7 @@ class Meet:
             output.append(meet)
         res = json_util.dumps(output)
         return Response(res, mimetype="applicaton/json")
-         
-            
+                   
     def paginateMeets(self, role):
         page = request.args.get("page", default=1, type=int)
         perPage = request.args.get("perPage", default=5, type=int)
@@ -127,3 +136,51 @@ class Meet:
         data = mongo.db.meet.find({"state": state, "date": date, "role": role, "attendance":False}).sort("date", DESCENDING).skip(offset).limit(perPage)
         meets = json_util.dumps({"totalPages": totalPages, "data": data})
         return Response(meets, mimetype="applicaton/json")
+
+    def getMeetActiveWithRole(self):
+        role = request.json["role"]
+        student = request.json["student"]
+        typeHistory = request.json["typeHistory"]
+        meet = mongo.db.meet.find_one({"role": ObjectId(role), "state":"ACEPTADA","attendance":False, "student":student}, {"date":1, "hour":1, "_id": True})
+        if typeHistory == "psicologica":
+            meetPsychological = mongo.db.psychological.find_one({"meet": meet["_id"]}) if meet else None
+            meet = { "meet":meet, "meetPsychological":meetPsychological }
+        else:
+            meetClinical = mongo.db.clinical.find_one({"meet": meet["_id"]}) if meet else None
+            meet = { "meet":meet, "meetClinical":meetClinical }
+        meet = json_util.dumps(meet)
+        return Response(meet, mimetype="applicaton/json")
+    
+    def createMeetHistory(self):
+        type = request.json["type"]
+        typeMeet = request.json["typeMeet"]
+        dbName = "psychological" if typeMeet == "psicologica" else "clinical"
+        meet = request.json["meet"]
+        meet = {
+            **meet,
+            "meet": ObjectId(meet["meet"])
+        }
+        try: 
+            if type == "create":
+                mongo.db[dbName].insert_one(meet)
+            else:
+                id = meet["_id"]
+                del meet["_id"]
+                del meet["meet"]
+                mongo.db[dbName].update_one({"_id": ObjectId(id)}, {"$set": meet})
+            return jsonify(True)
+        except:
+            return jsonify(False)
+        
+    def getMeetsHistory(self, code, type): 
+        output = []
+        dbName = "psychological" if type == "psicologica" else "clinical"
+        key = "meetPsychological" if type == "psicologica" else "meetClinical"
+        meets = list(mongo.db[dbName].find({"student":code}, {"_id": False}))
+        for item in meets:
+            meet = mongo.db.meet.find_one({"_id": item["meet"]},{"date":1,"hour":1, "_id":False})
+            del item["meet"]
+            del item["student"]
+            output.append({key: item, "meet":meet})
+        res = json_util.dumps(output)
+        return Response(res, mimetype="applicaton/json")

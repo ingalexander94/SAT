@@ -74,6 +74,12 @@ const getColorByRisk = (value: String) => {
     : 'green';
 };
 
+const dateHourFormat = (date, hour): Date => {
+  date = date.split('-').map((i) => parseInt(i));
+  hour = hour.split(':').map((i) => parseInt(i));
+  return new Date(date[0], date[1] - 1, date[2], hour[0], hour[1]);
+};
+
 export {
   normalizeText,
   resetDate,
@@ -85,4 +91,5 @@ export {
   parseDate,
   getColorByRisk,
   getDateUTC,
+  dateHourFormat,
 };

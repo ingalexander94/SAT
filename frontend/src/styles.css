@@ -55,8 +55,8 @@ button {
 }
 
 button:disabled {
-  background: var(--red-disable);
-  filter: brightness(180%);
+  background: var(--red-disable) !important;
+  filter: brightness(180%) !important;
 }
 
 button:hover {

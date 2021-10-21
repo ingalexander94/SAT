@@ -75,6 +75,13 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
     this.isClosed.emit(false);
   }
 
+  resetDate() {
+    this.formMeet.get('date').reset();
+    this.formMeet.get('hour').setValue('');
+    this.formMeet.get('hour').disable();
+    this.times = [];
+  }
+
   async onSubmit() {
     this.loading = true;
     if (!this.formMeet.invalid) {
@@ -91,7 +98,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
         dateFormat,
         postulation: null,
       };
-      const { ok } = await this.wellnessService.createMeetStudent(meet);
+      const { ok, msg } = await this.wellnessService.createMeetStudent(meet);
       if (ok) {
         showAlert('success', 'Se ha agendado una nueva cita');
         this.close();
@@ -99,7 +106,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
           fragment: 'contenedor',
         });
       } else {
-        showAlert('error', 'No se pudo notificar el estudiante');
+        showAlert('error', msg);
         this.close();
       }
     }

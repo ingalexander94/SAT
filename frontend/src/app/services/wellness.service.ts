@@ -129,9 +129,41 @@ export class WellnessService {
       console.error(error);
       return null;
     }
-    {
+  }
+
+  async getMeetActiveWithRole(body: any) {
+    try {
+      return await this.http
+        .post<any>(`${this.URL_BACKEND}/meet/meets/role`, body)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
     }
   }
+
+  async createMeetHistory(body: any) {
+    try {
+      return await this.http
+        .post<any>(`${this.URL_BACKEND}/meet/meets/history`, body)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async getMeetsHistory(code: String, type: String) {
+    try {
+      return await this.http
+        .get<any>(`${this.URL_BACKEND}/meet/meets/history/${code}/${type}`)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   postulateMeet(page: string, state: string, date: string) {
     try {
       const params = new HttpParams()

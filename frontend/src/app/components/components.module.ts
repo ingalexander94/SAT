@@ -39,6 +39,12 @@ import { SearchGlobalComponent } from './search-global/search-global.component';
 import { ButtonNotificationComponent } from './button-notification/button-notification.component';
 import { ModalActivityComponent } from './modal-activity/modal-activity.component';
 import { ModalChatComponent } from './modal-chat/modal-chat.component';
+import { HistoryPsichologyComponent } from './history-psichology/history-psichology.component';
+import { HistoryMeetComponent } from './history-meet/history-meet.component';
+import { ModalHistoryComponent } from './modal-history/modal-history.component';
+import { ClinicalMeetComponent } from './clinical-meet/clinical-meet.component';
+import { HistoryClinicalComponent } from './history-clinical/history-clinical.component';
+import { ModalClinicalComponent } from './modal-clinical/modal-clinical.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +85,12 @@ import { ModalChatComponent } from './modal-chat/modal-chat.component';
     ButtonNotificationComponent,
     ModalActivityComponent,
     ModalChatComponent,
+    HistoryPsichologyComponent,
+    HistoryMeetComponent,
+    ModalHistoryComponent,
+    ClinicalMeetComponent,
+    HistoryClinicalComponent,
+    ModalClinicalComponent,
   ],
   exports: [
     AlertComponent,
@@ -109,6 +121,12 @@ import { ModalChatComponent } from './modal-chat/modal-chat.component';
     ButtonNotificationComponent,
     ModalActivityComponent,
     ModalChatComponent,
+    HistoryPsichologyComponent,
+    HistoryMeetComponent,
+    ModalHistoryComponent,
+    ClinicalMeetComponent,
+    HistoryClinicalComponent,
+    ModalClinicalComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
 })

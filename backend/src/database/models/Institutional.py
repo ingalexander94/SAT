@@ -1,4 +1,6 @@
-from flask import request
+from bson import json_util
+from bson.objectid import ObjectId
+from flask import request, Response
 from util import jwt, response, environment, helpers
 from database import config
 from util.request_api import request_ufps
@@ -148,4 +150,29 @@ class Institutional:
         dataRes = {"data": data, "registered": helpers.countSemesters(data)}
         return response.success("Todo Ok!", dataRes, "")
 
+    def getRecords(self, code, type):
+        if not code or len(code) != 7 or not code.isdigit():
+            return response.error("Se necesita un código de 7 caracteres", 400)
+        filters = {"familyHistory":1, "_id": True} if type == "psicologica" else {"familyHistory":False, "_id": True}
+        records = mongo.db.record.find_one({"student":code}, filters)
+        res = json_util.dumps(records)
+        return Response(res, mimetype="applicaton/json")
+    
+    def saveRecord(self):
+        record = request.json["record"]
+        if not "_id" in record:
+            id = mongo.db.record.insert(record)
+            record = {
+                **record, 
+                "_id":str(id)
+            } 
+        else:
+            id = record["_id"]
+            del record["_id"]
+            mongo.db.record.update_one({"_id": ObjectId(id)}, {"$set": record})
+            record = {
+                **record,  
+                "_id": id
+            }
+        return record
     

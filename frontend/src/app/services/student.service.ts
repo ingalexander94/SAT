@@ -151,4 +151,26 @@ export class StudentService {
       return null;
     }
   }
+
+  getRecord(code: String, type: String) {
+    try {
+      return this.http
+        .get<any>(this.url + '/auth/institutional/record/' + code + '/' + type)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  saveRecord(record: any) {
+    try {
+      return this.http
+        .post<any>(this.url + '/auth/institutional/record', { record })
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }

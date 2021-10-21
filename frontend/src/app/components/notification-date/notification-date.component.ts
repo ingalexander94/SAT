@@ -101,13 +101,13 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
         dateFormat,
         postulation: this.postulation._id.$oid,
       };
-      const { ok } = await this.wellnessService.createMeet(meet);
-      if (ok) {
+      const res = await this.wellnessService.createMeet(meet);
+      if (res.ok) {
         this.store.dispatch(new UpdateCounterAction());
         this.postulation.state = 'NOTIFICADO PARA CITA';
         this.close();
       } else {
-        showAlert('error', 'No se pudo notificar el estudiante');
+        showAlert('error', res.msg);
         this.close();
       }
     }
