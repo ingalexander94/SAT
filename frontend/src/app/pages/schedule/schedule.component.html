@@ -34,14 +34,13 @@
             <td>{{ meet.state }}</td>
             <td *ngIf="state === 'RECHAZADA'">{{ meet.reason }}</td>
             <td *ngIf="state === 'RECHAZADA'">
-              <button title="Crear nueva cita">
-                <i
-                  *ngIf="!loadingNewMeet"
-                  (click)="
-                    openModalNotification(meet.postulation, meet.student.codigo)
-                  "
-                  class="fas fa-clipboard"
-                ></i>
+              <button
+                title="Crear nueva cita"
+                (click)="
+                  openModalNotification(meet.postulation, meet.student.codigo)
+                "
+              >
+                <i *ngIf="!loadingNewMeet" class="fas fa-clipboard"></i>
                 <i
                   *ngIf="loadingNewMeet"
                   class="fas fa-spinner fa-pulse fa-fw"

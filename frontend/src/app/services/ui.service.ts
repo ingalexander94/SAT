@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducers';
+import { Meet } from '../model/meet';
 import { SetTitleNavbarAction } from '../reducer/ui/ui.actions';
 
 @Injectable({
@@ -8,6 +9,7 @@ import { SetTitleNavbarAction } from '../reducer/ui/ui.actions';
 })
 export class UiService {
   filter$ = new EventEmitter<String>();
+  newMeet$ = new EventEmitter<Meet>();
 
   constructor(private store: Store<AppState>) {}
 

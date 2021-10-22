@@ -11,7 +11,7 @@ export interface Meet {
   date: Date;
   reason?: String;
   hour: String;
-  role: string;
+  role: String;
   dateFormat: String;
   attendance: Boolean;
 }

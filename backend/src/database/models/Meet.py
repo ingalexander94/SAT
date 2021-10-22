@@ -16,9 +16,12 @@ class Meet:
     def createMeet(self):
         data = request.get_json()
         role = data["role"]
-        student = data["student"]  
-        if not self.validateMeet(student, role):
-            return response.reject("La cita ya ha sido agendada")
+        student = data["student"]          
+        date = data["date"]
+        hour = data["hour"] if "hour" in data else "00:00"
+        validate = self.validateMeet(student, role, hour, date)
+        if not validate["ok"]:
+            return response.reject(validate["msg"]) 
         data = {
             **data,
             "hour":None,
@@ -52,8 +55,11 @@ class Meet:
         data = request.get_json()
         role = data["role"]
         student = data["student"]
-        if not self.validateMeet(student, role):
-            return response.reject("La cita ya ha sido agendada") 
+        date = data["date"]
+        hour = data["hour"]
+        validate = self.validateMeet(student, role, hour, date)
+        if not validate["ok"]:
+            return response.reject(validate["msg"]) 
         data = {
             **data,
             "role": ObjectId(role)
@@ -100,10 +106,17 @@ class Meet:
         mongo.db.meet.update_one({"_id": ObjectId(id)}, {"$set": set})
         return response.success(f"Reunión {state.lower()}", {}, "")
     
-    def validateMeet(self, student, role):
-        filter = { "attendance": False, "student":student, "role": ObjectId(role) }
-        meets = list(mongo.db.meet.find({"$or": [{**filter, "state":"ACEPTADA"},{**filter, "state":"SIN RESPONDER"}]}))
-        return True if len(meets)==0 else False
+    def validateMeet(self, student, role, hour, date):
+        validateRole = { "attendance": False, "student":student, "role": ObjectId(role) }
+        validateDate = { "attendance" : False, "student":student, "hour":hour, "date":date }
+        meetsRole = list(mongo.db.meet.find({"$or": [{**validateRole, "state":"ACEPTADA"},{**validateRole, "state":"SIN RESPONDER"}]}))
+        meetsDate = list(mongo.db.meet.find({"$or": [{**validateDate, "state":"ACEPTADA"},{**validateRole, "state":"SIN RESPONDER"}]}))
+        if len(meetsRole)>0:
+            return { "ok":False, "msg":"Ya se encuentra agendada la cita con esa persona" }
+        elif len(meetsDate)>0:
+            return { "ok":False, "msg":"Ya existe una cita agendada con esa fecha y hora" }
+        else:
+            return { "ok":True }    
     
     def updateAttendanceMeet(self, id):
         attendance = request.json["attendance"]

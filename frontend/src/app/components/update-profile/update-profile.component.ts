@@ -18,6 +18,7 @@ import { normalizeRoles } from 'src/app/helpers/ui';
 import { Meet } from 'src/app/model/meet';
 import { Role } from 'src/app/model/role';
 import { AuthService } from 'src/app/services/auth.service';
+import { UiService } from 'src/app/services/ui.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
 @Component({
@@ -45,6 +46,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
+    private uiService: UiService,
     private authService: AuthService,
     private wellnessService: WellnessService,
     private router: Router
@@ -102,7 +104,9 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
       if (ok) {
         showAlert('success', 'Se ha agendado una nueva cita');
         this.close();
-        this.router.navigate(['estudiante/reunion'], {
+        meet.role = this.roles.find((x) => x._id.$oid === meet.role).role;
+        this.uiService.newMeet$.emit(meet);
+        this.router.navigate(['/estudiante/reunion'], {
           fragment: 'contenedor',
         });
       } else {

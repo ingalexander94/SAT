@@ -22,6 +22,7 @@ import { AddRoleAction } from 'src/app/reducer/role/role.action';
 export class ModalRoleComponent implements OnInit {
   @Output() isClosed = new EventEmitter<boolean>();
   formRole: FormGroup;
+  loading: Boolean = false;
 
   createFormRole(): FormGroup {
     return new FormGroup(
@@ -92,6 +93,7 @@ export class ModalRoleComponent implements OnInit {
   }
 
   async onSubmit() {
+    this.loading = true;
     this.convert();
     const role = this.formRole.get('role').value;
     let schedule = this.formRole.value;
@@ -112,6 +114,7 @@ export class ModalRoleComponent implements OnInit {
       this.formRole.reset();
       showAlert('error', 'El rol ya existe');
     }
+    this.loading = false;
   }
 
   onClick({ target }) {

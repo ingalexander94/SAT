@@ -106,7 +106,7 @@
       <ul *ngIf="password.invalid && (password.dirty || password.touched)">
         <li>* El campo es obligatorio</li>
       </ul>
-      <button [disabled]="formLogin.invalid && loading" type="submit">
+      <button [disabled]="formLogin.invalid || loading" type="submit">
         Iniciar sesión
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>

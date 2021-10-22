@@ -102,7 +102,7 @@
             <li>* El correo es obligatorio</li>
           </ul>
         </div>
-        <button [disabled]="formCreateUser.invalid && loading" type="submit">
+        <button [disabled]="formCreateUser.invalid || loading" type="submit">
           Crear usuario
           <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
         </button>

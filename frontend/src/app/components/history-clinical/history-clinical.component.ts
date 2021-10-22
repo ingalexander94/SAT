@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { pluck, filter } from 'rxjs/operators';
+import { pluck, filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { dateHourFormat } from 'src/app/helpers/ui';
 import { WellnessService } from 'src/app/services/wellness.service';
@@ -16,6 +16,7 @@ import { StudentService } from 'src/app/services/student.service';
 export class HistoryClinicalComponent implements OnInit, OnDestroy {
   isEdit: Boolean = false;
   loading: Boolean = false;
+  role: String = '';
   idRecord: String = '';
   student: String = '';
   loadingMeets: Boolean = false;
@@ -49,12 +50,14 @@ export class HistoryClinicalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.store
-      .select('ui')
       .pipe(
-        filter(({ userActive }) => userActive !== null),
-        pluck('userActive', 'codigo')
+        map(({ ui: { userActive }, auth: { user } }) => ({ user, userActive })),
+        filter(({ userActive, user }) => userActive !== null && user !== null)
       )
-      .subscribe((code) => this.getMeetsClinical(code, 'clinica'));
+      .subscribe(({ user, userActive }) => {
+        this.role = user.rol;
+        this.getMeetsClinical(userActive.codigo, 'clinica');
+      });
   }
 
   async getMeetsClinical(code: String, type: String) {

@@ -106,7 +106,9 @@
           <li>* La hora de finalización es obligatoría</li>
         </ul>
       </div>
-      <button [disabled]="formRole.invalid" type="submit">Crear</button>
+      <button [disabled]="formRole.invalid || loading" type="submit">
+        Crear <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
+      </button>
     </form>
   </div>
 </div>
