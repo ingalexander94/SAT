@@ -1,4 +1,11 @@
-h3 {
+.binnacle_options {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.binnacle_options h3 {
   font-weight: bold;
   font-size: 20px;
 }
@@ -70,6 +77,11 @@ button {
   #toForm {
     margin-top: 300px;
   }
+
+  .binnacle_options > a {
+    font-size: 20px;
+  }
+
   .binnacle-text p {
     font-size: 20px;
   }

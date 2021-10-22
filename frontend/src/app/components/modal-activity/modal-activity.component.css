@@ -143,6 +143,15 @@ ul {
     margin-top: 10px;
     margin-left: 390px;
   }
+  .campu input,
+  .campu label,
+  .campu select {
+    font-size: 22px;
+  }
+  .campu textArea {
+    margin-left: 30px;
+    width: 280px;
+  }
 }
 
 /* Desktop */

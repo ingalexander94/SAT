@@ -20,7 +20,13 @@
       </div>
       <div class="form_input">
         <label for="date">Fecha</label>
-        <input type="date" formControlName="date" name="date" id="date" />
+        <input
+          type="date"
+          formControlName="date"
+          min="{{ today | date: 'yyyy-MM-dd' }}"
+          name="date"
+          id="date"
+        />
       </div>
       <div class="form_input">
         <label for="ubication">Lugar</label>

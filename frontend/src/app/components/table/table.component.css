@@ -27,6 +27,7 @@ table {
 
 th {
   font-weight: bold;
+  padding: 10px;
 }
 td {
   margin: 10px;

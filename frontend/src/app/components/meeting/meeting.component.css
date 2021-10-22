@@ -100,7 +100,7 @@ h5 span {
 .table_meet {
   position: relative;
   margin: 16px;
-  width: 95vw;
+  width: 100vw;
   overflow-x: scroll;
   text-align: center;
 }
@@ -117,6 +117,7 @@ table {
 
 th {
   font-weight: bold;
+  padding: 15px;
 }
 
 table tbody tr:nth-child(odd) {
@@ -311,6 +312,7 @@ table tbody tr:nth-child(odd) {
 
   th {
     font-size: 20px;
+    padding: 0px;
   }
 
   td {

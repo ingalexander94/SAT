@@ -43,6 +43,22 @@ def updateAttendanceMeet(_, id=None):
 def getMeeetsStudent(_, code=None):
     return instance.getMeeetsStudent(code)
 
+@meet_rest.route("/meets/role", methods=["POST"])
+@token_required
+def getMeetActiveWithRole(_):
+    return instance.getMeetActiveWithRole()
+
+@meet_rest.route("/meets/history", methods=["POST"])
+@token_required
+def createMeetHistory(_):
+    return instance.createMeetHistory()
+
+@meet_rest.route("/meets/history")
+@meet_rest.route("/meets/history/<code>/<type>")
+@token_required
+def getMeetsHistory(_, code=None, type=None):
+    return instance.getMeetsHistory(code, type) 
+
 @meet_rest.route("/paginate")
 @token_required
 def paginateMeets(userAuth):

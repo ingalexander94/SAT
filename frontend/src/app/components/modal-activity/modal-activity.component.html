@@ -184,8 +184,16 @@
             class="fas fa-exclamation-triangle pointer fa-fw"
             id="description"
           ></i>
-
-          <div class="popoverActivity"></div>
+          <div class="popoverActivity">
+            <ul
+              *ngIf="
+                description.invalid &&
+                (description.dirty || description.touched)
+              "
+            >
+              <li>* El campo es obligatorio</li>
+            </ul>
+          </div>
         </div>
       </div>
       <button [disabled]="formCreateActivity.invalid" type="submit">

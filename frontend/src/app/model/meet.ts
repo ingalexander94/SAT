@@ -38,3 +38,8 @@ export interface FilterMeet {
   state?: string;
   date?: string;
 }
+
+export interface Reason {
+  name: String;
+  isActive: Boolean;
+}

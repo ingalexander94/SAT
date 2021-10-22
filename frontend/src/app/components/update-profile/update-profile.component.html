@@ -9,7 +9,12 @@
         class="form_input"
         [ngClass]="{ error: role.invalid && (role.dirty || role.touched) }"
       >
-        <select formControlName="role" name="role" id="role">
+        <select
+          formControlName="role"
+          (change)="resetDate()"
+          name="role"
+          id="role"
+        >
           <option *ngFor="let rol of roles" value="{{ rol._id.$oid }}">
             {{ normalize(rol.role) }}
           </option>

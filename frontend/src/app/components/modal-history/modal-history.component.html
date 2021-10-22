@@ -1,0 +1,53 @@
+<div class="wrapper_alert" (click)="onClick($event)">
+  <div class="alert_container">
+    <div class="title">
+      <h3>Historia de la cita</h3>
+      <i class="fas fa-times red pointer" (click)="close()"></i>
+    </div>
+    <hr />
+
+    <div class="info_meet">
+      <p class="red">
+        <span>Motivo:</span>
+        {{ meetPsychological.meetPsychological.reasonMeet }}
+      </p>
+      <p>
+        <span>Fecha:</span>
+        {{ meetPsychological.dateFormat | date: "MMM d, y, hh:mm a" }}
+      </p>
+    </div>
+
+    <div class="list_info">
+      <div class="item">
+        <h3>1. PROBLEMÁTICA ACTUAL <span>(Fenomenología)</span></h3>
+        <p>
+          {{ meetPsychological.meetPsychological.currentProblem }}
+        </p>
+      </div>
+      <div class="item">
+        <h3>2. DIAGNÓSTICO</h3>
+        <p>
+          {{ meetPsychological.meetPsychological.diagnosis }}
+        </p>
+      </div>
+      <div class="item">
+        <h3>3. ABORDAJE PSICOTERAPÉUTICO</h3>
+        <p>
+          {{ meetPsychological.meetPsychological.psychotherapeuticApproach }}
+        </p>
+      </div>
+      <div class="item">
+        <h3>
+          4. PRONÓSTICO
+          <span
+            >(Crear un plan a trabajar definiendo los conflictos
+            importantes)</span
+          >
+        </h3>
+        <p>
+          {{ meetPsychological.meetPsychological.forecast }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

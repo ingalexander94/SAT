@@ -1,4 +1,5 @@
 import { getColor, isTeacher } from '../helpers/ui';
+import { Reason } from './meet';
 import { Risk } from './risk';
 import { ItemRisk, MenuOptions } from './ui';
 
@@ -146,5 +147,36 @@ export const risks: Risk[] = [
     color: function () {
       return getColor(this.riskGlobal);
     },
+  },
+];
+
+export const reasonList: Reason[] = [
+  {
+    name: 'CONSUMO DE SPA',
+    isActive: false,
+  },
+  {
+    name: 'EMOCIONAL',
+    isActive: false,
+  },
+  {
+    name: 'PROCESO DE DUELO',
+    isActive: false,
+  },
+  {
+    name: 'ACADÉMICO',
+    isActive: false,
+  },
+  {
+    name: 'O. VOCACIONAL',
+    isActive: false,
+  },
+  {
+    name: 'PSICOLOGÍA',
+    isActive: true,
+  },
+  {
+    name: 'O. SEXUAL',
+    isActive: false,
   },
 ];
