@@ -7,6 +7,7 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { dateHourFormat } from 'src/app/helpers/ui';
+import { BodyMeetActivateRol } from 'src/app/model/responseHistoryMeet';
 import { WellnessService } from 'src/app/services/wellness.service';
 
 @Component({
@@ -65,7 +66,7 @@ export class ClinicalMeetComponent implements OnInit, OnDestroy {
 
   async loadMeetActive(role, student) {
     this.loadingMeet = true;
-    const body = { role, student, typeHistory: 'clinica' };
+    const body: BodyMeetActivateRol = { role, student, typeHistory: 'clinica' };
     const res = await this.wellnessService.getMeetActiveWithRole(body);
     if (!res.meet) {
       showAlert('error', 'No hay una reunión programada actualmente');

@@ -24,7 +24,7 @@
     <hr />
     <div class="alert_options">
       <button (click)="close()">Cancelar</button>
-      <button [disabled]="formHelp.invalid" type="submit">
+      <button [disabled]="formHelp.invalid || loading" type="submit">
         Aceptar <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>
     </div>

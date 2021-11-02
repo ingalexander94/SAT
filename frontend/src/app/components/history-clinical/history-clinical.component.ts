@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { pluck, filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { dateHourFormat } from 'src/app/helpers/ui';
 import { WellnessService } from 'src/app/services/wellness.service';
 import { StudentService } from 'src/app/services/student.service';
+import { ResponseHistotyMett } from 'src/app/model/responseHistoryMeet';
+import { MeetClinical } from 'src/app/model/meetClinical';
 
 @Component({
   selector: 'app-history-clinical',
@@ -16,14 +18,24 @@ import { StudentService } from 'src/app/services/student.service';
 export class HistoryClinicalComponent implements OnInit, OnDestroy {
   isEdit: Boolean = false;
   loading: Boolean = false;
+  role: String = '';
   idRecord: String = '';
   student: String = '';
   loadingMeets: Boolean = false;
   history: Boolean = false;
-  meetClinical: any = null;
-  meets: any[] = [];
+  meetClinical: MeetClinical = null;
+  meets: ResponseHistotyMett[] = [];
   formHistoryClinical: FormGroup;
+  formObservation: FormGroup;
+  show: Boolean = false;
+  isEditObservation: Boolean = false;
   subscription: Subscription = new Subscription();
+
+  createFormObservation(): FormGroup {
+    return new FormGroup({
+      observation: new FormControl('', Validators.required),
+    });
+  }
 
   createFormHistoryClinical(): FormGroup {
     return new FormGroup({
@@ -44,17 +56,20 @@ export class HistoryClinicalComponent implements OnInit, OnDestroy {
     private studentService: StudentService
   ) {
     this.formHistoryClinical = this.createFormHistoryClinical();
+    this.formObservation = this.createFormObservation();
     this.toggleInputs();
   }
 
   ngOnInit(): void {
     this.subscription = this.store
-      .select('ui')
       .pipe(
-        filter(({ userActive }) => userActive !== null),
-        pluck('userActive', 'codigo')
+        map(({ ui: { userActive }, auth: { user } }) => ({ user, userActive })),
+        filter(({ userActive, user }) => userActive !== null && user !== null)
       )
-      .subscribe((code) => this.getMeetsClinical(code, 'clinica'));
+      .subscribe(({ user, userActive }) => {
+        this.role = user.rol;
+        this.getMeetsClinical(userActive.codigo, 'clinica');
+      });
   }
 
   async getMeetsClinical(code: String, type: String) {

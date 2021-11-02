@@ -22,8 +22,8 @@
         <label for="date">Fecha</label>
         <input
           type="date"
-          formControlName="date"
           min="{{ today | date: 'yyyy-MM-dd' }}"
+          formControlName="date"
           name="date"
           id="date"
         />
@@ -38,7 +38,7 @@
           id="ubication"
         />
       </div>
-      <button [disabled]="formDate.invalid" type="submit">
+      <button [disabled]="formDate.invalid || loading" type="submit">
         Notificar estudiante
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>

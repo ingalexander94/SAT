@@ -154,6 +154,10 @@
     height: 250px;
     overflow-y: scroll;
   }
+  /* .inputs_observations {
+    height: 100px;
+    overflow-y: scroll;
+  } */
 
   .list_meets {
     grid-template-columns: repeat(2, 1fr);

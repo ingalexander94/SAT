@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { pluck, filter } from 'rxjs/operators';
+import { pluck, filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { dateHourFormat } from 'src/app/helpers/ui';
+import { MeetPsychology } from 'src/app/model/meetPsychology';
+import { ResponseHistotyMett } from 'src/app/model/responseHistoryMeet';
 import { StudentService } from 'src/app/services/student.service';
 import { WellnessService } from 'src/app/services/wellness.service';
 
@@ -18,11 +20,12 @@ export class HistoryPsichologyComponent implements OnInit, OnDestroy {
   history: Boolean = false;
   isEdit: Boolean = false;
   idRecord: String = '';
+  role: String = '';
   student: String = '';
-  meetPsychological: any = null;
+  meetPsychological: MeetPsychology = null;
   loading: Boolean = false;
   loadingMeets: Boolean = false;
-  meets: any[] = [];
+  meets: ResponseHistotyMett[] = [];
   subscription: Subscription = new Subscription();
 
   createFormFamilyHistory(): FormGroup {
@@ -42,12 +45,14 @@ export class HistoryPsichologyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.formFamilyHistory.get('familyHistory').disable();
     this.subscription = this.store
-      .select('ui')
       .pipe(
-        filter(({ userActive }) => userActive !== null),
-        pluck('userActive', 'codigo')
+        map(({ ui: { userActive }, auth: { user } }) => ({ user, userActive })),
+        filter(({ userActive, user }) => userActive !== null && user !== null)
       )
-      .subscribe((code) => this.getMeetsPsychological(code, 'psicologica'));
+      .subscribe(({ user, userActive }) => {
+        this.role = user.rol;
+        this.getMeetsPsychological(userActive.codigo, 'psicologica');
+      });
   }
 
   async getMeetsPsychological(code: String, type: String) {

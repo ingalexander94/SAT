@@ -150,10 +150,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.loadingNewMeet = true;
     const { data } = await this.studentService.getByCode(code);
     this.store.dispatch(new SetUserActiveAction(data));
-    const { ...postulation } = await this.wellnessService.getPostulationById(
-      id
-    );
-    this.postulation = postulation;
+    if (id) {
+      const { ...postulation } = await this.wellnessService.getPostulationById(
+        id
+      );
+      this.postulation = postulation;
+    }
     this.loadingNewMeet = false;
     this.showDateNotification();
   }

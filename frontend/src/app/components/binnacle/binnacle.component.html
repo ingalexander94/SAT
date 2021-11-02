@@ -3,35 +3,41 @@
   [ngClass]="{ show: !show }"
 >
   <div class="binnacle">
+    <h3>
+      Bitácora estudiante
+      <i
+        *ngIf="isAdmin"
+        class="far fa-edit red pointer"
+        (click)="toggleShow()"
+        title="Agregar comentario"
+      ></i>
+      <i
+        *ngIf="isAdmin"
+        title="Descargar"
+        class="fas fa-download red pointer pdf"
+        (click)="download()"
+      ></i>
+    </h3>
     <div class="binnacle_options">
       <a
-        *ngIf="role === 'psicologo'"
+        *ngIf="role === 'psicologo' || role === 'estudiante'"
         routerLink="/estudiante/historia-psicologica"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         >Historía Psicológica</a
       >
-      <h3>
-        Bitácora estudiante
-        <i
-          *ngIf="isAdmin"
-          class="far fa-edit red pointer"
-          (click)="toggleShow()"
-          title="Agregar comentario"
-        ></i>
-        <i
-          *ngIf="isAdmin"
-          title="Descargar"
-          class="fas fa-download red pointer pdf"
-          (click)="download()"
-        ></i>
-      </h3>
       <a
-        *ngIf="role === 'medico'"
+        *ngIf="role === 'medico' || role === 'estudiante'"
         routerLink="/estudiante/historia-clinica"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         >Historía Clínica</a
+      >
+      <a
+        *ngIf="role === 'odontologo' || role === 'estudiante'"
+        target="_blank"
+        href="https://docs.google.com/document/d/15wBAOiTzb9W6zfHPU18ZNDTod-8FwuHj/edit"
+        >Historia Odontológica</a
       >
     </div>
     <div class="binnacle-text">
@@ -65,7 +71,7 @@
           name="text"
         ></textarea>
       </div>
-      <button [disabled]="formBinnacle.invalid" type="submit">
+      <button [disabled]="formBinnacle.invalid || loading" type="submit">
         Guardar cambios <i *ngIf="!loading" class="fas fa-save"></i>
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>

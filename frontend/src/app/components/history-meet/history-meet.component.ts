@@ -16,6 +16,7 @@ import { Reason } from 'src/app/model/meet';
 import { showAlert } from 'src/app/helpers/alert';
 import { WellnessService } from 'src/app/services/wellness.service';
 import { dateHourFormat } from 'src/app/helpers/ui';
+import { BodyMeetActivateRol } from 'src/app/model/responseHistoryMeet';
 
 @Component({
   selector: 'app-history-meet',
@@ -75,7 +76,11 @@ export class HistoryMeetComponent implements OnInit, OnDestroy {
       e.isActive ? { ...e, isActive: false } : e
     );
     this.reasons[5].isActive = true;
-    const body = { role, student, typeHistory: 'psicologica' };
+    const body: BodyMeetActivateRol = {
+      role,
+      student,
+      typeHistory: 'psicologica',
+    };
     const res = await this.wellnessService.getMeetActiveWithRole(body);
     if (!res.meet) {
       showAlert('error', 'No hay una reunión programada actualmente');

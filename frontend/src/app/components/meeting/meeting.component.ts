@@ -24,6 +24,7 @@ import { WellnessService } from 'src/app/services/wellness.service';
 })
 export class MeetingComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
+  subscription2: Subscription = new Subscription();
   meet: Meet = null;
   meets: Meet[] = [];
   loading: Boolean = true;
@@ -56,6 +57,9 @@ export class MeetingComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+    this.subscription2 = this.uiService.newMeet$.subscribe(
+      (meet) => (this.meets = [meet, ...this.meets])
+    );
   }
 
   async getMeetsStudent(code: String) {
@@ -147,5 +151,6 @@ export class MeetingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }

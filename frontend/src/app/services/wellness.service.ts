@@ -9,6 +9,11 @@ import {
   MeetPaginateResponse,
   MeetResponse,
 } from '../model/meet';
+import {
+  BodyMeetActivateRol,
+  ResponseHistotyMett,
+  ResponseMeetActivateRol,
+} from '../model/responseHistoryMeet';
 import { Postulation, Profit } from '../model/risk';
 import {
   ResponseSuggestion,
@@ -131,10 +136,13 @@ export class WellnessService {
     }
   }
 
-  async getMeetActiveWithRole(body: any) {
+  async getMeetActiveWithRole(body: BodyMeetActivateRol) {
     try {
       return await this.http
-        .post<any>(`${this.URL_BACKEND}/meet/meets/role`, body)
+        .post<ResponseMeetActivateRol>(
+          `${this.URL_BACKEND}/meet/meets/role`,
+          body
+        )
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -145,7 +153,18 @@ export class WellnessService {
   async createMeetHistory(body: any) {
     try {
       return await this.http
-        .post<any>(`${this.URL_BACKEND}/meet/meets/history`, body)
+        .post<Boolean>(`${this.URL_BACKEND}/meet/meets/history`, body)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async createMeetObservation(body: any) {
+    try {
+      return await this.http
+        .post<Boolean>(`${this.URL_BACKEND}/meet/meets/observation`, body)
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -156,7 +175,9 @@ export class WellnessService {
   async getMeetsHistory(code: String, type: String) {
     try {
       return await this.http
-        .get<any>(`${this.URL_BACKEND}/meet/meets/history/${code}/${type}`)
+        .get<ResponseHistotyMett[]>(
+          `${this.URL_BACKEND}/meet/meets/history/${code}/${type}`
+        )
         .toPromise();
     } catch (error) {
       console.error(error);

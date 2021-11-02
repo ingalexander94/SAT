@@ -1,5 +1,5 @@
 from marshmallow import fields, Schema
-from marshmallow.validate import OneOf, Length
+from marshmallow.validate import Length
 
 class MeetSchema(Schema):
     role = fields.Str(required=True, validate=Length(equal=24))

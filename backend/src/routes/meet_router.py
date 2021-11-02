@@ -53,6 +53,11 @@ def getMeetActiveWithRole(_):
 def createMeetHistory(_):
     return instance.createMeetHistory()
 
+@meet_rest.route("/meets/observation", methods=["POST"])
+@token_required
+def createMeetObservation(_):
+    return instance.createMeetObservation()
+
 @meet_rest.route("/meets/history")
 @meet_rest.route("/meets/history/<code>/<type>")
 @token_required

@@ -1,6 +1,7 @@
 <div class="wrapper_history animate__animated animate__fadeIn">
   <h3>Historía Clínica</h3>
   <p>Antecedentes</p>
+
   <form
     [formGroup]="formHistoryClinical"
     (submit)="onSubmit()"
@@ -80,7 +81,7 @@
         ></textarea>
       </div>
     </div>
-    <div class="btn_options">
+    <div *ngIf="role === 'medico'" class="btn_options">
       <button *ngIf="isEdit" (click)="changeIsEdit(false)" class="cancel">
         Cancelar <i class="fas fa-times-circle"></i>
       </button>
@@ -102,6 +103,7 @@
     <h3>
       Citas
       <a
+        *ngIf="role === 'medico'"
         routerLink="/estudiante/cita-medica"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"

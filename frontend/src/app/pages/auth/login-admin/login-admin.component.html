@@ -74,7 +74,7 @@
       <div class="forgot">
         <a routerLink="/auth/forgot-password">¿Olvidó su contraseña?</a>
       </div>
-      <button [disabled]="formLogin.invalid && loading" type="submit">
+      <button [disabled]="formLogin.invalid || loading" type="submit">
         Iniciar sesión
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>

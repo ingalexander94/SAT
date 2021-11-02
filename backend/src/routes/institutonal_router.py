@@ -19,9 +19,12 @@ def login():
 def saveRecord(_):
     return instance.saveRecord() 
 
+
 @institutional_rest.route("/record")
 @institutional_rest.route("/record/<code>/<type>")
 @token_required
 def getRecords(_, code=None, type=None):
     return instance.getRecords(code, type)
+
+
 

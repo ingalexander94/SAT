@@ -119,8 +119,7 @@
           </ul>
         </div>
       </div>
-
-      <button [disabled]="formLogin.invalid" type="submit">
+      <button [disabled]="formLogin.invalid || loading" type="submit">
         Iniciar sesión
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>

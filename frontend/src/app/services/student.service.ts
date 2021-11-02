@@ -18,6 +18,7 @@ import {
   RiskResponse,
 } from '../model/risk';
 import { ResponseSemester } from '../model/semester';
+import { Record, ResponseRecordHistory } from '../model/responseHistoryMeet';
 
 @Injectable({
   providedIn: 'root',
@@ -152,10 +153,12 @@ export class StudentService {
     }
   }
 
-  getRecord(code: String, type: String) {
+  async getRecord(code: String, type: String) {
     try {
       return this.http
-        .get<any>(this.url + '/auth/institutional/record/' + code + '/' + type)
+        .get<ResponseRecordHistory>(
+          this.url + '/auth/institutional/record/' + code + '/' + type
+        )
         .toPromise();
     } catch (error) {
       console.error(error);
@@ -163,10 +166,10 @@ export class StudentService {
     }
   }
 
-  saveRecord(record: any) {
+  async saveRecord(record: Record) {
     try {
       return this.http
-        .post<any>(this.url + '/auth/institutional/record', { record })
+        .post<Record>(this.url + '/auth/institutional/record', { record })
         .toPromise();
     } catch (error) {
       console.error(error);

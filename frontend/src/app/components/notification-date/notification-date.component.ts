@@ -100,12 +100,12 @@ export class NotificationDateComponent implements OnInit, OnDestroy {
         attendance: false,
         student: this.student,
         dateFormat,
-        postulation: this.postulation._id.$oid,
+        postulation: this.postulation ? this.postulation._id.$oid : null,
       };
       const res = await this.wellnessService.createMeet(meet);
       if (res.ok) {
         this.store.dispatch(new UpdateCounterAction());
-        this.postulation.state = 'NOTIFICADO PARA CITA';
+        if (this.postulation) this.postulation.state = 'NOTIFICADO PARA CITA';
         this.close();
       } else {
         showAlert('error', res.msg);

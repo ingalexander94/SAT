@@ -196,7 +196,7 @@
           </div>
         </div>
       </div>
-      <button [disabled]="formCreateActivity.invalid" type="submit">
+      <button [disabled]="formCreateActivity.invalid || loading" type="submit">
         {{ textButton }}
         <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>
