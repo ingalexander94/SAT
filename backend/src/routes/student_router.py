@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from middleware.validate_token import token_required
 from middleware.validate_request import required_params
 from validator.postulation import FilterPostulation, PostulationSchema, PostulateSchema
@@ -14,7 +14,7 @@ student_rest = Blueprint("student_rest", __name__)
 @student_rest.route("/<code>")
 @token_required
 def getStudent(_, code = None):
-    return instance_institutional.getByCode(code, "estudiante")
+    return instance_institutional.getByCode(code, "student")
 
 @student_rest.route("/course/")
 @student_rest.route("/course/<code>")

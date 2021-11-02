@@ -143,6 +143,7 @@ export class StudentService {
 
   getRisk(code: String) {
     try {
+      code = '0000000';
       return this.http
         .get<RiskResponse>(this.url + '/risk/' + code)
         .toPromise();

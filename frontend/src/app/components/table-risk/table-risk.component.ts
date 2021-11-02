@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import {
   getValueOfLocalStorage,
@@ -12,7 +11,7 @@ import { getColor } from 'src/app/helpers/ui';
 import { User } from 'src/app/model/auth';
 import { StatisticsRisk } from 'src/app/model/risk';
 import { DeleteStudentsAction } from 'src/app/reducer/course/course.actions';
-import { UiService } from 'src/app/services/ui.service';
+import { TeacherService } from 'src/app/services/teacher.service';
 
 @Component({
   selector: 'app-table-risk',
@@ -21,15 +20,19 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class TableRiskComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
-  subscription2: Subscription = new Subscription();
   loading: boolean = true;
+  loadingMore: Boolean = false;
   filter: String = '';
   show: boolean = false;
+  page: number = 1;
+  limit: Number = 15;
+  totalPages: Number = 0;
 
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private uiService: UiService
+    private teacherService: TeacherService,
+    private route: ActivatedRoute
   ) {}
 
   listStudents: User[];
@@ -38,14 +41,11 @@ export class TableRiskComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.subscription = this.store
       .select('course')
-      .pipe(filter(({ students }) => students.length > 0))
-      .subscribe(({ students }) => {
+      .subscribe(({ students, totalPages }) => {
         this.listStudents = students;
         this.loading = false;
+        this.totalPages = totalPages;
       });
-    this.subscription2 = this.uiService.filter$.subscribe(
-      (filter) => (this.filter = filter)
-    );
   }
 
   navigateToStudent(userShow: User) {
@@ -68,18 +68,39 @@ export class TableRiskComponent implements OnInit, OnDestroy {
     }
   }
 
+  async scrollDown(isFilter: Boolean = false) {
+    this.page = this.page + 1;
+    if (this.page <= this.totalPages) {
+      this.loadingMore = true;
+      const code = this.route.snapshot.paramMap.get('code');
+      const group = this.route.snapshot.paramMap.get('group');
+      await this.teacherService.listStudentsOfCourse(
+        code,
+        group,
+        this.page,
+        this.limit,
+        this.filter,
+        isFilter
+      );
+      this.loadingMore = false;
+    }
+  }
+
   showOptions() {
     this.show = !this.show;
   }
 
-  filterStudents(name: string = '') {
+  async filterStudents(name: string = '') {
+    this.loadingMore = true;
     this.filter = name;
+    this.page = 0;
+    this.totalPages = 1;
+    await this.scrollDown(true);
     this.showOptions();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
     this.store.dispatch(new DeleteStudentsAction());
   }
 }

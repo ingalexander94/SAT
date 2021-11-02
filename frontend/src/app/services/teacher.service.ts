@@ -1,12 +1,14 @@
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { environment } from 'src/environments/environment.prod';
 import { AppState } from '../app.reducers';
+import { showAlert } from '../helpers/alert';
 import { StudentResponse } from '../model/auth';
 import { ResponseCourse } from '../model/course';
 import {
+  FilterStudentsAction,
   LoadingCourseAction,
   LoadStudentsAction,
 } from '../reducer/course/course.actions';
@@ -39,16 +41,40 @@ export class TeacherService {
     this.store.dispatch(new FinishLoadingAction());
   }
 
-  async listStudentsOfCourse(code: String, group: String) {
+  async listStudentsOfCourse(
+    code: String,
+    group: String,
+    page: Number = 1,
+    limit: Number = 15,
+    filter: String = '',
+    isFilter: Boolean = false
+  ) {
     try {
+      const params = new HttpParams()
+        .append('page', '' + page)
+        .append('limit', '' + limit)
+        .append('filter', '' + filter);
       const res = await this.http
-        .get<StudentResponse>(
-          this.url + '/teachers/course/students/' + code + '/' + group
+        .get<any>(
+          this.url + '/teachers/course/students/' + code + '/' + group,
+          { params }
         )
         .toPromise();
-      !res.ok
-        ? this.location.back()
-        : this.store.dispatch(new LoadStudentsAction(res.data));
+      if (isFilter) {
+        if (!res.ok) {
+          this.store.dispatch(
+            new FilterStudentsAction({ students: [], totalPages: 0 })
+          );
+        } else {
+          this.store.dispatch(new FilterStudentsAction(res.data));
+        }
+      } else {
+        if (!res.ok) {
+          this.location.back();
+        } else {
+          this.store.dispatch(new LoadStudentsAction(res.data));
+        }
+      }
     } catch (error) {
       console.error(error);
     }

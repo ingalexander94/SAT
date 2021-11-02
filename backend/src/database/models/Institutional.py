@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 from flask import request, Response
 from util import jwt, response, environment, helpers
 from database import config
-from util.request_api import request_ufps
+from util.request_api import request_ufps, request_ufps_token
 
 mongo = config.mongo
 
@@ -27,59 +27,85 @@ class Institutional:
                 return response.error("Revise los datos ingresados", 401)
         except:
             return response.error("Revise los datos ingresados", 401)
+        
+    def loginGoogle(self):
+        correo = request.json["correo"]
+        foto = request.json["foto"]
+        rol = request.json["rol"]
+        endpoint = f"/{rol}/email/{correo}"
+        try: 
+            req = request_ufps().get(f"{environment.API_UFPS}/{endpoint}")
+            data = req.json()
+            if data["ok"]: 
+                data = data["data"]
+                rol = "estudiante" if rol == "student" else "docente"
+                if data["rol"] != rol:
+                    return response.error(f"No tiene acceso como {rol}", 401)
+                user = {
+                    **data,
+                    "foto": foto,
+                }
+                token = jwt.generateToken(user, 60)
+                return response.success("Bienvenido!!", user, token)
+            else:
+                return response.error("Revise los datos ingresados", 401)
+        except:
+            return response.error("Revise los datos ingresados", 401)
 
-    def getByCode(self, code, role):
-        if not code or not code.isdigit() or len(code) != 7:
-            return response.reject("Se necesita un código de 7 caracteres")
+    def getByCode(self, code, role): 
         try:
-            req = request_ufps().get(f"{environment.API_URL}/{role}_{code}")
+            endpoint = f"/{role}/code/{code}"
+            req = request_ufps_token().get(f"{environment.API_UFPS}/{endpoint}")
             data = req.json()
             if data["ok"]:
-                user = data["data"]
-                del user["contrasena"]
-                return response.success("Todo Ok!", user, "")
+                return response.success(data["msg"], data["data"], "")
             else:
-                return response.error("No se encontraron resultados", 400)
+                return response.error(data["msg"], 400)
         except:
-            return response.success("No se encontraron resultados", None, "")
+            return response.reject("Hable con el Administrador")
 
     def getMyCoursesStudent(self, code):
         if not code or not code.isdigit() or len(code) != 7:
             return response.reject("Se necesita un código de 7 caracteres")
         try:
-            req = request_ufps().get(f"{environment.API_URL}/materias_{code}")
-            courses = req.json()
-            if courses:
-                return response.success("Todo ok!", courses, "")
+            req = request_ufps_token().get(f"{environment.API_UFPS}/student/courses/{code}")  
+            res = req.json()
+            if res["ok"]:
+                return response.success(res["msg"], res["data"], "")
             else:
-                return response.reject("Está dirección no es válida")
+                return response.reject(res["msg"])
         except:
-            return response.reject("Está dirección no es válida")
+            return response.reject("Hable con el administrador")
 
     def getMyCoursesTeacher(self, code):
-        if not code or not code.isdigit() or len(code) != 7:
-            return response.reject("Se necesita un código de 7 caracteres")
-
-        req = request_ufps().get(f"{environment.API_URL}/cursos_{code}")
-        courses = req.json()
-        # Borrar el docente
-        return response.success("Todo ok!", courses, "")
+        if not code or not code.isdigit() or len(code) != 5:
+            return response.reject("Se necesita un código de 5 caracteres")
+        try:
+            req = request_ufps_token().get(f"{environment.API_UFPS}/teacher/courses/{code}")  
+            res = req.json()
+            if res["ok"]:
+                return response.success(res["msg"], res["data"], "")
+            else:
+                return response.reject(res["msg"])
+        except:
+            return response.reject("Hable con el administrador")
 
     def getStudentsOfCourse(self, code, group):
-        if not code or not code.isdigit() or len(code) != 7:
-            return response.reject("Se necesita un código de 7 caracteres")
         try:
-            res = request_ufps().get(f"{environment.API_URL}/listado_{code}_{group}")
-            students = res.json()
-            if students: 
+            page = int(request.args.get("page")) or 1
+            limit = int(request.args.get("limit")) or 15
+            filter = request.args.get("filter") or ""
+            req = request_ufps_token().get(f"{environment.API_UFPS}/teacher/students-course/{code}/{group}", params={"page":page, "limit":limit, "filter":filter})
+            res = req.json()
+            if res["ok"]: 
+                students = res["data"]["students"]
                 for student in students:
-                    code = student["codigo"]
-                    student["riesgo"] = request_ufps().get(f"{environment.API_URL}/riesgo_{code}").json()["riesgoGlobal"]
-                return response.success("Todo ok!", students, "")
+                    student["riesgo"] = 4
+                return response.success(res["msg"], res["data"], "")
             else:
-                return response.reject("Esta dirección  no es válida")
+                return response.reject(res["msg"])
         except:
-            return response.reject("Esta dirección  no es válida")
+            return response.reject("Hable con el administrador")
 
     def getProfits(self, code, risk):
         if not code or not code.isdigit() or len(code) != 7:

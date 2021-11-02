@@ -45,6 +45,7 @@ import { ModalHistoryComponent } from './modal-history/modal-history.component';
 import { ClinicalMeetComponent } from './clinical-meet/clinical-meet.component';
 import { HistoryClinicalComponent } from './history-clinical/history-clinical.component';
 import { ModalClinicalComponent } from './modal-clinical/modal-clinical.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,12 @@ import { ModalClinicalComponent } from './modal-clinical/modal-clinical.componen
     HistoryClinicalComponent,
     ModalClinicalComponent,
   ],
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InfiniteScrollModule,
+  ],
 })
 export class ComponentsModule {}

@@ -27,6 +27,7 @@
 
 .filter {
   position: relative;
+  z-index: 1;
 }
 
 .options {
@@ -89,6 +90,6 @@
   }
 
   .options li {
-    font-size: 20px;
+    font-size: 16px;
   }
 }

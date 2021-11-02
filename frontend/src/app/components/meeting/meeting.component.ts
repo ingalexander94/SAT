@@ -64,7 +64,6 @@ export class MeetingComponent implements OnInit, OnDestroy {
 
   async getMeetsStudent(code: String) {
     this.meets = await this.wellnessService.getMeetsStudent(code);
-    console.log(this.meets);
   }
 
   async loadMeets(code: String) {

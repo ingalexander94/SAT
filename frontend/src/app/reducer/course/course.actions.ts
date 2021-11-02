@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { User } from 'src/app/model/auth';
 import { Course } from 'src/app/model/course';
 
 export const LOADING_COURSES = '[COURSE] Loading Course';
@@ -7,6 +6,7 @@ export const DELETE_COURSES = '[COURSE] Delete Course';
 export const ACTIVE_COURSE = '[COURSE] Active Course';
 export const DESACTIVE_COURSE = '[COURSE] Desactive Course';
 export const LOAD_STUDENTS = '[COURSE] Load Students';
+export const FILTER_STUDENTS = '[COURSE] Filter Students';
 export const DELETE_STUDENTS = '[COURSE] DELETE Students';
 
 export class LoadingCourseAction implements Action {
@@ -31,7 +31,12 @@ export class DesactiveCourseAction implements Action {
 
 export class LoadStudentsAction implements Action {
   readonly type = LOAD_STUDENTS;
-  constructor(public payload: User[]) {}
+  constructor(public payload: any) {}
+}
+
+export class FilterStudentsAction implements Action {
+  readonly type = FILTER_STUDENTS;
+  constructor(public payload: any) {}
 }
 
 export class DeleteStudentsAction implements Action {
@@ -45,4 +50,5 @@ export type actions =
   | ActiveCourseAction
   | DesactiveCourseAction
   | LoadStudentsAction
-  | DeleteStudentsAction;
+  | DeleteStudentsAction
+  | FilterStudentsAction;
