@@ -35,6 +35,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
   totalPages: number[] = [];
+  role: String = '';
   page: number = 0;
   meets: Meet[] = [];
   loading: Boolean = true;
@@ -75,9 +76,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         filter((user) => user !== null),
         distinctUntilChanged()
       )
-      .subscribe(({ documento }) =>
-        this.notificationService.getNotifications(documento)
-      );
+      .subscribe(({ documento, rol }) => {
+        this.role = rol;
+        this.notificationService.getNotifications(documento);
+      });
   }
 
   async loadMeets(page: string, state: string, date: string) {

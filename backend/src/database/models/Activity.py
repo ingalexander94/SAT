@@ -5,7 +5,7 @@ from database import config
 from pymongo import ASCENDING
 from bson import json_util
 from util import response,environment,emails
-from util.request_api import request_ufps
+from util.request_api import request_ufps, request_ufps_token
 from util.helpers import  convertLevelRisk
 
 mongo = config.mongo
@@ -40,6 +40,7 @@ class Activity:
     def  listActivitiesStudent(self, code):
         if not code or not code.isdigit() or len(code) != 7:
             return response.error("Se necesita un código de 7 caracteres", 400)
+        code = "0000000"
         res = request_ufps().get(f"{environment.API_URL}/riesgo_{code}").json()
         riskStudent = list(map(lambda risk : {'risk': risk['nombre'], 'riskLevel':convertLevelRisk(risk['puntaje'])} , res['riesgos']))
         globalActivity = list(mongo.db.activity.find({"risk": "global", "state": True}))
@@ -94,6 +95,6 @@ class Activity:
         if not id or len(id) != 24:
             return response.error("Se necesita un id de 24 caracteres", 400)
         students = list(mongo.db.attendance.find({"activity": ObjectId(id)}, {"_id":False, "student": 1, "total":1}))
-        students = list(map(lambda student : request_ufps().get(f'{environment.API_URL}/estudiante_{student["student"]}').json()["data"], students))
+        students = list(map(lambda student : request_ufps_token().get(f'{environment.API_UFPS}/student/code/{student["student"]}').json()["data"], students))
         resActivities= json_util.dumps(students)
         return Response(resActivities, mimetype="applicaton/json") 

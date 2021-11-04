@@ -8,7 +8,7 @@ class ChatSchema(Schema):
     transmitter = fields.Dict(required=False)
     
 class ReceiverSchema(Schema):
-    code = fields.Str(required = True, validate=Length(min=7) )
+    code = fields.Str(required = True, validate=Length(min=5, max=7) )
     email = fields.Email(required=True)
     name = fields.Str(required=True)
     
