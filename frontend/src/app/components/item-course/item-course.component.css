@@ -14,7 +14,7 @@
 }
 
 .item_course h3 {
-  font-size: 14px;
+  font-size: 10px;
   font-weight: bold;
 }
 
@@ -43,7 +43,7 @@
   }
 
   .item_course h3 {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .item_course i {
@@ -60,5 +60,9 @@
 @media (min-width: 1152px) {
   .item_course {
     margin-top: 0;
+  }
+
+  .item_course h3 {
+    font-size: 16px;
   }
 }

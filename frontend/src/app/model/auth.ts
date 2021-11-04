@@ -8,18 +8,18 @@ export interface User {
   sexo?: String;
   correo: String;
   rol: String;
-  tipoDocument?: String;
+  tipodocument?: String;
   programa?: String;
   telefono: String;
   direccion?: String;
   estado?: string;
-  fechaIngreso?: any;
-  creditosAprobados?: Number;
+  fechaingreso?: any;
+  creditosaprobados?: Number;
   edad?: Number;
-  creditosTotales?: Number;
+  creditostotales?: Number;
   semestre?: Number;
   promedio?: Number;
-  promedioPonderadoAcomulado?: Number;
+  promedioponderadoacomulado?: Number;
   riesgo?: number;
 }
 

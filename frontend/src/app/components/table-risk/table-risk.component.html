@@ -1,4 +1,8 @@
-<div class="table_students animate__animated animate__fadeIn">
+<div
+  class="table_students animate__animated animate__fadeIn"
+  infiniteScroll
+  (scrolled)="scrollDown()"
+>
   <table>
     <thead>
       <tr>
@@ -9,11 +13,16 @@
         <th class="filter">
           Estado <i class="fas fa-filter pointer" (click)="showOptions()"></i>
           <ul class="options" *ngIf="show">
-            <li (click)="filterStudents('matriculado')">Matriculados</li>
-            <li (click)="filterStudents('cancelado')">Cancelados</li>
-            <li (click)="filterStudents('en modulos')">En modulos</li>
-            <li (click)="filterStudents('graduado')">Graduados</li>
-            <li (click)="filterStudents()">Todos</li>
+            <li (click)="filterStudents('ALUMNO DE PRIMER SEMESTRE')">
+              ALUMNO DE PRIMER SEMESTRE
+            </li>
+            <li (click)="filterStudents('MATRICULA INCLUSIONES-CANCELACIONES')">
+              MATRICULA INCLUSIONES-CANCELACIONES
+            </li>
+            <li (click)="filterStudents('SEMESTRE CANCELADO')">
+              SEMESTRE CANCELADO
+            </li>
+            <li (click)="filterStudents()">TODOS</li>
           </ul>
         </th>
         <th>Permanencia</th>
@@ -25,12 +34,15 @@
           <app-loading></app-loading>
         </td>
       </tr>
+      <tr>
+        <td colspan="6" *ngIf="!loading && listStudents.length < 1">
+          No hay nada para mostrar
+        </td>
+      </tr>
       <ng-container *ngIf="!loading">
         <tr
-          *ngFor="
-            let student of listStudents | filterStudent: filter;
-            let i = index
-          "
+          *ngFor="let student of listStudents; let i = index"
+          class="animate__animated animate__fadeIn"
         >
           <td>{{ i + 1 }}</td>
           <td>{{ student.codigo }}</td>
@@ -47,5 +59,7 @@
     </tbody>
   </table>
 </div>
-
+<p class="red" *ngIf="loadingMore">
+  Cargando <i class="fas fa-spinner fa-pulse"></i>
+</p>
 <app-download-pdf [students]="listStudents" *ngIf="!loading"></app-download-pdf>

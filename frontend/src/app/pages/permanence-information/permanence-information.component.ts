@@ -34,9 +34,7 @@ export class PermanenceInformationComponent implements OnInit, OnDestroy {
       .pipe(
         filter(({ userActive }) => userActive !== null),
         tapN(1, async ({ userActive }) => {
-          const { data } = await this.studentService.getSemesters(
-            userActive.codigo
-          );
+          const { data } = await this.studentService.getSemesters('0000000');
           this.semesters = data;
           this.loading = false;
         })

@@ -32,6 +32,7 @@ import {
   SetError,
   UnsetUserActiveAction,
 } from '../reducer/ui/ui.actions';
+import { GoogleService } from './google.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +46,8 @@ export class AuthService {
     private store: Store<AppState>,
     private router: Router,
     private httpClient: HttpClient,
-    private httpBackend: HttpBackend
+    private httpBackend: HttpBackend,
+    private googleService: GoogleService
   ) {
     this.withOutToken = new HttpClient(this.httpBackend);
     this.isAuth$ = this.store.select('auth');
@@ -164,6 +166,7 @@ export class AuthService {
       : role === 'estudiante'
       ? 'estudiante'
       : 'administrativo';
+    this.googleService.singOut();
     this.router.navigate([`${path}/iniciar-sesion`]);
   }
 }

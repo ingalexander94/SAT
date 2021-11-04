@@ -3,127 +3,24 @@
     <div class="auth_header">
       <img src="/assets/image/Logo_SAT.svg" alt="Logo SAT" />
       <h1>SAT</h1>
-      <p>Ingrese con los datos de divisist</p>
+      <p>Sistema de alertas tempranas</p>
     </div>
-    <form [formGroup]="formLogin" (submit)="onSubmit()" class="form_auth">
-      <div class="auth_roles" title="Seleccione un rol">
-        <div class="roles">
-          <input
-            type="radio"
-            formControlName="role"
-            id="estudiante"
-            value="estudiante"
-          />
-          <label for="estudiante" class="pointer active">
-            <i class="fas fa-address-book"></i>
-            <span>Estudiante</span>
-          </label>
-        </div>
-      </div>
-      <div
-        class="form_input"
-        [ngClass]="{ error: code.invalid && (code.dirty || code.touched) }"
-      >
-        <input
-          type="text"
-          placeholder="Código"
-          value="1234567"
-          maxlength="7"
-          minlength="7"
-          formControlName="code"
-          name="code"
-          autocomplete="off"
-          autofocus
-          required
-        />
-        <i *ngIf="!code.invalid" class="fas fa-user fa-fw"></i>
-        <i
-          *ngIf="code.invalid"
-          class="fas fa-exclamation-triangle pointer"
-          id="code"
-        ></i>
-        <div class="popover">
-          <ul>
-            <li>* Debe tener 7 caracteres</li>
-            <li>* Solo se aceptan números</li>
-          </ul>
-        </div>
-      </div>
-      <div
-        class="form_input"
-        [ngClass]="{
-          error: document.invalid && (document.dirty || document.touched)
-        }"
-      >
-        <input
-          [type]="typeDocument"
-          placeholder="Documento"
-          (focus)="changeTypeDocument(true)"
-          (blur)="changeTypeDocument(false)"
-          value="1234567890"
-          maxlength="10"
-          minlength="8"
-          formControlName="document"
-          autocomplete="off"
-          name="document"
-          required
-        />
-        <i *ngIf="!document.invalid" class="fas fa-address-card fa-fw"></i>
-        <i
-          *ngIf="document.invalid"
-          class="fas fa-exclamation-triangle pointer"
-          id="document"
-        ></i>
-        <div class="popover">
-          <ul>
-            <li>* Debe tener 8 ó 10 caracteres</li>
-            <li>* Solo se aceptan números</li>
-          </ul>
-        </div>
-      </div>
-      <div
-        class="form_input"
-        [ngClass]="{
-          error: password.invalid && (password.dirty || password.touched)
-        }"
-      >
-        <input
-          [type]="typePassword"
-          placeholder="Contraseña"
-          value="1234567890123"
-          min="6"
-          max="20"
-          formControlName="password"
-          autocomplete="off"
-          name="password"
-          required
-        />
-        <i
-          *ngIf="!password.invalid && !showPassword"
-          (click)="changeShowPassword()"
-          class="fas fa-eye fa-fw"
-        ></i>
-        <i
-          *ngIf="!password.invalid && showPassword"
-          (click)="changeShowPassword()"
-          class="fas fa-eye-slash fa-fw"
-        ></i>
-        <i
-          *ngIf="password.invalid"
-          class="fas fa-exclamation-triangle pointer"
-          id="password"
-        ></i>
-        <div class="popover">
-          <ul>
-            <li>* El campo es obligatorio</li>
-          </ul>
-        </div>
-      </div>
-      <button [disabled]="formLogin.invalid || loading" type="submit">
-        Iniciar sesión
-        <i *ngIf="loading" class="fas fa-spinner fa-pulse fa-fw"></i>
-      </button>
-    </form>
+
+    <div class="role_auth">
+      <i class="fas fa-graduation-cap"></i>
+      <p>Estudiante</p>
+    </div>
+
+    <label class="btn_google" for="signIn">
+      <figure>
+        <img src="/assets/image/google-icon.svg" alt="Logo de Google" />
+      </figure>
+      <span
+        >Iniciar sesión con Google
+        <i *ngIf="loading" class="fas fa-spinner fa-spin"></i></span
+    ></label>
+    <button id="signIn" (click)="signIn()" type="button"></button>
+
     <p class="copyright">2021 © Todos los derechos reservados</p>
   </div>
   <div class="ilustration">

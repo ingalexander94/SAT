@@ -6,11 +6,13 @@ export interface CourseState {
   courses: Course[];
   active: Course;
   students: User[];
+  totalPages: Number;
 }
 const initState: CourseState = {
   courses: [],
   active: null,
   students: [],
+  totalPages: 0,
 };
 
 export const courseReducer = (
@@ -47,7 +49,15 @@ export const courseReducer = (
     case fromCourse.LOAD_STUDENTS:
       return {
         ...state,
-        students: [...actions.payload],
+        students: [...state.students, ...actions.payload.students],
+        totalPages: actions.payload.totalPages,
+      };
+
+    case fromCourse.FILTER_STUDENTS:
+      return {
+        ...state,
+        students: [...actions.payload.students],
+        totalPages: actions.payload.totalPages,
       };
 
     case fromCourse.DELETE_STUDENTS:
