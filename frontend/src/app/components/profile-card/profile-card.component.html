@@ -1,3 +1,5 @@
+<app-loading *ngIf="loading"></app-loading>
+
 <div class="card_profile" *ngIf="!loading">
   <div class="photo_user">
     <img src="{{ userShow.foto }}" alt="Foto de perfil del usuario" />
@@ -74,7 +76,7 @@
       <p>{{ userShow.semestre }}</p>
     </div>
     <div class="program">
-      <h4>Programa</h4>
+      <h4>{{ userShow.rol === "estudiante" ? "Programa" : "Departamento" }}</h4>
       <p>{{ userShow.programa }}</p>
     </div>
     <div class="code">
@@ -95,7 +97,7 @@
   >
     <i class="far fa-calendar-plus"></i> Agendar cita
   </p>
-  <div *ngIf="title === 'Perfil Docente' && user.rol === 'estudiante'">
+  <div *ngIf="userShow.rol === 'docente'">
     <button (click)="contact()" class="b">
       Contactar <i class="fas fa-handshake"></i>
     </button>

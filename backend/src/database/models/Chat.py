@@ -21,7 +21,7 @@ class Chat:
         to = message["receiver"]["email"]
         subject = f'{message["transmitter"]["name"]} te ha enviado un mensaje'
         emails.sendEmail(to, message["message"], subject)
-        return response.success("Mensaje enviado", {**message, "_id": str(id)},"")
+        return response.success("Mensaje enviado", {**message, "_id": str(id)},"") 
     
     def listChat(self, userAuth):
         receiver = request.get_json(force=True)

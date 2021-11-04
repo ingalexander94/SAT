@@ -17,7 +17,7 @@ def listRoles():
 @activity_router.route("/activities-student")
 @token_required
 def listActivitiesStundent(student):
-    return instance.listActivitiesStudent(student["codigo"]);
+    return instance.listActivitiesStudent(student["codigo"]); 
 
 @activity_router.route("/asist", methods=["POST"])
 @token_required

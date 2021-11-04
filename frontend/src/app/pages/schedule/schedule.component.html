@@ -1,7 +1,12 @@
 <div class="wrapper_schedule">
   <div class="activity">
     <app-search-global></app-search-global>
-    <button routerLink="/vicerrector/actividades">Actividades</button>
+    <button
+      *ngIf="role === 'vicerrector'"
+      routerLink="/vicerrector/actividades"
+    >
+      Actividades
+    </button>
   </div>
   <app-loading *ngIf="loading"></app-loading>
 

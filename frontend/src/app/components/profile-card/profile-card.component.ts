@@ -12,10 +12,10 @@ import { User } from 'src/app/model/auth';
 import { Subscription } from 'rxjs';
 import { MenuOptions } from 'src/app/model/ui';
 import { menuRoutes } from 'src/app/model/data';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, distinctUntilChanged, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
-import { tapN } from 'src/app/helpers/observers';
 import { StudentService } from 'src/app/services/student.service';
 import {
   LoadRiskAction,
@@ -45,6 +45,7 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
     private location: Location,
     private store: Store<AppState>,
     private router: Router,
+    private activatedRouter: ActivatedRoute,
     private chatService: ChatService,
     private studentService: StudentService
   ) {}
@@ -58,13 +59,27 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
           title: ui.titleNavbar,
           userActive: ui.userActive,
         })),
-        tapN(1, ({ userActive }) => this.getRisk(userActive))
+        tap(({ title }) => (this.title = title)),
+        distinctUntilChanged(
+          (x, y) => x.userActive.codigo === y.userActive.codigo
+        )
       )
-      .subscribe(({ user, title }) => {
+      .subscribe(({ user, userActive }) => {
         this.user = user;
-        this.title = title;
-        this.loading = false;
+        const code = this.activatedRouter.snapshot.paramMap.get('code');
+        if (code) this.getTeacher(code);
+        else this.getRisk(userActive);
       });
+  }
+
+  async getTeacher(code: String) {
+    const res = await this.studentService.getTeacherOfCourse(code);
+    if (res.ok) {
+      this.userShow = res.data;
+    } else {
+      this.router.navigate(['/estudiante']);
+    }
+    this.loading = false;
   }
 
   goBack() {
@@ -113,6 +128,7 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
       this.store.dispatch(new LoadRiskAction(riesgos));
       this.store.dispatch(new SetRiskGlobalAction(riesgoGlobal));
     }
+    this.loading = false;
   }
 
   ngOnDestroy(): void {
