@@ -2,7 +2,7 @@
   <div
     *ngFor="let item of statistics"
     (click)="toInRisk(item.type, item.total)"
-    class="{{ item.type !== 'Crítico' ? item.type.toLowerCase() : 'critico' }}"
+    [class]="getClass(item.type)"
   >
     <h3 *ngIf="loading">
       <i class="fas fa-spinner fa-spin fa-fw fa-sm"></i>

@@ -20,8 +20,9 @@ from routes.activity_router import activity_router
 from util import environment, jwt
 from database import config
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/app/backend/src/static')
 app.config["MONGO_URI"]= environment.MONGO_URL
+app.config['UPLOAD_FOLDER'] = environment.UPLOAD_FOLDER
 config.mongo.init_app(app)
 
 # Cargar datos de prueba para los beneficios 

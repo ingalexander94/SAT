@@ -1,8 +1,6 @@
 <div class="card_profile">
-  <div class="photo_user">
-    <div class="cicle" [ngClass]="color">
-      <label>{{ user.nombre.charAt(0) }}{{ user.apellido.charAt(0) }}</label>
-    </div>
+  <div class="photo">
+    <app-photo [isAdmin]="true"></app-photo>
   </div>
   <div class="info_student">
     <div class="description">

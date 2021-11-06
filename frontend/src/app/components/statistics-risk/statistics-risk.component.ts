@@ -28,6 +28,10 @@ export class StatisticsRiskComponent implements OnInit, OnDestroy {
       type: 'Crítico',
       total: 0,
     },
+    {
+      type: 'AC 012',
+      total: 0,
+    },
   ];
   loading: Boolean = true;
   subscription: Subscription = new Subscription();
@@ -36,10 +40,7 @@ export class StatisticsRiskComponent implements OnInit, OnDestroy {
   mild: ReturnType<typeof setInterval> = null;
   moderate: ReturnType<typeof setInterval> = null;
   critical: ReturnType<typeof setInterval> = null;
-
-  leve = null;
-  moderado = null;
-  critico = null;
+  ac012: ReturnType<typeof setInterval> = null;
 
   constructor(
     private router: Router,
@@ -88,6 +89,7 @@ export class StatisticsRiskComponent implements OnInit, OnDestroy {
     this.mild = this.createInterval(initState, this.mild, 0);
     this.moderate = this.createInterval(initState, this.moderate, 1);
     this.critical = this.createInterval(initState, this.critical, 2);
+    this.ac012 = this.createInterval(initState, this.ac012, 3);
   }
 
   createInterval(initState, interval, index): ReturnType<typeof setInterval> {
@@ -99,6 +101,15 @@ export class StatisticsRiskComponent implements OnInit, OnDestroy {
 
   calculateTimer(total: number) {
     return 2000 / total;
+  }
+
+  getClass(type: String) {
+    if (type === 'Crítico') {
+      type = 'critico';
+    } else if (type === 'AC 012') {
+      type = 'acuerdo_012';
+    }
+    return type.toLowerCase();
   }
 
   animate(data: Statistics, interval: ReturnType<typeof setInterval>) {

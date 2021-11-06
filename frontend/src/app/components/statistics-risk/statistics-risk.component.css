@@ -35,11 +35,17 @@
 .leve h3 {
   background: var(--yellow-primary-color);
 }
+
 .moderado h3 {
   background: var(--orange-primary-color);
 }
+
 .critico h3 {
   background: var(--red-primary-color);
+}
+
+.acuerdo_012 h3 {
+  background: #0a0a0a;
 }
 
 /* Tablet */

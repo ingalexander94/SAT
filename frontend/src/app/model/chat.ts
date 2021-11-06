@@ -9,6 +9,7 @@ export interface UserChat {
   apellido: String;
   documento: String;
   correo: String;
+  foto?: String;
 }
 
 export interface UsersChat {

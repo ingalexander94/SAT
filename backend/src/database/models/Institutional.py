@@ -1,9 +1,11 @@
+import os, uuid
 from bson import json_util
 from bson.objectid import ObjectId
 from flask import request, Response
 from util import jwt, response, environment, helpers
 from database import config
 from util.request_api import request_ufps, request_ufps_token
+from werkzeug.utils import secure_filename
 
 mongo = config.mongo
 
@@ -30,7 +32,6 @@ class Institutional:
         
     def loginGoogle(self):
         correo = request.json["correo"]
-        foto = request.json["foto"]
         rol = request.json["rol"]
         endpoint = f"/{rol}/email/{correo}"
         try: 
@@ -38,12 +39,19 @@ class Institutional:
             data = req.json()
             if data["ok"]: 
                 data = data["data"]
+                code = data["codigo"]
+                filename = self.getPhoto(code)
+                if filename:
+                    path = os.path.join(environment.UPLOAD_FOLDER, filename)
+                    path = f"{request.host_url}{path[1:]}"
+                else:
+                    path = None
                 rol = "estudiante" if rol == "student" else "docente"
                 if data["rol"] != rol:
                     return response.error(f"No tiene acceso como {rol}", 401)
                 user = {
                     **data,
-                    "foto": foto,
+                    "foto": path,
                 }
                 token = jwt.generateToken(user, 60)
                 return response.success("Bienvenido!!", user, token)
@@ -51,6 +59,42 @@ class Institutional:
                 return response.error("Revise los datos ingresados", 401)
         except:
             return response.error("Revise los datos ingresados", 401)
+        
+    def updateProfilePhoto(self, userAuth):
+        try:
+            if 'file' not in request.files:
+                return response.error("No se envio un archivo", 401)
+            file = request.files['file'] 
+            if file.filename == '':
+                return response.error("Ningún archivo seleccionado", 401)
+            if file and helpers.allowed_file(file.filename):
+                ext = file.filename.split(".")[1]
+                file.filename = f"{str(uuid.uuid4())}.{ext}"
+                filename = secure_filename(file.filename)
+                path = os.path.join(environment.UPLOAD_FOLDER, filename)
+                file.save(path)  
+                user = userAuth["codigo"] if userAuth["rol"]=="estudiante" or userAuth["rol"]=="docente" else userAuth["documento"]
+                photo = self.getPhoto(user)
+                if photo: 
+                    os.remove(os.path.join(environment.UPLOAD_FOLDER, photo))
+                    mongo.db.photo.update_one({"user":user}, {"$set": {"filename":filename}}) 
+                else:
+                    mongo.db.photo.insert_one({"user":user, "filename": filename})
+                token = ""
+                photo = f"{request.host_url}{path[1:]}"
+                if userAuth["rol"]=="estudiante" or userAuth["rol"]=="docente":
+                    pass
+                else:
+                    userAuth = { **userAuth, "foto": photo }
+                    token = jwt.generateToken(userAuth, 60)
+                return response.success("Todo ok!", photo, token)
+        except Exception as e:
+            print(e)
+            return response.reject("Hable con el Administrador")
+    
+    def getPhoto(self, code):
+        record = mongo.db.photo.find_one({"user": code},{"filename":1, "_id": False,"total":1})  
+        return record["filename"] if record else None
 
     def getByCode(self, code, role): 
         try:
@@ -58,7 +102,16 @@ class Institutional:
             req = request_ufps_token().get(f"{environment.API_UFPS}/{endpoint}")
             data = req.json()
             if data["ok"]:
-                return response.success(data["msg"], data["data"], "")
+                filename = self.getPhoto(code)
+                if filename:
+                    path = os.path.join(environment.UPLOAD_FOLDER, filename)
+                    path = f"{request.host_url}{path[1:]}" 
+                else:  
+                    path = None
+                msg = data["msg"]
+                data = data["data"] 
+                data = { **data, "foto": path } 
+                return response.success(msg, data, "")
             else:
                 return response.error(data["msg"], 400)
         except:
@@ -100,7 +153,14 @@ class Institutional:
             if res["ok"]: 
                 students = res["data"]["students"]
                 for student in students:
+                    filename = self.getPhoto(code)
+                    if filename:
+                        path = os.path.join(environment.UPLOAD_FOLDER, filename)
+                        path = f"{request.host_url}{path[1:]}"
+                    else:
+                        path = None
                     student["riesgo"] = 4
+                    student["foto"] = path
                 return response.success(res["msg"], res["data"], "")
             else:
                 return response.reject(res["msg"])

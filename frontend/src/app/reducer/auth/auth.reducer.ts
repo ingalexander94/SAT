@@ -26,6 +26,12 @@ export const authReducer = (
         user: null,
       };
 
+    case fromAuth.UPDATE_PHOTO:
+      return {
+        ...state,
+        user: { ...state.user, foto: actions.payload },
+      };
+
     default:
       return {
         ...state,

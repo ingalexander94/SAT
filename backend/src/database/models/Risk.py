@@ -1,7 +1,7 @@
 from flask import request
 from database import config
 from util import response, environment
-from util.request_api import request_ufps
+from util.request_api import request_ufps, request_ufps_token
 
 mongo = config.mongo
 
@@ -24,16 +24,24 @@ class Risk:
             endpoint = f"{program}{period}"
             endpoint = "sistemas" if not isPeriod else "sistemas_2021_1"
             return self.calculateTotalRisk(endpoint)        
-        code = request.json["code"] 
-        group = request.json["group"]
-        return self.calculateTotalRisk(f"{code}_{group}")
+        return self.calculateTotalRisk("")
     
     def calculateTotalRisk(self, endpoint):
         risk = request.json["risk"]
+        code = request.json["code"] 
+        group = request.json["group"]
+        endpoint = f"{code}_{group}" if endpoint == "" else endpoint
+        endpoint2 = f"{code}/{group}"
+        res  = request_ufps_token().get(f"{environment.API_UFPS}/teacher/students-ac012/{endpoint2}").json()
+        inModules = res["data"] if res["ok"] else []  
         if risk:
-            students = request_ufps().get(f"{environment.API_URL}/{risk}_{endpoint}").json()
+            if risk == "ac 012":
+                return response.success("todo ok!", inModules, "")
+            else:
+                students = request_ufps().get(f"{environment.API_URL}/{risk}_{endpoint}").json()
             return response.success("todo ok!", students, "")
         output = []
+        ac012 = len(res["data"]) if res["ok"] else 0  
         critical = len(request_ufps().get(f"{environment.API_URL}/critico_{endpoint}").json())
         mild = len(request_ufps().get(f"{environment.API_URL}/leve_{endpoint}").json())
         moderate = len(request_ufps().get(f"{environment.API_URL}/moderado_{endpoint}").json())
@@ -41,8 +49,7 @@ class Risk:
                   {"type": "Leve", "total": mild}, 
                   {"type": "Moderado", "total": moderate}, 
                   {"type": "Crítico", "total": critical}, 
+                  {"type": "AC 012", "total": ac012}, 
                  ]
         return response.success("todo ok!", output, "")
-    
-
         

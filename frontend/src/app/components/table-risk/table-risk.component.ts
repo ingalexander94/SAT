@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -19,6 +19,7 @@ import { TeacherService } from 'src/app/services/teacher.service';
   styleUrls: ['./table-risk.component.css'],
 })
 export class TableRiskComponent implements OnInit, OnDestroy {
+  @Input() showFilter?: Boolean = true;
   subscription: Subscription = new Subscription();
   loading: boolean = true;
   loadingMore: Boolean = false;

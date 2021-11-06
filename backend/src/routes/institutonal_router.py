@@ -17,17 +17,23 @@ def login():
 def loginGoogle():
     return instance_institutional.loginGoogle()
 
+@institutional_rest.route("/update-photo", methods=["PUT"])
+@token_required
+def updateProfilePhoto(userAuth):
+    return instance_institutional.updateProfilePhoto(userAuth)
+
 @institutional_rest.route("/record", methods=["POST"])
 @token_required
 def saveRecord(_):
     return instance_institutional.saveRecord() 
-
 
 @institutional_rest.route("/record")
 @institutional_rest.route("/record/<code>/<type>")
 @token_required
 def getRecords(_, code=None, type=None):
     return instance_institutional.getRecords(code, type)
+
+
 
 
 

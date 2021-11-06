@@ -27,33 +27,6 @@ input[type="checkbox"] {
   margin-top: 16px;
 }
 
-.photo_user {
-  margin-top: 48px;
-  position: relative;
-}
-
-.photo_user::before {
-  content: "";
-  width: 280px;
-  height: 76px;
-  position: absolute;
-  left: 0;
-  z-index: -1;
-  transform: rotate(-10deg);
-  background: var(--red-primary-color);
-}
-
-.photo_user img {
-  width: 107px;
-  height: 107px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-top: 30px;
-  border: 2px solid var(--white);
-  position: relative;
-  z-index: -1;
-}
-
 .info_student {
   display: flex;
   justify-content: space-between;
@@ -170,23 +143,6 @@ input[type="checkbox"] {
     font-size: 25px;
   }
 
-  .photo_user {
-    margin-top: 64px;
-  }
-
-  .photo_user::before {
-    content: "";
-    width: 420px;
-    height: 100px;
-    left: 15%;
-  }
-
-  .photo_user img {
-    width: 180px;
-    height: 180px;
-    margin-top: 30px;
-  }
-
   .description p {
     font-size: 25px;
   }
@@ -216,14 +172,11 @@ input[type="checkbox"] {
     margin: 0px;
     height: 80vh;
   }
-  .photo_user::before {
-    content: "";
-    left: 22%;
-  }
 
   .data_student {
     justify-content: space-evenly;
   }
+
   button {
     width: 320px;
     height: 60px;

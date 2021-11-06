@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { showAlert } from 'src/app/helpers/alert';
 import { normalizeRoles } from 'src/app/helpers/ui';
@@ -126,7 +126,6 @@ export class AdministrativeProfileComponent implements OnInit, OnDestroy {
   ): ValidationErrors | null => {
     const pass = group.get('newPassword').value;
     const confirmPass = group.get('confirmPassword').value;
-    console.log(group.get('confirmPassword').value);
     return pass === confirmPass ? null : { notSame: true };
   };
 

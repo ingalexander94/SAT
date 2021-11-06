@@ -45,6 +45,9 @@ export class InRiskComponent implements OnInit {
 
   async getStudentsInRisk(statisticsRisk) {
     const res = await this.riskService.getStudentsInRisk(statisticsRisk);
-    if (res.ok) this.store.dispatch(new LoadStudentsAction(res.data));
+    if (res.ok)
+      this.store.dispatch(
+        new LoadStudentsAction({ students: res.data, totalPages: 1 })
+      );
   }
 }

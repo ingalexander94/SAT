@@ -31,8 +31,7 @@ export class CourseDataComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private uiService: UiService,
-    private studentService: StudentService,
-    private location: Location
+    private studentService: StudentService
   ) {
     this.uiService.updateTitleNavbar('Académico');
     this.load();
@@ -46,9 +45,6 @@ export class CourseDataComponent implements OnInit, OnDestroy {
     this.subscription = this.store
       .select('course')
       .pipe(
-        tap(({ active }) => {
-          if (!active) this.location.back();
-        }),
         tap(async ({ active }) => {
           if (active) {
             const {

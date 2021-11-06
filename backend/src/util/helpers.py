@@ -42,5 +42,9 @@ def convertLevelRisk(value):
    if value >=  4 and value <= 5:
      return "sin riesgo"
      
+def allowed_file(filename):
+  extensions = {'png', 'jpg', 'jpeg'}
+  return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in extensions
             
   

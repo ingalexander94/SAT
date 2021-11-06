@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { tapN } from 'src/app/helpers/observers';
 import { User } from 'src/app/model/auth';
 import { Semester } from 'src/app/model/semester';
 import { StudentService } from 'src/app/services/student.service';
@@ -29,17 +28,23 @@ export class PermanenceInformationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store
+    this.subscription = this.store
       .select('ui')
       .pipe(
         filter(({ userActive }) => userActive !== null),
-        tapN(1, async ({ userActive }) => {
-          const { data } = await this.studentService.getSemesters('0000000');
-          this.semesters = data;
-          this.loading = false;
-        })
+        map(({ userActive }) => ({ userActive })),
+        distinctUntilChanged()
       )
-      .subscribe(({ userActive }) => (this.user = userActive));
+      .subscribe(({ userActive }) => {
+        this.user = userActive;
+        this.loadSemesters();
+      });
+  }
+
+  async loadSemesters() {
+    const { data } = await this.studentService.getSemesters('0000000');
+    this.semesters = data;
+    this.loading = false;
   }
 
   ngOnDestroy(): void {
