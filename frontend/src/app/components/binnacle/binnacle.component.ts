@@ -43,7 +43,7 @@ export class BinnacleComponent implements OnInit, OnDestroy {
     private store: Store<AppState>
   ) {
     this.formBinnacle = this.createFormBinnacle();
-    this.uiService.updateTitleNavbar('Perfil');
+    this.uiService.updateTitleNavbar('Bitacora');
   }
 
   ngOnInit(): void {

@@ -14,9 +14,16 @@
       <figure>
         <img src="/assets/image/google-icon.svg" alt="Logo de Google" />
       </figure>
-      <span>Iniciar sesión con Google</span></label
-    >
-    <button id="signIn" (click)="signIn()" type="button"></button>
+      <span
+        >Iniciar sesión con Google
+        <i *ngIf="loading" class="fas fa-spinner fa-spin"></i></span
+    ></label>
+    <button
+      id="signIn"
+      (click)="signIn()"
+      [disabled]="loading"
+      type="button"
+    ></button>
     <p class="copyright">2021 © Todos los derechos reservados</p>
   </div>
   <div class="ilustration">

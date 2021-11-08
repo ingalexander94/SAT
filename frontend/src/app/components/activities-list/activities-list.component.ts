@@ -17,13 +17,14 @@ export class ActivitiesListComponent implements OnInit, OnDestroy {
   activities: Activity[] = [];
   subscription: Subscription = new Subscription();
   loading: Boolean = true;
+  title: String;
 
   constructor(
     private uiService: UiService,
     private store: Store<AppState>,
     private activityService: ActivityService
   ) {
-    this.uiService.updateTitleNavbar('Perfil');
+    this.uiService.updateTitleNavbar('Asistencia Actividades');
   }
 
   ngOnInit(): void {

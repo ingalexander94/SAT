@@ -94,6 +94,15 @@
             >Perfil</a
           >
         </li>
+        <li *ngIf="roleUser === 'docente'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/docente/perfil"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Perfil</a
+          >
+        </li>
         <li><a class="pointer" (click)="logout()">Salir</a></li>
       </ul>
     </div>

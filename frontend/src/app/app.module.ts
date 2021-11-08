@@ -57,6 +57,7 @@ import { ModalRoleComponent } from './pages/modal-role/modal-role.component';
 import { ActivitiesComponent } from './pages/activities/activities.component';
 import { ChatAdminComponent } from './pages/chat-admin/chat-admin.component';
 import { ActivitiesStudentComponent } from './pages/activities-student/activities-student.component';
+import { ProfileTeacherTeacherComponent } from './pages/profile-teacher-teacher/profile-teacher-teacher.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -94,6 +95,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
     ActivitiesComponent,
     ChatAdminComponent,
     ActivitiesStudentComponent,
+    ProfileTeacherTeacherComponent,
   ],
 
   imports: [

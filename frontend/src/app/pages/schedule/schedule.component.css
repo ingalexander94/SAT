@@ -23,6 +23,7 @@
 
 .quotes table thead tr th {
   font-weight: bold;
+  padding: 10px;
 }
 
 .quotes table tbody tr:nth-child(odd) {
@@ -86,7 +87,10 @@ button {
     width: 90vw;
     margin: auto;
   }
-
+  .filter {
+    padding: 20px;
+    font-size: 22px;
+  }
   .quotes table * {
     font-size: 20px;
   }
@@ -94,12 +98,17 @@ button {
     display: flex;
     justify-content: flex-end;
   }
+  .activity_button {
+    width: 180px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .activity button {
-    margin-top: 0px;
-    margin-left: 50px;
+    margin: 0px;
   }
   p {
-    font-size: 20px;
+    font-size: 22px;
   }
 }
 
@@ -129,8 +138,13 @@ button {
     display: flex;
     justify-content: flex-end;
   }
+  .activity_button {
+    width: 385px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .activity button {
-    margin-top: 0px;
-    margin-left: 250px;
+    margin: 0px;
   }
 }

@@ -214,15 +214,15 @@
 
 @media (min-width: 1152px) {
   .wrapper_record {
-    width: 600px;
+    width: 50vw;
     padding: 0;
-    margin: 0 80px;
+    margin: 0 30px;
     height: 80vh;
   }
 
   .scrollable {
-    height: 400px;
-    overflow-y: scroll;
+    height: 350px;
+    overflow: scroll;
     scroll-behavior: smooth;
   }
 

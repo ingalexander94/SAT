@@ -41,7 +41,7 @@
       >
     </div>
     <div class="binnacle-text">
-      <p *ngIf="binnacle.length < 1">
+      <p class="binnacle_not" *ngIf="binnacle.length < 1">
         No hay nada para mostrar en la bitácora del estudiante
       </p>
       <div class="text" *ngFor="let item of binnacle">

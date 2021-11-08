@@ -27,6 +27,9 @@ export class LoginStudentComponent implements OnInit, OnDestroy {
       .subscribe(({ loading }) => (this.loading = loading));
     this.subscription2 = this.googleService.observable().subscribe((user) => {
       this.user = user;
+      if (!this.user) {
+        this.loading = false;
+      }
       this.ref.detectChanges();
     });
   }

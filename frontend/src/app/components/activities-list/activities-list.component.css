@@ -15,7 +15,6 @@ h2 {
 
 table {
   border-collapse: collapse;
-  width: 290px;
 }
 
 th {
@@ -24,12 +23,8 @@ th {
   text-align: center;
 }
 
-tbody {
-  background: var(--gray-table);
-}
-
 td {
-  text-align: left;
+  text-align: center;
   margin: 12px 16px 0px 16px;
 }
 
@@ -88,8 +83,9 @@ table * {
     font-size: 23px;
   }
 
-  table {
-    width: 598px;
+  .table_scroll {
+    display: flex;
+    justify-content: center;
   }
 
   h2 {
@@ -110,15 +106,19 @@ table * {
 
 @media (min-width: 1152px) {
   .content {
-    margin: 80px;
+    width: 50vw;
+    height: 70vh;
   }
-
+  .table_scroll {
+    height: 50vh;
+    overflow: scroll;
+  }
   .content p {
     font-size: 20px;
   }
 
   h2 {
-    font-size: 40px;
+    font-size: 30px;
   }
 
   h2 i {
@@ -126,7 +126,7 @@ table * {
   }
 
   table {
-    width: 600px;
+    width: 100%;
   }
 
   table * {

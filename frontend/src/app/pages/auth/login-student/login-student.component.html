@@ -19,7 +19,12 @@
         >Iniciar sesión con Google
         <i *ngIf="loading" class="fas fa-spinner fa-spin"></i></span
     ></label>
-    <button id="signIn" (click)="signIn()" type="button"></button>
+    <button
+      id="signIn"
+      (click)="signIn()"
+      [disabled]="loading"
+      type="button"
+    ></button>
 
     <p class="copyright">2021 © Todos los derechos reservados</p>
   </div>

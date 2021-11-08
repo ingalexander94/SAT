@@ -22,7 +22,7 @@ export class RecordComponent implements OnInit {
     private studentService: StudentService,
     store: Store<AppState>
   ) {
-    this.uiService.updateTitleNavbar('Perfil');
+    this.uiService.updateTitleNavbar('Beneficios');
     store
       .select('ui')
       .pipe(filter(({ userActive }) => userActive !== null))

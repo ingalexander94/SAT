@@ -108,7 +108,7 @@ button {
   .wrapper_binnacle {
     margin: 0 16px;
     width: 50vw;
-    height: 480px;
+    height: 460px;
     display: grid;
     grid-template-rows: 300px auto;
     gap: 0;
@@ -124,10 +124,13 @@ button {
 
   .binnacle-text {
     height: 100%;
-    margin: 16px 0;
+    margin: 6px 0;
     overflow-y: scroll;
     text-align: justify;
     background: var(--gray-menu);
+  }
+  .binnacle_not {
+    text-align: center;
   }
 
   .recommendation {

@@ -1,0 +1,53 @@
+<div class="card_profile" *ngIf="!loading">
+  <div class="photo_user">
+    <img src="{{ user.foto }}" alt="Foto de perfil del usuario" />
+  </div>
+  <div class="info_student">
+    <a class="pointer"><i class="fas fa-arrow-left"></i></a>
+    <div class="description">
+      <h3>{{ user.nombre }} {{ user.apellido }}</h3>
+      <p>{{ user.correo }}</p>
+    </div>
+    <div class="menu-options">
+      <input type="checkbox" #checkbox id="showOptions" />
+      <label
+        *ngIf="
+          user.rol !== 'estudiante' &&
+            (title === 'Perfil Docente' ||
+              title === 'Perfil' ||
+              title === 'Académico');
+          else hidden
+        "
+        title="Ver opciones"
+        class="pointer"
+        for="showOptions"
+        ><i class="fas fa-caret-down"></i
+      ></label>
+      <ng-template #hidden>
+        <label
+          *ngIf="title !== 'Perfil Docente' && user.rol === 'estudiante'"
+          title="Ver opciones"
+          class="pointer"
+          for="showOptions"
+          ><i class="fas fa-caret-down"></i
+        ></label>
+      </ng-template>
+    </div>
+  </div>
+  <div class="data_student">
+    <div class="program">
+      <h4>Departamento</h4>
+      <p>{{ user.programa }}</p>
+    </div>
+    <div class="code">
+      <h4>Código</h4>
+      <p>{{ user.codigo }}</p>
+    </div>
+  </div>
+  <p><i class="fas fa-phone"></i> {{ user.telefono }}</p>
+  <p><i class="fas fa-id-card"></i> {{ user.documento }}</p>
+  <p>
+    <i class="fas fa-map-marker-alt"></i>
+    {{ user.direccion }}
+  </p>
+</div>

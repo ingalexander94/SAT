@@ -29,12 +29,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(({ loading }) => (this.loading = loading));
     this.subscription2 = this.googleService.observable().subscribe((user) => {
       this.user = user;
+      if (!this.user) {
+        this.loading = false;
+      }
       console.log(user);
       this.ref.detectChanges();
     });
   }
 
   signIn() {
+    this.loading = true;
     const { protocol, host } = window.location;
     this.googleService.singIn(
       `${protocol}//${host}/docente/iniciar-sesion`,
