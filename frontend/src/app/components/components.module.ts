@@ -46,6 +46,7 @@ import { ClinicalMeetComponent } from './clinical-meet/clinical-meet.component';
 import { HistoryClinicalComponent } from './history-clinical/history-clinical.component';
 import { ModalClinicalComponent } from './modal-clinical/modal-clinical.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PhotoComponent } from './photo/photo.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     ClinicalMeetComponent,
     HistoryClinicalComponent,
     ModalClinicalComponent,
+    PhotoComponent,
   ],
   exports: [
     AlertComponent,
@@ -128,6 +130,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     ClinicalMeetComponent,
     HistoryClinicalComponent,
     ModalClinicalComponent,
+    PhotoComponent,
   ],
   imports: [
     CommonModule,

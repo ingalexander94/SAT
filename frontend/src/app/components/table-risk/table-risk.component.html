@@ -11,7 +11,12 @@
         <th>Nombre</th>
         <th class="pointer">Riesgo</th>
         <th class="filter">
-          Estado <i class="fas fa-filter pointer" (click)="showOptions()"></i>
+          Estado
+          <i
+            *ngIf="showFilter"
+            class="fas fa-filter pointer"
+            (click)="showOptions()"
+          ></i>
           <ul class="options" *ngIf="show">
             <li (click)="filterStudents('ALUMNO DE PRIMER SEMESTRE')">
               ALUMNO DE PRIMER SEMESTRE

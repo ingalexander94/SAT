@@ -1,5 +1,5 @@
+import random, os
 from pymongo.collection import ReturnDocument
-import random
 from flask import json, request, jsonify, Response
 from util import jwt, response, environment, emails
 from database import config
@@ -50,10 +50,17 @@ class Administrative:
         del user["contrasena"]
         idRole = ObjectId(user["rol"])
         role = mongo.db.role.find_one({"_id": idRole}, {"_id": False})
+        filename = self.getPhoto(document)
+        if filename:
+            path = os.path.join(environment.UPLOAD_FOLDER, filename)
+            path = f"{request.host_url}{path[1:]}" 
+        else:  
+            path = None
         user = {
             **user,
             "_id": id,
-            "rol": role["role"]
+            "rol": role["role"],
+            "foto":path
         } 
         token = jwt.generateToken(user, 60)
         return response.success("Bienvenido!!", user, token)
@@ -132,5 +139,7 @@ class Administrative:
         profits = json_util.dumps(data)
         return Response(profits, mimetype="applicaton/json")
         
-    
+    def getPhoto(self, code):
+        record = mongo.db.photo.find_one({"user": code},{"filename":1, "_id": False,"total":1})  
+        return record["filename"] if record else None
          

@@ -31,6 +31,7 @@ import {
   FinishLoadingAction,
   SetError,
   UnsetUserActiveAction,
+  SetUserActiveAction,
 } from '../reducer/ui/ui.actions';
 import { GoogleService } from './google.service';
 
@@ -66,6 +67,7 @@ export class AuthService {
       if (ok) {
         localStorage.setItem('x-token', req.token.toString());
         showAlert('success', msg);
+        this.store.dispatch(new SetUserActiveAction(req.data));
         this.store.dispatch(new AddUserAction(req.data));
         saveInLocalStorage('user-show', req.data);
         typeUser === 'administrative'
@@ -168,5 +170,16 @@ export class AuthService {
       : 'administrativo';
     this.googleService.singOut();
     this.router.navigate([`${path}/iniciar-sesion`]);
+  }
+
+  uploadPhoto(formData: FormData) {
+    try {
+      return this.httpClient
+        .put<any>(this.endpoint + '/auth/institutional/update-photo', formData)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 }

@@ -36,6 +36,7 @@ export class InfoAcademyComponent implements OnInit, OnDestroy {
   onNavigateToCourseData() {
     this.router.navigate(['/vicerrector/datos-curso']);
   }
+
   onNavigatePermanence() {
     this.router.navigate(['/estudiante/informacion-permanencia']);
   }
