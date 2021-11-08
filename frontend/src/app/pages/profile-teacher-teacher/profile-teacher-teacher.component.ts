@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
 import { User } from 'src/app/model/auth';
-import { distinctUntilChanged, filter, pluck } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-teacher-teacher',
@@ -20,12 +20,14 @@ export class ProfileTeacherTeacherComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscription = this.store
+      .select('auth')
       .pipe(
-        filter(({ auth }) => auth.user !== null),
+        map(({ user }) => ({ user })),
+        filter(({ user }) => user !== null),
         distinctUntilChanged()
       )
-      .subscribe(({ auth }) => {
-        this.user = auth.user;
+      .subscribe(({ user }) => {
+        this.user = user;
       });
   }
 }

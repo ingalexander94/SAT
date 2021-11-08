@@ -82,7 +82,7 @@ class Institutional:
                     mongo.db.photo.insert_one({"user":user, "filename": filename})
                 token = ""
                 photo = f"{request.host_url}{path[1:]}"
-                if userAuth["rol"]=="estudiante" or userAuth["rol"]=="docente":
+                if userAuth["rol"]=="estudiante":
                     pass
                 else:
                     userAuth = { **userAuth, "foto": photo }

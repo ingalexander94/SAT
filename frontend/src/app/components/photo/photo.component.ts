@@ -36,8 +36,8 @@ export class PhotoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.store
       .pipe(
-        filter(({ auth }) => auth.user !== null),
-        map(({ auth: { user }, ui: { userActive } }) => ({ user, userActive }))
+        map(({ auth: { user }, ui: { userActive } }) => ({ user, userActive })),
+        filter(({ user }) => user !== null)
       )
       .subscribe(({ user, userActive }) => {
         this.photo = this.isAdmin ? user.foto : userActive.foto;
@@ -68,13 +68,19 @@ export class PhotoComponent implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append('file', this.newPhoto);
     const res = await this.authService.uploadPhoto(formData);
+    const userShow = getValueOfLocalStorage('user-show');
     if (res.ok) {
-      const userShow = getValueOfLocalStorage('user-show');
-      userShow.foto = res.data;
-      saveInLocalStorage('user-show', userShow);
-      if (res.token) {
-        this.store.dispatch(new UpdatePhotoUserAction(res.data));
-        localStorage.setItem('x-token', res.token.toString());
+      if (userShow.rol === 'estudiante') {
+        userShow.foto = res.data;
+        saveInLocalStorage('user-show', userShow);
+      } else {
+        if (res.token) {
+          this.store.dispatch(new UpdatePhotoUserAction(res.data));
+          localStorage.setItem('x-token', res.token.toString());
+        } else {
+          userShow.foto = res.data;
+          saveInLocalStorage('user-show', userShow);
+        }
       }
       this.isEdit = false;
     }
