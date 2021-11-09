@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { Subscription } from 'rxjs';
-import { UserAuth } from 'src/app/model/auth';
 import { GoogleService } from 'src/app/services/google.service';
 
 @Component({

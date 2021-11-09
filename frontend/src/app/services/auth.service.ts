@@ -25,7 +25,6 @@ import {
 } from '../reducer/course/course.actions';
 import { DeleteNotificationsAction } from '../reducer/notification/notification.actions';
 import { RemoveRiskAction } from '../reducer/risk/risk.action';
-import { RemoverRoleAction } from '../reducer/role/role.action';
 import {
   StartLoadingAction,
   FinishLoadingAction,

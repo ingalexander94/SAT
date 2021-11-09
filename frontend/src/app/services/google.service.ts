@@ -43,7 +43,7 @@ export class GoogleService {
       const domine = correo.split('@')[1];
       if (domine === 'ufps.edu.co') {
         const userAuth = {
-          correo: rol === 'student' ? correo : 'juancarlosso@ufps.edu.co',
+          correo: rol === 'student' ? correo : 'matiashc@ufps.edu.co',
           rol,
         };
         const res = await this.loginGoogle(userAuth, 'institutional');
