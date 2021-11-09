@@ -14,6 +14,7 @@ mongo = config.mongo
 class Administrative:
     
     def register(self): 
+        print(request.get_json())
         email = request.json["correo"]
         document = request.json["documento"]
         role = ObjectId(request.json["rol"])

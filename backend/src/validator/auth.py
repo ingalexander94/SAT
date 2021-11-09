@@ -19,8 +19,8 @@ class AdministrativeSchema(Schema):
     tipoDocumento = fields.Str(required=True, validate=OneOf(["cedulaCiudadania", "cedulaExtranjeria","pasaporteColombiano", "pasaporteExtranjero", "documentoVenezolano"]))
     telefono = fields.Str(required = True, validate=Length(min=7, max=15))
     correo = fields.Email(required = True)
-    fechaIngreso = fields.DateTime(required=True)
-    
+    fechaingreso = fields.DateTime(required=True)
+     
 class ChangePasswordSchema(Schema):
     password = fields.Str(required = True)
     newPassword = fields.Str(required = True, validate=Length(min=4))
