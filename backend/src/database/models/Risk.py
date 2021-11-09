@@ -16,17 +16,17 @@ class Risk:
     def getStatisticsTotal(self):
         data = request.get_json()
         if "global" in data:
-            return self.calculateTotalRisk("facultad")     
+            return self.calcultateTotalRiskProgram("facultad")     
         if "program" in data:
             program = request.json["program"]
             isPeriod = True if "period" in data else False
             period = f"_{request.json['period']}" if isPeriod else ""
             endpoint = f"{program}{period}"
             endpoint = "sistemas" if not isPeriod else "sistemas_2021_1"
-            return self.calculateTotalRisk(endpoint)        
-        return self.calculateTotalRisk("")
+            return self.calcultateTotalRiskProgram(endpoint)        
+        return self.calculateTotalRiskStudent("")
     
-    def calculateTotalRisk(self, endpoint):
+    def calculateTotalRiskStudent(self, endpoint):
         risk = request.json["risk"]
         code = request.json["code"] 
         group = request.json["group"]
@@ -50,6 +50,22 @@ class Risk:
                   {"type": "Moderado", "total": moderate}, 
                   {"type": "Crítico", "total": critical}, 
                   {"type": "AC 012", "total": ac012}, 
+                 ]
+        return response.success("todo ok!", output, "")
+        
+    def calcultateTotalRiskProgram(self, endpoint):
+        risk = request.json["risk"]
+        if risk:
+            if risk == "ac 012":
+                return response.success("todo ok!", [], "")
+            else:
+                students = request_ufps().get(f"{environment.API_URL}/{risk}_{endpoint}").json()
+            return response.success("todo ok!", students, "")
+        output = [ 
+                  {"type": "Leve", "total": 0}, 
+                  {"type": "Moderado", "total": 0}, 
+                  {"type": "Crítico", "total": 0}, 
+                  {"type": "AC 012", "total": 0}, 
                  ]
         return response.success("todo ok!", output, "")
         

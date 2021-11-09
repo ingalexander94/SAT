@@ -54,6 +54,7 @@ export class WellnessService {
 
   async validateProgram(nameProgram: String) {
     try {
+      console.log('GONORREA HPTA');
       const res = await this.http
         .get<boolean>(
           `${this.URL_BACKEND}/wellness/semester/program/${nameProgram}`

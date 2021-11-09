@@ -37,6 +37,12 @@ button {
   visibility: hidden;
 }
 
+.list_roles {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 .btn_google {
   background: white;
   display: grid;
@@ -85,8 +91,12 @@ button {
   align-items: center;
 }
 
+.role_auth .active * {
+  color: var(--red-primary-color) !important;
+}
+
 .role_auth * {
-  color: var(--red-primary-color);
+  color: var(--dark-color);
 }
 
 .role_auth i {

@@ -32,18 +32,22 @@ export class GoogleService {
     });
   }
 
-  async singIn(redirect_uri: string, rol: String) {
+  async singIn(redirect_uri: string, rol: String, type?: String) {
     try {
       const user = await this.auth2.signIn({
         scope: 'https://www.googleapis.com/auth/gmail.readonly',
         prompt: 'consent',
         redirect_uri,
       });
+      const emailAux =
+        type === 'teacher'
+          ? 'matiashc@ufps.edu.co'
+          : 'judithdelpilarrt@ufps.edu.co';
       const correo = user.getBasicProfile().getEmail();
       const domine = correo.split('@')[1];
       if (domine === 'ufps.edu.co') {
         const userAuth = {
-          correo: rol === 'student' ? correo : 'matiashc@ufps.edu.co',
+          correo: rol === 'student' ? correo : emailAux,
           rol,
         };
         const res = await this.loginGoogle(userAuth, 'institutional');

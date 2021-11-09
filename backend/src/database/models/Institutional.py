@@ -39,6 +39,9 @@ class Institutional:
             data = req.json()
             if data["ok"]: 
                 data = data["data"]
+                rol = "estudiante" if rol == "student" else "docente"
+                if data["rol"] != rol:
+                    return response.error(f"No tiene acceso como {rol}", 401)
                 code = data["codigo"]
                 filename = self.getPhoto(code)
                 if filename:
@@ -46,12 +49,11 @@ class Institutional:
                     path = f"{request.host_url}{path[1:]}"
                 else:
                     path = None
-                rol = "estudiante" if rol == "student" else "docente"
-                if data["rol"] != rol:
-                    return response.error(f"No tiene acceso como {rol}", 401)
+                auxRole = "jefe" if correo == "judithdelpilarrt@ufps.edu.co" else data["rol"]
                 user = {
                     **data,
                     "foto": path,
+                    "rol": auxRole
                 }
                 token = jwt.generateToken(user, 60)
                 return response.success("Bienvenido!!", user, token)

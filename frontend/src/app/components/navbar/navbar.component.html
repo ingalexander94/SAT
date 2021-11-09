@@ -94,7 +94,7 @@
             >Perfil</a
           >
         </li>
-        <li *ngIf="roleUser === 'docente'">
+        <li *ngIf="roleUser === 'docente' || roleUser === 'jefe'">
           <a
             (click)="closeMenu()"
             routerLink="/docente/perfil"

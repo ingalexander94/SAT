@@ -14,6 +14,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   user: gapi.auth2.GoogleUser;
   subscription: Subscription = new Subscription();
   subscription2: Subscription = new Subscription();
+  isTeacher: Boolean = true;
+  isBoss: Boolean = false;
+  auxRole: String = 'teacher';
 
   constructor(
     private googleService: GoogleService,
@@ -40,8 +43,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     const { protocol, host } = window.location;
     this.googleService.singIn(
       `${protocol}//${host}/docente/iniciar-sesion`,
-      'teacher'
+      'teacher',
+      this.auxRole
     );
+  }
+
+  changeRole(type: String = '') {
+    if (type) {
+      this.isTeacher = true;
+      this.isBoss = false;
+      this.auxRole = 'teacher';
+    } else {
+      this.isBoss = true;
+      this.isTeacher = false;
+      this.auxRole = 'boss';
+    }
   }
 
   ngOnDestroy(): void {
