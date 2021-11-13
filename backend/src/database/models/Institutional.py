@@ -145,6 +145,14 @@ class Institutional:
         except:
             return response.reject("Hable con el administrador")
 
+    def getNotesOfCourse(self):
+        course = request.json["code"]
+        group = request.json["group"]
+        exam = request.json["exam"]
+        req = request_ufps().get(f"{environment.API_URL}/nota_{exam}")
+        res = req.json()
+        return response.success("Todo ok!", res, "")
+
     def getStudentsOfCourse(self, code, group):
         try:
             page = int(request.args.get("page")) or 1

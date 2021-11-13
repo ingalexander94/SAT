@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class ReportService {
   URL_BACKEND = environment.url_backend;
+
   constructor(private http: HttpClient) {}
 
   reportSuggestion(data) {
@@ -19,6 +20,7 @@ export class ReportService {
       return null;
     }
   }
+
   lastReportSuggestion() {
     try {
       return this.http

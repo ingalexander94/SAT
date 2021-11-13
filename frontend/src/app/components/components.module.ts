@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 import { AlertComponent } from './alert/alert.component';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { TitleComponent } from './title/title.component';
@@ -19,7 +23,6 @@ import { WellnessNotificationComponent } from './wellness-notification/wellness-
 import { NotificationDateComponent } from './notification-date/notification-date.component';
 import { SearchStudentComponent } from './search-student/search-student.component';
 import { TableComponent } from './table/table.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatisticsRiskComponent } from './statistics-risk/statistics-risk.component';
 import { TableRiskComponent } from './table-risk/table-risk.component';
 import { ButtonFollowComponent } from './button-follow/button-follow.component';
@@ -45,8 +48,8 @@ import { ModalHistoryComponent } from './modal-history/modal-history.component';
 import { ClinicalMeetComponent } from './clinical-meet/clinical-meet.component';
 import { HistoryClinicalComponent } from './history-clinical/history-clinical.component';
 import { ModalClinicalComponent } from './modal-clinical/modal-clinical.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PhotoComponent } from './photo/photo.component';
+import { CakeComponent } from './cake/cake.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +97,7 @@ import { PhotoComponent } from './photo/photo.component';
     HistoryClinicalComponent,
     ModalClinicalComponent,
     PhotoComponent,
+    CakeComponent,
   ],
   exports: [
     AlertComponent,
@@ -131,10 +135,12 @@ import { PhotoComponent } from './photo/photo.component';
     HistoryClinicalComponent,
     ModalClinicalComponent,
     PhotoComponent,
+    CakeComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
+    NgxChartsModule,
     FormsModule,
     ReactiveFormsModule,
     InfiniteScrollModule,

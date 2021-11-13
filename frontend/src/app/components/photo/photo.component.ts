@@ -24,6 +24,7 @@ export class PhotoComponent implements OnInit, OnDestroy {
   isEdit: Boolean = false;
   newPhoto: any = null;
   loading: Boolean = false;
+  role: String = '';
   name: String = '';
   @Input() isAdmin?: Boolean = false;
 
@@ -40,6 +41,7 @@ export class PhotoComponent implements OnInit, OnDestroy {
         filter(({ user }) => user !== null)
       )
       .subscribe(({ user, userActive }) => {
+        this.role = this.isAdmin ? user.rol : userActive.rol;
         this.photo = this.isAdmin ? user.foto : userActive.foto;
         const nombre = this.isAdmin ? user.nombre : userActive.nombre;
         const apellido = this.isAdmin ? user.apellido : userActive.apellido;
@@ -70,10 +72,11 @@ export class PhotoComponent implements OnInit, OnDestroy {
     const res = await this.authService.uploadPhoto(formData);
     const userShow = getValueOfLocalStorage('user-show');
     if (res.ok) {
-      if (userShow.rol === 'estudiante') {
+      if (this.role === 'estudiante') {
         userShow.foto = res.data;
         saveInLocalStorage('user-show', userShow);
       } else {
+        console.log(res.data);
         if (res.token) {
           this.store.dispatch(new UpdatePhotoUserAction(res.data));
           localStorage.setItem('x-token', res.token.toString());

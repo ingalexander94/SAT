@@ -34,17 +34,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="loading">
-        <td colspan="6">
-          <app-loading></app-loading>
-        </td>
+      <tr *ngIf="loading || !listStudents.length">
+        <td colspan="6">Cargando...</td>
       </tr>
-      <tr>
-        <td colspan="6" *ngIf="!loading && listStudents.length < 1">
-          No hay nada para mostrar
-        </td>
-      </tr>
-      <ng-container *ngIf="!loading">
+      <ng-container *ngIf="!loading && listStudents.length">
         <tr
           *ngFor="let student of listStudents; let i = index"
           class="animate__animated animate__fadeIn"

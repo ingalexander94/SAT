@@ -79,4 +79,15 @@ export class TeacherService {
       console.error(error);
     }
   }
+
+  getNotesCourse(infoCourse: any) {
+    try {
+      return this.http
+        .post<any>(`${this.url}/teachers/course/notes`, infoCourse)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 }
