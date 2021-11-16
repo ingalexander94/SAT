@@ -47,6 +47,7 @@ import { HistoryClinicalComponent } from './history-clinical/history-clinical.co
 import { ModalClinicalComponent } from './modal-clinical/modal-clinical.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PhotoComponent } from './photo/photo.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { PhotoComponent } from './photo/photo.component';
     FormsModule,
     ReactiveFormsModule,
     InfiniteScrollModule,
+    NgxChartsModule,
   ],
 })
 export class ComponentsModule {}

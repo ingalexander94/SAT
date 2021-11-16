@@ -1,6 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { registerLocaleData } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Forms
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -101,6 +102,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
   imports: [
     AppRoutingModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
