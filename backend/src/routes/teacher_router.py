@@ -23,3 +23,8 @@ def getCourses(_,code = None):
 def getStudentsOfCourse(_, code=None, group=None):
     return instance.getStudentsOfCourse(code, group)
 
+@teacher_rest.route("/course/notes", methods=["POST"])
+@token_required
+def getNotesOfCourse(_):
+    return instance.getNotesOfCourse()
+

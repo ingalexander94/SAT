@@ -6,7 +6,7 @@ from database import config
 from bson import ObjectId, json_util
 from bson.json_util import loads
 from util import environment, response, emails
-from util.request_api import request_ufps
+from util.request_api import request_ufps, request_ufps_token
 
 mongo = config.mongo
 
@@ -31,7 +31,8 @@ class Suggestion:
         profit = mongo.db.profit.find_one({"_id": idProfit}, {"_id":False})
         name = profit["nombre"]
         code = data["codeStudent"]
-        to = request_ufps().get(f"{environment.API_URL}/estudiante_{code}").json()["data"]["correo"]
+        code= "0000000"
+        to = request_ufps().get(f"{environment.API_URL}/estudiante_{code}").json()["data"]["correo"] 
         risk = profit["riesgo"]
         risk = "economico" if risk == "socioeconomico" else risk
         message = f"Cordial saludo, ha recibido una sugerencia de bienestar universitario para el beneficio {name} como parte de solución para el riesgo {risk}. Eventualmente se activará el beneficio y se le brindará más información."
@@ -102,8 +103,8 @@ class Suggestion:
         for suggestion in mongo.db.suggestion.find(where).sort("date", DESCENDING).skip(offset).limit(perPage):
             suggestions.append( (suggestion['profit'], suggestion['admin'], suggestion["codeStudent"], suggestion['date'], suggestion['_id'])) 
         for idProfit, idAdmin, codeStudent, date, id in suggestions:
-            req = request_ufps().get(f"{environment.API_URL}/estudiante_{codeStudent}").json()
-            user = req["data"]
+            req = request_ufps_token().get(f"{environment.API_UFPS}/student/code/{codeStudent}").json()
+            user = req["data"] 
             student = {
                 "nombre": f'{user["nombre"]} {user["apellido"]}',
                 "programa": user["programa"],

@@ -36,6 +36,9 @@
           user.rol !== 'estudiante' &&
             (title === 'Perfil Docente' ||
               title === 'Perfil' ||
+              title === 'Beneficios' ||
+              title === 'Bitacora' ||
+              title === 'Asistencia Actividades' ||
               title === 'Académico');
           else hidden
         "
@@ -114,3 +117,8 @@
   *ngIf="showUpdateProfile"
   (isClosed)="updateProfile($event)"
 ></app-update-profile>
+<!-- <div class="ac_012">
+  <i class="fas fa-exclamation-triangle text_012">
+    El estudiante se encuentra en el Acuerdo_012</i
+  >
+</div> -->

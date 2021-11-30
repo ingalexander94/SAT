@@ -37,6 +37,12 @@ button {
   visibility: hidden;
 }
 
+.list_roles {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 .btn_google {
   background: white;
   display: grid;
@@ -48,6 +54,7 @@ button {
   cursor: pointer;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  margin: 10px;
 }
 
 .btn_google:hover {
@@ -62,20 +69,20 @@ button {
 
 .btn_google figure {
   background: white;
-  padding: 20px 20px 16px 20px;
+  padding: 18px 17px 16px 17px;
   border-radius: 3px;
 }
 
 .btn_google figure img {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
 }
 
 .btn_google span {
-  font-size: 22px;
-  text-align: center;
+  font-size: 16px;
   font-weight: bold;
   color: #757575;
+  text-align: left;
 }
 
 .role_auth {
@@ -85,8 +92,12 @@ button {
   align-items: center;
 }
 
+.role_auth .active * {
+  color: var(--red-primary-color) !important;
+}
+
 .role_auth * {
-  color: var(--red-primary-color);
+  color: var(--dark-color);
 }
 
 .role_auth i {
@@ -113,7 +124,7 @@ button {
     background-size: cover;
     display: flex;
     align-items: center;
-    padding: 48px;
+    padding: 44px;
     min-height: 100vh;
     max-height: initial;
   }
@@ -129,6 +140,11 @@ button {
   .ilustration img {
     width: 380px;
     height: 300px;
+  }
+
+  .btn_google figure {
+    margin: 0px;
+    padding: 18px 14px 16px 14px;
   }
 }
 

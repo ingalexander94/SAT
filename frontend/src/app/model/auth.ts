@@ -7,7 +7,7 @@ export interface User {
   apellido: String;
   sexo?: String;
   correo: String;
-  rol: String;
+  rol: string;
   tipodocument?: String;
   programa?: String;
   telefono: String;

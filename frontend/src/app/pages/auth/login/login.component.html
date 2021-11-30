@@ -5,9 +5,23 @@
       <h1>SAT</h1>
       <p>Ingrese con los datos de divisist</p>
     </div>
-    <div class="role_auth">
-      <i class="fas fa-chalkboard-teacher"></i>
-      <p>Docente</p>
+    <div class="list_roles">
+      <div
+        class="role_auth pointer"
+        (click)="changeRole('teacher')"
+        [ngClass]="{ active: isTeacher }"
+      >
+        <i class="fas fa-chalkboard-teacher"></i>
+        <p>Docente</p>
+      </div>
+      <div
+        class="role_auth pointer"
+        (click)="changeRole()"
+        [ngClass]="{ active: isBoss }"
+      >
+        <i class="fas fa-user-tie"></i>
+        <p>Jefe de Plan</p>
+      </div>
     </div>
 
     <label class="btn_google" for="signIn">
