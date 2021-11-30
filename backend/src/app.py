@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from middleware.validate_token import token_required
+from middleware.validate_token import token_required, validate_token
 from routes.institutonal_router import institutional_rest
 from routes.administrative_router import administrative_rest
 from routes.notification_router import notification_rest
@@ -55,6 +55,12 @@ app.register_blueprint(activity_router, url_prefix='/activity')
 @token_required
 def renew(current_user):
     return jwt.renewToken(current_user)
+
+@app.route("/auth/validate-token/")
+@app.route("/auth/validate-token/<role>")
+@validate_token
+def validateUserAuth(current_user, role=None):
+    return jwt.validateUserAuth(current_user, role)
 
 @app.route("/ping")
 def ping():

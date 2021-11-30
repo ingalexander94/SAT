@@ -6,6 +6,7 @@ from util.request_api import request_ufps, request_ufps_token
 mongo = config.mongo
 
 class Risk:
+    
     def getRisks(self, code):
         if not code or not code.isdigit() or len(code) != 7:
             return response.reject("Se necesita un código de 7 caracteres")
@@ -68,4 +69,18 @@ class Risk:
                   {"type": "AC 012", "total": 0}, 
                  ]
         return response.success("todo ok!", output, "")
+        
+    def coursesAc012(self, code):
+        if not code or not code.isdigit() or len(code) != 7:
+            return response.reject("Se necesita un código de 7 caracteres")
+        try:
+            req = request_ufps_token().get(f"{environment.API_UFPS}/student/courses/ac012/{code}")  
+            res = req.json() 
+            if res["ok"]:
+                data = list(map(lambda course : { "materia": {**course, "ac012": True}, "grupo":course["grupo"] }, res["data"]))
+                return response.success(res["msg"], data, "")
+            else:
+                return response.reject(res["msg"])
+        except:
+            return response.reject("Hable con el administrador")
         

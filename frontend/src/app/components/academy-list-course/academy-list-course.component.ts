@@ -41,9 +41,19 @@ export class AcademyListCourseComponent implements OnInit, OnDestroy {
   }
 
   async loadCourses() {
+    let courses = [];
     const user = getValueOfLocalStorage('user-show');
-    const { data } = await this.studentService.getCourses(user.codigo);
-    this.store.dispatch(new LoadingCourseAction(data));
+    const { data: matriculate } = await this.studentService.getCourses(
+      user.codigo
+    );
+    courses = [...matriculate];
+    if (user.ac012) {
+      const { data: ac012 } = await this.studentService.getCoursesAc012(
+        user.codigo
+      );
+      courses = [...courses, ...ac012];
+    }
+    this.store.dispatch(new LoadingCourseAction(courses));
     this.loading = false;
   }
 

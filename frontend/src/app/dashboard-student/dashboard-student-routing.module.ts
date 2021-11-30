@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { StudentGuard } from '../guards/student.guard';
 import { ActivitiesStudentComponent } from '../pages/activities-student/activities-student.component';
 import { ChatAdminComponent } from '../pages/chat-admin/chat-admin.component';
 import { DashboardStudentComponent } from './dashboard-student.component';
@@ -12,6 +13,7 @@ const children: Routes = [
   },
   {
     path: 'listado-actividades',
+    canActivate: [StudentGuard],
     component: ActivitiesStudentComponent,
   },
   {
