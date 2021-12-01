@@ -115,18 +115,15 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
   async getRisk(user) {
     this.userShow = user;
     if (this.userShow.rol === 'estudiante') {
-      const { riesgoGlobal, riesgos } = await this.studentService.getRisk(
-        user.codigo
-      );
+      const { riesgos } = await this.studentService.getRisk(user.codigo);
       this.userShow = {
         ...user,
-        riesgo: riesgoGlobal,
       };
-      const { color, risk } = getColor(riesgoGlobal);
+      const { color, risk } = getColor(user.riesgo);
       this.color = color;
       this.risk = color !== 'green' ? risk.split('en')[1] : risk;
       this.store.dispatch(new LoadRiskAction(riesgos));
-      this.store.dispatch(new SetRiskGlobalAction(riesgoGlobal));
+      this.store.dispatch(new SetRiskGlobalAction(user.riesgo));
     }
     this.loading = false;
   }

@@ -14,6 +14,7 @@ export interface Materia {
   horario: String;
   nombre: String;
   semestre: number;
+  ac012?: Boolean;
 }
 
 export interface ResponseCourse {

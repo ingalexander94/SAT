@@ -41,13 +41,14 @@ export class GoogleService {
       });
       const emailAux =
         type === 'teacher'
-          ? 'matiashc@ufps.edu.co'
+          ? // ? 'matiashc@ufps.edu.co'
+            'juancarlosso@ufps.edu.co'
           : 'judithdelpilarrt@ufps.edu.co';
       const correo = user.getBasicProfile().getEmail();
       const domine = correo.split('@')[1];
       if (domine === 'ufps.edu.co') {
         const userAuth = {
-          correo: rol === 'student' ? correo : emailAux,
+          correo: rol === 'student' ? 'juanjoseuh@ufps.edu.co' : emailAux,
           rol,
         };
         const res = await this.loginGoogle(userAuth, 'institutional');

@@ -89,9 +89,10 @@ export class AuthService {
       .toPromise();
   }
 
-  isAuthenticated() {
-    const user = true;
-    return user;
+  validateUserAuth(role: String = '') {
+    return this.httpClient
+      .get<boolean>(this.endpoint + '/auth/validate-token/' + role)
+      .toPromise();
   }
 
   sendEmailUpdatePassword(email) {

@@ -30,7 +30,10 @@ export class DashboardWellnessComponent implements OnInit, OnDestroy {
         tapN(1, ({ auth }) => {
           if (auth.user.rol !== 'vicerrector') {
             auth.user.rol === 'estudiante'
-              ? this.studentService.listCourses(auth.user.codigo)
+              ? this.studentService.listCourses(
+                  auth.user.codigo,
+                  auth.user.ac012
+                )
               : this.teacherService.listCourses(auth.user.codigo);
           }
         })

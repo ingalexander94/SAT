@@ -16,6 +16,7 @@ export interface User {
   fechaingreso?: any;
   creditosaprobados?: Number;
   edad?: Number;
+  ac012: Boolean;
   creditostotales?: Number;
   semestre?: Number;
   promedio?: Number;

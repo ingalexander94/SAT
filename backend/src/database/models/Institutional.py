@@ -169,7 +169,6 @@ class Institutional:
                         path = f"{request.host_url}{path[1:]}"
                     else:
                         path = None
-                    student["riesgo"] = 4
                     student["foto"] = path
                 return response.success(res["msg"], res["data"], "")
             else:

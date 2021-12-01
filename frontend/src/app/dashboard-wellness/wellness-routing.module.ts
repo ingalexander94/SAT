@@ -10,15 +10,19 @@ import { SemesterComponent } from '../pages/semester/semester.component';
 import { SuggestionComponent } from '../pages/suggestion/suggestion.component';
 import { DashboardWellnessComponent } from './dashboard-wellness.component';
 import { ActivitiesComponent } from '../pages/activities/activities.component';
+import { WellnessGuard } from '../guards/wellness.guard';
+import { BossGuard } from '../guards/boss.guard';
 
 const children: Routes = [
   { path: '', component: FacultiesComponent },
   {
     path: 'semestres/programa/:nombre',
+    canActivate: [WellnessGuard],
     component: SemesterComponent,
   },
   {
     path: 'semestre/:programa/:numero',
+    canActivate: [WellnessGuard],
     component: SemesterWellnessComponent,
   },
   {
@@ -33,18 +37,22 @@ const children: Routes = [
   },
   {
     path: 'crear-usuario',
+    canActivate: [WellnessGuard],
     component: CreateUserComponent,
   },
   {
     path: 'sugerencias',
+    canActivate: [WellnessGuard],
     component: SuggestionComponent,
   },
   {
     path: 'sugerencias/:pagina',
+    canActivate: [WellnessGuard],
     component: SuggestionComponent,
   },
   {
     path: 'actividades',
+    canActivate: [WellnessGuard],
     component: ActivitiesComponent,
   },
 ];

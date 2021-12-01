@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ResponseCourse } from '../model/course';
+import { Course, ResponseCourse } from '../model/course';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducers';
 import { LoadingCourseAction } from '../reducer/course/course.actions';
@@ -32,13 +32,21 @@ export class StudentService {
     private notificationService: NotificationService
   ) {}
 
-  async listCourses(code: String) {
+  async listCourses(code: String, acu012: Boolean) {
     try {
       this.store.dispatch(new StartLoadingAction());
-      const { data } = await this.http
+      let courses: Course[] = [];
+      const { data: matriculate } = await this.http
         .get<ResponseCourse>(this.url + '/students/course/' + code)
         .toPromise();
-      this.store.dispatch(new LoadingCourseAction(data));
+      courses = [...matriculate];
+      if (acu012) {
+        const { data: ac012 } = await this.http
+          .get<ResponseCourse>(this.url + '/risk/courses/ac012/' + code)
+          .toPromise();
+        courses = [...courses, ...ac012];
+      }
+      this.store.dispatch(new LoadingCourseAction(courses));
       if (code) this.notificationService.getNotifications(code);
     } catch (error) {
       console.error(error);
@@ -50,6 +58,17 @@ export class StudentService {
     try {
       return this.http
         .get<ResponseCourse>(this.url + '/students/course/' + code)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  getCoursesAc012(code: String) {
+    try {
+      return this.http
+        .get<ResponseCourse>(this.url + '/risk/courses/ac012/' + code)
         .toPromise();
     } catch (error) {
       console.error(error);

@@ -20,6 +20,7 @@ import { RiskInstitucionalComponent } from 'src/app/pages/risk-institucional/ris
 import { ChildrenComponent } from './children.component';
 import { HistoryClinicalComponent } from 'src/app/components/history-clinical/history-clinical.component';
 import { ClinicalMeetComponent } from 'src/app/components/clinical-meet/clinical-meet.component';
+import { StudentGuard } from 'src/app/guards/student.guard';
 
 const children: Routes = [
   { path: '', component: ListRisksComponent },
@@ -39,7 +40,7 @@ const children: Routes = [
   { path: 'historia-clinica', component: HistoryClinicalComponent },
   { path: 'historial-de-cita', component: HistoryMeetComponent },
   { path: 'cita-medica', component: ClinicalMeetComponent },
-  { path: 'reunion', component: MeetingComponent },
+  { path: 'reunion', component: MeetingComponent, canActivate: [StudentGuard] },
   { path: 'notificar', component: WellnessNotificationComponent },
   { path: 'informacion-materia', component: CourseDataComponent },
   {

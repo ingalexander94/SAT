@@ -15,3 +15,10 @@ def getRisks(_, code=None):
 @token_required
 def getStatisticsTotal(_):
     return instance.getStatisticsTotal()
+
+@risk_router.route("/courses/ac012/")
+@risk_router.route("/courses/ac012/<code>")
+@token_required
+def coursesAc012(_, code):
+    return instance.coursesAc012(code)
+

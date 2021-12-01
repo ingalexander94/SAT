@@ -30,7 +30,10 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
         tapN(1, ({ auth, role }) => {
           if (!isAdministrative(role.roles, auth.user.rol)) {
             auth.user.rol === 'estudiante'
-              ? this.studentService.listCourses(auth.user.codigo)
+              ? this.studentService.listCourses(
+                  auth.user.codigo,
+                  auth.user.ac012
+                )
               : this.teacherService.listCourses(auth.user.codigo);
           }
         })
