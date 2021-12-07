@@ -41,15 +41,12 @@
       </div>
       <button *ngIf="!item.asistance" (click)="asist(true, item._id.$oid, i)">
         Asistir
-        <!-- <i
-          *ngIf="item.loading && !item.asistance"
-          class="fas fa-spinner fa-pulse fa-fw"
-        ></i> -->
+        <i *ngIf="item.loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>
 
       <button *ngIf="item.asistance" (click)="asist(false, item._id.$oid, i)">
         Cancelar
-        <!-- <i *ngIf="item.loading" class="fas fa-spinner fa-pulse fa-fw"></i> -->
+        <i *ngIf="item.loading" class="fas fa-spinner fa-pulse fa-fw"></i>
       </button>
     </div>
   </div>

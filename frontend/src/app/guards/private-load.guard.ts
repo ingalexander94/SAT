@@ -17,7 +17,6 @@ export class PrivateLoadGuard implements CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log(this.router.routerState.root.snapshot.url);
     return this.authService.validateUserAuth().then((ok) => {
       if (!ok) this.router.navigate(['/estudiante/iniciar-sesion']);
       return ok;

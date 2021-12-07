@@ -115,7 +115,7 @@ class Institutional:
                 data = { **data, "foto": path } 
                 return response.success(msg, data, "")
             else:
-                return response.error(data["msg"], 400)
+                return response.error(data["msg"], 200)
         except:
             return response.reject("Hable con el Administrador")
 

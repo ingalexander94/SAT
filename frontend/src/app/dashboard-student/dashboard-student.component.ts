@@ -18,6 +18,7 @@ import { TeacherService } from '../services/teacher.service';
 export class DashboardStudentComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   loading: boolean = true;
+  ac012: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -47,6 +48,7 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const userShow = getValueOfLocalStorage('user-show');
     this.store.dispatch(new SetUserActiveAction(userShow));
+    if (userShow.rol === 'estudiante') this.ac012 = userShow.ac012;
   }
 
   ngOnDestroy(): void {

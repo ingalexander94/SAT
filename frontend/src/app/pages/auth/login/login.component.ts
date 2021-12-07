@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (!this.user) {
         this.loading = false;
       }
-      console.log(user);
+      // console.log(user);
       this.ref.detectChanges();
     });
   }

@@ -40,8 +40,7 @@ class Activity:
     def  listActivitiesStudent(self, code):
         if not code or not code.isdigit() or len(code) != 7:
             return response.error("Se necesita un código de 7 caracteres", 400)
-        code = "0000000"
-        res = request_ufps().get(f"{environment.API_URL}/riesgo_{code}").json()
+        res = request_ufps().get(f"{environment.API_URL}/riesgo_0000000").json()
         riskStudent = list(map(lambda risk : {'risk': risk['nombre'], 'riskLevel':convertLevelRisk(risk['puntaje'])} , res['riesgos']))
         globalActivity = list(mongo.db.activity.find({"risk": "global", "state": True}))
         globalActivity = list(map(lambda activity : {**activity, "counter": mongo.db.attendance.count_documents({"activity": activity["_id"]}), "asistance":mongo.db.attendance.count_documents({"activity": activity["_id"], "student":code}) > 0}, globalActivity))

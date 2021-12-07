@@ -81,7 +81,7 @@ const extractDate = (data: User[]): TableRow[] =>
     i + 1,
     student.codigo,
     `${student.nombre} ${student.apellido}`,
-    student.correo,
+    student.correo.split('@')[0],
     getColor(student.riesgo).risk.toUpperCase(),
     student.estado.toUpperCase(),
   ]);

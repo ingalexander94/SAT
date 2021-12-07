@@ -37,9 +37,9 @@ export class SearchGlobalComponent implements OnInit {
       } else {
         saveInLocalStorage('receiver', data);
         saveInLocalStorage('user-show', data);
-        this.loadingSearch = false;
         this.router.navigate(['/estudiante']);
       }
+      this.loadingSearch = false;
     }
   }
 

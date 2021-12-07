@@ -19,7 +19,6 @@ export class DetailRisksComponent implements OnInit, OnDestroy {
 
   profits: any[];
   loading: boolean = true;
-  loadingSuggestion: boolean = false;
   subscription: Subscription = new Subscription();
   isAdmin: Boolean = false;
   codeStudent: String = '';
@@ -51,7 +50,7 @@ export class DetailRisksComponent implements OnInit, OnDestroy {
   }
 
   async createSuggestion(profit, index) {
-    this.loadingSuggestion = true;
+    this.profits[index].loading = true;
     const date = new Date();
     date.setHours(0);
     date.setMinutes(0);
@@ -63,8 +62,8 @@ export class DetailRisksComponent implements OnInit, OnDestroy {
       date: date.toISOString(),
     };
     await this.wellnessService.createSuggestion(body);
-    this.loadingSuggestion = false;
     this.profits[index].isSuggested = true;
+    this.profits[index].loading = false;
   }
 
   ngOnDestroy(): void {

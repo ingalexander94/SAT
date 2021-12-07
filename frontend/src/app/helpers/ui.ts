@@ -18,10 +18,12 @@ const resetDate = (date: string) => {
 };
 
 const getDateUTC = (date: Date = new Date()) => {
-  return new DatePipe('es-Ar').transform(
+  const culo = new DatePipe('es-Ar').transform(
     date.toISOString(),
-    "MMM d, y, HH:mm 'UTC'"
+    "M d, y, HH:mm:ss 'UTC'"
   );
+  console.log(culo);
+  return culo;
 };
 
 const getColor = (value: number) =>

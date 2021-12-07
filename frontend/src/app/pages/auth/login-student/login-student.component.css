@@ -18,6 +18,7 @@ button {
 
 .auth_container {
   text-align: center;
+  position: relative;
 }
 
 .auth_header {
@@ -30,7 +31,7 @@ button {
 
 .copyright {
   color: var(--red-primary-color);
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .ilustration {
@@ -59,6 +60,10 @@ button {
 .btn_google:hover > span {
   color: white;
   transition: all 0.3s ease;
+}
+
+.btn_google span i {
+  margin-left: 8px;
 }
 
 .btn_google figure {
@@ -132,9 +137,23 @@ button {
     height: 300px;
   }
 
+  .btn_google {
+    gap: 8px;
+    margin: 8px;
+    padding: 0 8px;
+  }
+
   .btn_google figure {
     margin: 0px;
     padding: 18px 14px 16px 14px;
+  }
+
+  .btn_google span {
+    font-size: 18px;
+  }
+
+  .btn_google span i {
+    margin-left: 4px;
   }
 }
 
@@ -196,11 +215,13 @@ button {
   .content {
     padding: 58px;
   }
+
   .btn_google figure img {
     width: 40px;
     height: 40px;
   }
+
   .btn_google span {
-    font-size: 22px;
+    font-size: 20px;
   }
 }
