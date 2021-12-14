@@ -40,6 +40,15 @@
             >Ver postulados</a
           >
         </li>
+        <li *ngIf="roleUser === 'jefe'">
+          <a
+            (click)="closeMenu()"
+            routerLink="/jefe/semestres-courses"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Ver Semestres</a
+          >
+        </li>
         <li *ngIf="roleUser === 'jefe' || roleUser === 'vicerrector'">
           <a
             (click)="closeMenu()"

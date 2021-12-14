@@ -1,0 +1,134 @@
+.title h1 {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.wrapper {
+  min-height: 50vh;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.group:hover {
+  background: var(--red-primary-color);
+  color: white !important;
+}
+.group h5 {
+  width: 80%;
+  text-align: left;
+}
+
+.group {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.group i {
+  padding: 5px;
+}
+
+.accordion {
+  border-radius: 10px;
+  padding: 10px 20px;
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+
+.item label {
+  background: var(--gray-menu);
+  display: block;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+}
+
+.item label::before {
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f107";
+  right: 10px;
+  transition: all.5s;
+}
+
+.item div {
+  color: black;
+  padding-left: 20px;
+  max-height: 0;
+  overflow: auto;
+  transition: max-height 0.5s;
+  width: 400px;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ div {
+  max-height: 100vh;
+}
+
+input[type="checkbox"]:checked ~ label::before {
+  transform: rotate(-180deg);
+  transition: transform 0.5s;
+}
+
+.item_course label {
+  background: var(--gray-menu);
+  display: block;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+}
+
+.item_course label::before {
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f107";
+  right: 10px;
+  transition: all.5s;
+}
+
+.item_course div {
+  color: black;
+  max-height: 0;
+  overflow: auto;
+  transition: max-height 0.5s;
+}
+
+@media (min-width: 768px) {
+  .title h1 {
+    margin-top: 100px;
+    font-size: 30px;
+  }
+  .accordion {
+    margin-bottom: 10px;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 1152px) {
+  .title h1 {
+    margin-top: 100px;
+    font-size: 30px;
+  }
+  .accordion {
+    margin-bottom: 10px;
+  }
+}
