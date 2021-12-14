@@ -271,3 +271,35 @@ class Institutional:
             }
         return record
     
+    def getSemestersByProgram(self, program):
+        try:
+            req = request_ufps_token().get(f"{environment.API_UFPS}/boss/semesters/{program}")
+            res = req.json()
+            if res["ok"]: 
+                return response.success(res["msg"], res["data"], "")
+            else:
+                return response.reject(res["msg"])
+        except:
+            return response.reject("Hable con el administrador")
+    
+    def getCoursesBySemester(self, semester, program):
+        try:
+            req = request_ufps_token().get(f"{environment.API_UFPS}/boss/courses/{semester}/{program}")
+            res = req.json()
+            if res["ok"]: 
+                return response.success(res["msg"], res["data"], "")
+            else:
+                return response.reject(res["msg"])
+        except:
+            return response.reject("Hable con el administrador")
+    
+    def getGroupsOfCourse(self, course, program): 
+        try:
+            req = request_ufps_token().get(f"{environment.API_UFPS}/boss/courses/groups/{program}/{course}")
+            res = req.json()
+            if res["ok"]: 
+                return response.success(res["msg"], res["data"], "")
+            else:
+                return response.reject(res["msg"])
+        except:
+            return response.reject("Hable con el administrador")
