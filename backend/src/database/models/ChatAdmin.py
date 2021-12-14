@@ -24,8 +24,7 @@ class ChatAdmin:
         if filename:
             path = os.path.join(environment.UPLOAD_FOLDER, filename)
             filename = f"{request.host_url}{path[1:]}"
-        return { **admin, "foto": filename }
-        
+        return { **admin, "foto": filename }       
     
     def getAdminByDocument(self, document):
         if(not document):

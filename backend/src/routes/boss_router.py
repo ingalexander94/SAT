@@ -21,3 +21,21 @@ def studentsOfPeriod(_):
 @token_required
 def updatePostulation(_):
     return instancePostulation.updatePostulationByBoss()
+
+@boss_rest.route("/semesters/")
+@boss_rest.route("/semesters/<program>")
+@token_required
+def semestersByProgram(_, program=None):
+    return instanceInstitutional.getSemestersByProgram(program)
+
+@boss_rest.route("/courses/")
+@boss_rest.route("/courses/<semester>/<program>")
+@token_required
+def coursesBySemester(_, semester=None, program=None):
+    return instanceInstitutional.getCoursesBySemester(semester, program)
+
+@boss_rest.route("/courses/groups/")
+@boss_rest.route("/courses/groups/<program>/<course>")
+@token_required
+def groupsOfCourse(_, program=None, course=None):
+    return instanceInstitutional.getGroupsOfCourse(course, program)
