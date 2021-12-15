@@ -103,6 +103,39 @@ export class BossService {
       return null;
     }
   }
+  counterSemesterProgrmag() {
+    try {
+      return this.http
+        .get<any>(this.endpoint + '/boss/semesters/115')
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  showSemesterCourses(semester: number) {
+    try {
+      return this.http
+        .get<any>(this.endpoint + `/boss/courses/${semester}/115`)
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+  showCoursesGroups(codProgram, codCourse) {
+    try {
+      return this.http
+        .get<any>(
+          this.endpoint + `/boss/courses/groups/${codProgram}/${codCourse}`
+        )
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
 
   attendPostulation(id: String) {
     try {
