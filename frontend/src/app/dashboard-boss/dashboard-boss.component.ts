@@ -3,8 +3,12 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppState } from '../app.reducers';
+import { showAlert } from '../helpers/alert';
 import { tapN } from '../helpers/observers';
+import { convertToRoman } from '../helpers/ui';
+import { LoadSemesterAction } from '../reducer/semester/semester.actions';
 import { StartLoadingAction } from '../reducer/ui/ui.actions';
+import { BossService } from '../services/boss.service';
 import { StudentService } from '../services/student.service';
 import { TeacherService } from '../services/teacher.service';
 
@@ -20,6 +24,7 @@ export class DashboardBossComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private teacherService: TeacherService,
+    private bossService: BossService,
     private studentService: StudentService
   ) {
     this.store.dispatch(new StartLoadingAction());
@@ -42,7 +47,21 @@ export class DashboardBossComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.counterSemesterProgram();
+  }
+
+  async counterSemesterProgram() {
+    const res = await this.bossService.counterSemesterProgram();
+    if (res.ok) {
+      const { semestres: total } = res.data;
+      const semestersRoman = convertToRoman(total);
+      const semesters = semestersRoman.map((x) => ({ nombre: x, cursos: [] }));
+      this.store.dispatch(new LoadSemesterAction(semesters));
+    } else {
+      showAlert('error', 'Ocurrio un error');
+    }
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

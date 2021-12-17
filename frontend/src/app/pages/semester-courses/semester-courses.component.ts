@@ -1,5 +1,14 @@
-import { core } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { filter, pluck } from 'rxjs/operators';
+import { AppState } from 'src/app/app.reducers';
+import { showAlert } from 'src/app/helpers/alert';
+import { SemesterBoss } from 'src/app/model/semester';
+import {
+  SetCourseSemesterAction,
+  SetGroupsSemesterAction,
+} from 'src/app/reducer/semester/semester.actions';
 import { BossService } from 'src/app/services/boss.service';
 
 @Component({
@@ -7,51 +16,70 @@ import { BossService } from 'src/app/services/boss.service';
   templateUrl: './semester-courses.component.html',
   styleUrls: ['./semester-courses.component.css'],
 })
-export class SemesterCoursesComponent implements OnInit {
-  romanos: String[] = [
-    'I',
-    'II',
-    'III',
-    'IV',
-    'V',
-    'VI',
-    'VII',
-    'VIII',
-    'IX',
-    'X',
-    'XI',
-    'XII',
-    'XIII',
-  ];
-  courses = [];
-  groups = [];
-  constructor(private bossService: BossService) {
-    this.counterSemesterProgrmag();
-  }
+export class SemesterCoursesComponent implements OnInit, OnDestroy {
+  semesters: SemesterBoss[] = [];
+  subscription: Subscription = new Subscription();
 
-  ngOnInit(): void {}
+  constructor(
+    private bossService: BossService,
+    private store: Store<AppState>
+  ) {}
 
-  async counterSemesterProgrmag() {
-    const numberSemester = await this.bossService.counterSemesterProgrmag();
-    this.romanos.length = numberSemester.data.semestres;
+  ngOnInit(): void {
+    this.subscription = this.store
+      .select('semester')
+      .pipe(
+        pluck('semesters'),
+        filter((x) => x.length > 0)
+      )
+
+      .subscribe((semesters) => (this.semesters = semesters));
   }
 
   async showSemesterCourse(semester: number) {
-    console.log('semestre = ', semester);
-    const courses = await this.bossService.showSemesterCourses(semester);
-    this.courses = courses.data;
-    console.log(this.courses);
+    if (!this.semesters[semester - 1].cursos.length) {
+      const res = await this.bossService.showSemesterCourses(semester);
+      if (res.ok) {
+        this.store.dispatch(new SetCourseSemesterAction(res.data, semester));
+        setTimeout(() => {
+          const item = <HTMLInputElement>(
+            document.getElementById(`item-${semester}`)
+          );
+          item.checked = true;
+        }, 1000);
+      }
+    }
   }
 
-  async showCoursesGroups(codigo: string) {
-    const codeProgram = codigo.slice(0, -4);
-    const codeCourse = codigo.slice(-4);
-    const groups = await this.bossService.showCoursesGroups(
-      codeProgram,
-      codeCourse
-    );
-    this.groups = groups.data;
+  async showCoursesGroups(semester: number, course: number, codigo: String) {
+    if (!this.semesters[semester - 1].cursos[course - 1].grupos.length) {
+      const codeProgram = codigo.slice(0, -4);
+      const codeCourse = codigo.slice(-4);
+      const res = await this.bossService.showCoursesGroups(
+        codeProgram,
+        codeCourse
+      );
+      if (res.ok) {
+        this.store.dispatch(
+          new SetGroupsSemesterAction(res.data, course, semester)
+        );
+        setTimeout(() => {
+          const item1 = <HTMLInputElement>(
+            document.getElementById(`item-${semester}`)
+          );
+          const item2 = <HTMLInputElement>(
+            document.getElementById(`item_course-${course}`)
+          );
+          item1.checked = true;
+          item2.checked = true;
+        }, 1000);
+      } else {
+        showAlert('warning', res.msg);
+      }
+    }
+  }
 
-    console.log('grupos', this.groups);
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

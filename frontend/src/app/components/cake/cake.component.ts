@@ -17,7 +17,7 @@ export class CakeComponent implements OnInit {
   loading: boolean = false;
   show: boolean = false;
   averageScore: number = 0;
-  exam: String = '';
+  exam: String = '1p';
 
   colorScheme: any = {
     domain: ['#14c25a', '#ff8300', '#bb0b20', '#353343'],
@@ -47,7 +47,9 @@ export class CakeComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getNotes(this.exam);
+  }
 
   async getNotes(exam: String) {
     this.loading = true;

@@ -2,29 +2,28 @@
 <div class="title"><h1>Listado de Materias por Semestre</h1></div>
 <div class="wrapper">
   <div class="accordion">
-    <div class="item" *ngFor="let romanos of romanos; index as i">
+    <div class="item" *ngFor="let romanos of semesters; index as i">
       <input type="checkbox" name="accordion" id="item-{{ i + 1 }}" />
       <label for="item-{{ i + 1 }}" (click)="showSemesterCourse(i + 1)"
-        >Semester {{ romanos }}
+        >SEMESTRE {{ romanos.nombre }}
       </label>
-      <div class="item_course" *ngFor="let course of courses; index as j">
+      <div
+        class="item_course"
+        *ngFor="let course of romanos.cursos; index as j"
+      >
         <input type="checkbox" name="accordion" id="item_course-{{ j + 1 }}" />
         <label
           for="item_course-{{ j + 1 }}"
-          (click)="showCoursesGroups(course.codigo)"
+          (click)="showCoursesGroups(i + 1, j + 1, course.codigo)"
           >{{ course.nombre }}</label
         >
-        <div class="group" *ngFor="let group of groups">
-          <h5>
+        <div class="group" *ngFor="let group of course.grupos">
+          <a href="/jefe/informe-curso/{{ group.codigo }}/{{ group.grupo }}">
             Grupo {{ group.grupo }} - {{ group.nombredocente }}
             {{ group.apellidodocente }}
-          </h5>
+          </a>
           <i class="fas fa-eye"></i>
         </div>
-        <!-- <div class="group">
-          <h5>Grupo B - Matias Herrera</h5>
-          <i class="fas fa-eye"></i>
-        </div> -->
       </div>
     </div>
   </div>

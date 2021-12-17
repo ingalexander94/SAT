@@ -39,3 +39,9 @@ def coursesBySemester(_, semester=None, program=None):
 @token_required
 def groupsOfCourse(_, program=None, course=None):
     return instanceInstitutional.getGroupsOfCourse(course, program)
+
+@boss_rest.route("/courses/group/")
+@boss_rest.route("/courses/group/<program>/<course>/<group>")
+@token_required
+def group(_, program=None, course=None, group=None):
+    return instanceInstitutional.getGroup(course, program, group)

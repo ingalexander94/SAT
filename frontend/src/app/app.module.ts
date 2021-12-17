@@ -60,6 +60,7 @@ import { ChatAdminComponent } from './pages/chat-admin/chat-admin.component';
 import { ActivitiesStudentComponent } from './pages/activities-student/activities-student.component';
 import { ProfileTeacherTeacherComponent } from './pages/profile-teacher-teacher/profile-teacher-teacher.component';
 import { SemesterCoursesComponent } from './pages/semester-courses/semester-courses.component';
+import { CourseBossComponent } from './pages/course-boss/course-boss.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -99,6 +100,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
     ActivitiesStudentComponent,
     ProfileTeacherTeacherComponent,
     SemesterCoursesComponent,
+    CourseBossComponent,
   ],
 
   imports: [

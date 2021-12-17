@@ -303,3 +303,14 @@ class Institutional:
                 return response.reject(res["msg"])
         except:
             return response.reject("Hable con el administrador")
+    
+    def getGroup(self, course, program, group): 
+        try:
+            req = request_ufps_token().get(f"{environment.API_UFPS}/boss/courses/group/{program}/{course}/{group}")
+            res = req.json()
+            if res["ok"]: 
+                return response.success(res["msg"], res["data"], "")
+            else:
+                return response.reject(res["msg"])
+        except:
+            return response.reject("Hable con el administrador")

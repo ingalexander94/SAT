@@ -103,7 +103,7 @@ export class BossService {
       return null;
     }
   }
-  counterSemesterProgrmag() {
+  counterSemesterProgram() {
     try {
       return this.http
         .get<any>(this.endpoint + '/boss/semesters/115')
@@ -124,11 +124,26 @@ export class BossService {
       return null;
     }
   }
+
   showCoursesGroups(codProgram, codCourse) {
     try {
       return this.http
         .get<any>(
           this.endpoint + `/boss/courses/groups/${codProgram}/${codCourse}`
+        )
+        .toPromise();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  getGroup(codProgram, codCourse, group) {
+    try {
+      return this.http
+        .get<any>(
+          this.endpoint +
+            `/boss/courses/group/${codProgram}/${codCourse}/${group}`
         )
         .toPromise();
     } catch (error) {
