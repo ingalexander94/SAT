@@ -7,6 +7,32 @@ const normalizeText = (text: String) =>
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
 
+const convertToRoman = (semester: number): String[] => {
+  const romanos: String[] = [
+    'I',
+    'II',
+    'III',
+    'IV',
+    'V',
+    'VI',
+    'VII',
+    'VIII',
+    'IX',
+    'X',
+    'XI',
+    'XII',
+    'XIII',
+    'XIV',
+    'XV',
+    'XVI',
+    'XVII',
+    'XVIII',
+    'XIX',
+    'XX',
+  ];
+  return romanos.slice(0, semester);
+};
+
 const resetDate = (date: string) => {
   const newDate = new Date(date);
   newDate.setHours(0);
@@ -94,4 +120,5 @@ export {
   getColorByRisk,
   getDateUTC,
   dateHourFormat,
+  convertToRoman,
 };

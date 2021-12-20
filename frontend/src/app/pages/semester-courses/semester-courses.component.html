@@ -3,32 +3,33 @@
 <div class="wrapper">
   <div class="semesters">
     <select (change)="showSemesterCourse($event)">
-      <option *ngFor="let semestre of semestres" value="{{ semestre.nombre }}">
+      <option
+        *ngFor="let semestre of semesters; index as j"
+        value="{{ j + 1 }}"
+      >
         Semestre {{ semestre.nombre }}
       </option>
     </select>
   </div>
-  <div class="courses">
-    <div
-      class="course"
-      *ngFor="let course of courses; index as i"
-      (click)="showCoursesGroups(course.codigo)"
-    >
-      <div class="name_course" (click)="showGroups(i)">
+
+  <div class="courses" *ngFor="let semestre of semesters">
+    <!-- (click)="showCoursesGroups(course.codigo)" -->
+    <div class="course" *ngFor="let course of semestre.cursos; index as i">
+      <div class="name_course">
         <i class="fas fa-book book_course"></i>
         <h4>{{ course.nombre }}</h4>
-        <i class="fas fa-chevron-down arrow" *ngIf="!course.mostrar"></i>
-        <i class="fas fa-chevron-up arrow" *ngIf="course.mostrar"></i>
+        <i class="fas fa-chevron-down arrow"></i>
+        <i class="fas fa-chevron-up arrow"></i>
       </div>
+    </div>
+  </div>
+</div>
 
-      <ng-container *ngFor="let group of groups">
+<!-- <ng-container *ngFor="let group of groups">
         <div *ngIf="course.mostrar" class="groups">
           <a href="">
             Grupo {{ group.grupo }} - {{ group.nombredocente }}
             {{ group.apellidodocente }}
           </a>
         </div>
-      </ng-container>
-    </div>
-  </div>
-</div>
+      </ng-container> -->

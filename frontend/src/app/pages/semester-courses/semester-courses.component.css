@@ -9,7 +9,6 @@
 }
 
 .wrapper {
-  min-height: 50vh;
   color: black;
   display: flex;
   flex-direction: column;

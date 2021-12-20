@@ -7,6 +7,7 @@ import * as fromRisk from './reducer/risk/risk.reducer';
 import * as fromNotification from './reducer/notification/notifications.reducer';
 import * as fromRole from './reducer/role/role.reduce';
 import * as fromActivity from './reducer/activity/activity.reduce';
+import * as fromSemester from './reducer/semester/semester.reducer';
 
 export interface AppState {
   ui: fromUI.UIState;
@@ -17,6 +18,7 @@ export interface AppState {
   risk: fromRisk.RiskState;
   role: fromRole.RoleState;
   activity: fromActivity.ActivityState;
+  semester: fromSemester.SemesterState;
 }
 
 export const combineReducer: ActionReducerMap<AppState> = {
@@ -28,4 +30,5 @@ export const combineReducer: ActionReducerMap<AppState> = {
   risk: fromRisk.riskReducer,
   role: fromRole.roleReduce,
   activity: fromActivity.activityReducer,
+  semester: fromSemester.semesterReducer,
 };

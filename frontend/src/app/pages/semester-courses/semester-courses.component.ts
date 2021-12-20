@@ -1,5 +1,14 @@
-import { core } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { filter, pluck } from 'rxjs/operators';
+import { AppState } from 'src/app/app.reducers';
+import { showAlert } from 'src/app/helpers/alert';
+import { SemesterBoss } from 'src/app/model/semester';
+import {
+  SetCourseSemesterAction,
+  SetGroupsSemesterAction,
+} from 'src/app/reducer/semester/semester.actions';
 import { BossService } from 'src/app/services/boss.service';
 
 @Component({
@@ -7,66 +16,70 @@ import { BossService } from 'src/app/services/boss.service';
   templateUrl: './semester-courses.component.html',
   styleUrls: ['./semester-courses.component.css'],
 })
-export class SemesterCoursesComponent implements OnInit {
-  semestres: any[] = [
-    { nombre: 1 },
-    { nombre: 2 },
-    { nombre: 3 },
-    { nombre: 4 },
-    { nombre: 5 },
-    { nombre: 6 },
-    { nombre: 7 },
-    { nombre: 8 },
-    { nombre: 9 },
-    { nombre: 10 },
-    { nombre: 11 },
-    { nombre: 12 },
-    { nombre: 13 },
-  ];
-  courses: any = [];
-  groups = [];
+export class SemesterCoursesComponent implements OnInit, OnDestroy {
+  semesters: SemesterBoss[] = [];
+  subscription: Subscription = new Subscription();
+
   showGroup: boolean = false;
-  constructor(private bossService: BossService) {
-    this.counterSemesterProgrmag();
-  }
 
-  ngOnInit(): void {}
+  constructor(
+    private bossService: BossService,
+    private store: Store<AppState>
+  ) {}
 
-  async counterSemesterProgrmag() {
-    const numberSemester = await this.bossService.counterSemesterProgrmag();
-    this.semestres.length = numberSemester.data.semestres;
-    console.log(this.semestres);
+  ngOnInit(): void {
+    this.subscription = this.store
+      .select('semester')
+      .pipe(
+        pluck('semesters'),
+        filter((x) => x.length > 0)
+      )
+      .subscribe((semesters) => (this.semesters = semesters));
   }
 
   async showSemesterCourse(e) {
-    const i = e.target.value;
-    console.log('semestre = ');
-    const courses = await this.bossService.showSemesterCourses(i);
-    courses.data.map((course) => (course.mostrar = false));
-
-    if (courses.data) {
-    
-      const groups= this.showCoursesGroups(courses.data[i].codigo)
-      courses.data.map((course) => {
-        course.groups = groups;
-      });
+    const semester = parseInt(e.target.value);
+    console.log(semester);
+    if (!this.semesters[semester].cursos.length) {
+      const res = await this.bossService.showSemesterCourses(semester);
+      if (res.ok) {
+        this.store.dispatch(new SetCourseSemesterAction(res.data, semester));
+      }
     }
-    this.courses = courses.data;
-    console.log(this.courses);
   }
 
-  async showCoursesGroups(codigo: string) {
-    const codeProgram = codigo.slice(0, -4);
-    const codeCourse = codigo.slice(-4);
-    const groups = await this.bossService.showCoursesGroups(
-      codeProgram,
-      codeCourse
-    );
-    this.groups = groups.data;
+  async showCoursesGroups(semester: number, course: number, codigo: String) {
+    if (!this.semesters[semester - 1].cursos[course - 1].grupos.length) {
+      const codeProgram = codigo.slice(0, -4);
+      const codeCourse = codigo.slice(-4);
+      const res = await this.bossService.showCoursesGroups(
+        codeProgram,
+        codeCourse
+      );
+      if (res.ok) {
+        this.store.dispatch(
+          new SetGroupsSemesterAction(res.data, course, semester)
+        );
+        setTimeout(() => {
+          const item1 = <HTMLInputElement>(
+            document.getElementById(`item-${semester}`)
+          );
+          const item2 = <HTMLInputElement>(
+            document.getElementById(`item_course-${course}`)
+          );
+          item1.checked = true;
+          item2.checked = true;
+        }, 1000);
+      } else {
+        showAlert('warning', res.msg);
+      }
+    }
+  }
 
-    console.log('grupos', this.groups);
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
-  showGroups(i) {
-    this.courses[i].mostrar = !this.courses[i].mostrar;
-  }
+  // showGroups(i) {
+  //   this.courses[i].mostrar = !this.courses[i].mostrar;
+  // }
 }
