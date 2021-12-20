@@ -12,103 +12,71 @@
   min-height: 50vh;
   color: black;
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.group:hover {
-  background: var(--red-primary-color);
-  color: white !important;
-}
-.group h5 {
-  width: 80%;
-  text-align: left;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  /* background: chartreuse; */
 }
 
-.group {
-  cursor: pointer;
+.semesters {
   display: flex;
   justify-content: center;
 }
-.group i {
+.semesters select {
+  background: gray;
+  border-radius: 10px;
+}
+
+.courses {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+.course {
+  margin: 10px;
+}
+.name_course {
+  background: var(--red-primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid white;
+  border-start-end-radius: 10px;
+  border-start-start-radius: 10px;
+  color: white;
   padding: 5px;
 }
-
-.accordion {
-  border-radius: 10px;
-  padding: 10px 20px;
-  overflow: hidden;
-  margin-bottom: 80px;
+.course :hover {
+  filter: brightness(0.7) !important;
 }
-
-.item label {
-  background: var(--gray-menu);
-  display: block;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  font-size: 20px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  position: relative;
+/* .course :hover {
+  filter: brightness(0.4) !important;
+} */
+.name_course h4 {
+  text-align: center;
 }
-
-.item label::before {
-  position: absolute;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f107";
-  right: 10px;
-  transition: all.5s;
+.book_course {
+  padding: 5px;
+  margin: 0px 5px;
+  border-radius: 12px;
+  background: white;
+  color: var(--red-primary-color);
 }
-
-.item div {
+.arrow {
+  padding: 5px;
+  margin: 0px 5px;
+  color: white;
+}
+.groups {
+  background: #c4c4c4;
+  margin-bottom: -7px;
+  border-end-start-radius: 10px;
+  border-end-end-radius: 10px;
+}
+.groups a {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
   color: black;
-  padding-left: 20px;
-  max-height: 0;
-  overflow: auto;
-  transition: max-height 0.5s;
-  width: 400px;
-}
-
-input[type="checkbox"] {
-  display: none;
-}
-
-input[type="checkbox"]:checked ~ div {
-  max-height: 100vh;
-}
-
-input[type="checkbox"]:checked ~ label::before {
-  transform: rotate(-180deg);
-  transition: transform 0.5s;
-}
-
-.item_course label {
-  background: var(--gray-menu);
-  display: block;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  font-size: 20px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  position: relative;
-}
-
-.item_course label::before {
-  position: absolute;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f107";
-  right: 10px;
-  transition: all.5s;
-}
-
-.item_course div {
-  color: black;
-  max-height: 0;
-  overflow: auto;
-  transition: max-height 0.5s;
 }
 
 @media (min-width: 768px) {
@@ -116,8 +84,16 @@ input[type="checkbox"]:checked ~ label::before {
     margin-top: 100px;
     font-size: 30px;
   }
-  .accordion {
-    margin-bottom: 10px;
+  .courses {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .semesters select {
+    font-size: 20px;
+    border-radius: 10px;
+  }
+  .wrapper {
+    margin: 32px;
+    /* margin-bottom: 20px; */
   }
 }
 
@@ -128,7 +104,7 @@ input[type="checkbox"]:checked ~ label::before {
     margin-top: 100px;
     font-size: 30px;
   }
-  .accordion {
-    margin-bottom: 10px;
+  .courses {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
