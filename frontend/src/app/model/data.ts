@@ -180,3 +180,37 @@ export const reasonList: Reason[] = [
     isActive: false,
   },
 ];
+
+export const cakeNotes = [
+  {
+    name: '> 4,0',
+    value: 0,
+  },
+  {
+    name: '> 3,0',
+    value: 0,
+  },
+  {
+    name: '< 3,0',
+    value: 0,
+  },
+  {
+    name: '0,0',
+    value: 0,
+  },
+];
+
+export const cakeNotesFinal = [
+  {
+    name: 'Pasarón',
+    value: 0,
+  },
+  {
+    name: 'Perdierón',
+    value: 0,
+  },
+  {
+    name: 'Cancelarón',
+    value: 0,
+  },
+];

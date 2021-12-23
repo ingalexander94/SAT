@@ -13,26 +13,37 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-
-  /* background: chartreuse; */
 }
 
 .semesters {
   display: flex;
   justify-content: center;
 }
+
+.loading {
+  margin: 16px 0;
+}
+
 .semesters select {
-  background: gray;
+  background: var(--gray-table);
+  appearance: none;
+  padding: 8px 0 8px 16px;
   border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  margin: 16px 0;
 }
 
 .courses {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
 }
+
 .course {
   margin: 10px;
 }
+
 .name_course {
   background: var(--red-primary-color);
   display: flex;
@@ -44,15 +55,19 @@
   color: white;
   padding: 5px;
 }
-.course :hover {
-  filter: brightness(0.7) !important;
+
+.name_course :hover {
+  filter: brightness(0.6) !important;
 }
-/* .course :hover {
-  filter: brightness(0.4) !important;
-} */
+
 .name_course h4 {
   text-align: center;
+  text-overflow: ellipsis;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
 }
+
 .book_course {
   padding: 5px;
   margin: 0px 5px;
@@ -60,22 +75,29 @@
   background: white;
   color: var(--red-primary-color);
 }
+
 .arrow {
   padding: 5px;
   margin: 0px 5px;
   color: white;
 }
+
 .groups {
-  background: #c4c4c4;
+  background: var(--gray-menu);
+  padding: 0 8px;
   margin-bottom: -7px;
   border-end-start-radius: 10px;
   border-end-end-radius: 10px;
 }
+
 .groups a {
   display: flex;
-  justify-content: center;
   flex-direction: row;
-  color: black;
+  color: var(--dark-color);
+}
+
+.groups a span {
+  font-weight: bold;
 }
 
 @media (min-width: 768px) {
@@ -83,16 +105,18 @@
     margin-top: 100px;
     font-size: 30px;
   }
+
   .courses {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .semesters select {
     font-size: 20px;
-    border-radius: 10px;
+    padding: 8px 8px 8px 16px;
   }
+
   .wrapper {
     margin: 32px;
-    /* margin-bottom: 20px; */
   }
 }
 
@@ -103,7 +127,16 @@
     margin-top: 100px;
     font-size: 30px;
   }
+
   .courses {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .semesters select {
+    margin: 0 0 8px 0;
+  }
+
+  .name_course h4 {
+    width: 250px;
   }
 }

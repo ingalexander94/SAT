@@ -23,6 +23,8 @@ export interface SemesterBoss {
 export interface CourseSemester {
   codigo: String;
   nombre: String;
+  showGroup: Boolean;
+  loading: Boolean;
   grupos: GroupCourse[];
 }
 

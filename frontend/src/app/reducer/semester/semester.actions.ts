@@ -10,6 +10,8 @@ export const SET_COURSES = '[SEMESTER] Cargar cursos del semestre';
 export const SET_GROUPS = '[SEMESTER] Cargar grupos del curso';
 export const SET_ACTIVE = '[SEMESTER] Activar grupo';
 export const CLEAN_SEMESTER = '[SEMESTER] Limpiar semestres';
+export const SET_LOADING = '[SEMESTER] Iniciar cargando';
+export const UNSET_LOADING = '[SEMESTER] Terminar cargando';
 
 export class LoadSemesterAction implements Action {
   readonly type = LOAD_SEMESTER;
@@ -40,9 +42,21 @@ export class SetActiveGroupAction implements Action {
   constructor(public payload: GroupCourse) {}
 }
 
+export class SetLoadingAction implements Action {
+  readonly type = SET_LOADING;
+  constructor(public course: number, public semester: number) {}
+}
+
+export class UnsetLoadingAction implements Action {
+  readonly type = UNSET_LOADING;
+  constructor(public course: number, public semester: number) {}
+}
+
 export type actions =
   | LoadSemesterAction
   | CleanSemesterAction
   | SetCourseSemesterAction
   | SetGroupsSemesterAction
-  | SetActiveGroupAction;
+  | SetActiveGroupAction
+  | SetLoadingAction
+  | UnsetLoadingAction;

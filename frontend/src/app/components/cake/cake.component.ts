@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { showAlert } from 'src/app/helpers/alert';
+import { cakeNotes, cakeNotesFinal } from 'src/app/model/data';
 
 @Component({
   selector: 'app-cake',
@@ -23,24 +24,7 @@ export class CakeComponent implements OnInit {
     domain: ['#14c25a', '#ff8300', '#bb0b20', '#353343'],
   };
 
-  single = [
-    {
-      name: '> 4,0',
-      value: 0,
-    },
-    {
-      name: '> 3,0',
-      value: 0,
-    },
-    {
-      name: '< 3,0',
-      value: 0,
-    },
-    {
-      name: '0,0',
-      value: 0,
-    },
-  ];
+  single = [];
 
   constructor(
     private teacherService: TeacherService,
@@ -59,13 +43,23 @@ export class CakeComponent implements OnInit {
     const courseInfo = { code, group, exam };
     const res = await this.teacherService.getNotesCourse(courseInfo);
     if (res.ok) {
-      const { aprobados, reprobados, excelente, SinPresentar, promedio } =
-        res.data;
-      this.single[0].value = excelente;
-      this.single[1].value = aprobados;
-      this.single[2].value = reprobados;
-      this.single[3].value = SinPresentar;
-      this.averageScore = promedio;
+      if (this.exam === 'df') {
+        const { aprobados, reprobados, cancelaron, promedio } = res.data;
+        this.single = cakeNotesFinal;
+        this.single[0].value = aprobados;
+        this.single[1].value = reprobados;
+        this.single[2].value = cancelaron;
+        this.averageScore = promedio;
+      } else {
+        const { aprobados, reprobados, excelente, SinPresentar, promedio } =
+          res.data;
+        this.single = cakeNotes;
+        this.single[0].value = excelente;
+        this.single[1].value = aprobados;
+        this.single[2].value = reprobados;
+        this.single[3].value = SinPresentar;
+        this.averageScore = promedio;
+      }
       this.show = true;
     } else {
       showAlert('error', 'No hay notas disponibles');

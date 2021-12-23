@@ -194,12 +194,7 @@ class Meet:
            mongo.db[dbName].update_one({"_id": ObjectId(idClinical)}, {"$set": {'observation':observation}})
            return jsonify(True) 
         except:
-          return jsonify(False)
-        
-        
-    
-        
-        
+          return jsonify(False)        
         
     def getMeetsHistory(self, code, type): 
         output = []

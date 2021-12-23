@@ -31,13 +31,39 @@ export const semesterReducer = (
       return {
         ...state,
         semesters: state.semesters.map((x, i) =>
-          i + 1 === actions.semester
+          i === actions.semester
             ? {
                 ...x,
                 cursos: x.cursos.map((y, i) =>
-                  i + 1 === actions.course
-                    ? { ...y, grupos: actions.payload }
-                    : y
+                  i === actions.course ? { ...y, grupos: actions.payload } : y
+                ),
+              }
+            : x
+        ),
+      };
+    case fromSemester.SET_LOADING:
+      return {
+        ...state,
+        semesters: state.semesters.map((x, i) =>
+          i === actions.semester
+            ? {
+                ...x,
+                cursos: x.cursos.map((y, i) =>
+                  i === actions.course ? { ...y, loading: true } : y
+                ),
+              }
+            : x
+        ),
+      };
+    case fromSemester.UNSET_LOADING:
+      return {
+        ...state,
+        semesters: state.semesters.map((x, i) =>
+          i === actions.semester
+            ? {
+                ...x,
+                cursos: x.cursos.map((y, i) =>
+                  i === actions.course ? { ...y, loading: false } : y
                 ),
               }
             : x
@@ -45,6 +71,7 @@ export const semesterReducer = (
       };
     case fromSemester.SET_ACTIVE:
       return { ...state, active: { ...actions.payload } };
+
     default:
       return state;
   }
