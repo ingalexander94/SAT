@@ -62,7 +62,7 @@ def renew(current_user):
 def validateUserAuth(current_user, role=None):
     return jwt.validateUserAuth(current_user, role)
 
-@app.route("/ping")
+@app.route("/")
 def ping():
     return "Todo ok!"
 
