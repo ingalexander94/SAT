@@ -22,5 +22,4 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./conf.d:/etc/nginx/user.conf.d:ro
       - /home/ubuntu/projects/letsencrypt:/etc/letsencrypt
