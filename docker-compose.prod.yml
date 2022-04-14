@@ -36,7 +36,7 @@ services:
     command: >
       sh -c "npm run build --prod"
     ports:
-      - "80:80"
+      - "4200:4200"
     volumes:
       - ./frontend/src:/app/src
 
