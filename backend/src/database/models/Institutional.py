@@ -37,13 +37,14 @@ class Institutional:
         try: 
             req = request_ufps().get(f"{environment.API_UFPS}/{endpoint}")
             data = req.json()
+            print(data)
             if data["ok"]: 
                 data = data["data"]
                 rol = "estudiante" if rol == "student" else "docente"
                 if data["rol"] != rol:
                     return response.error(f"No tiene acceso como {rol}", 401)
                 code = data["codigo"]
-                filename = self.getPhoto(code)
+                filename = self.getPhoto(code) 
                 if filename:
                     path = os.path.join(environment.UPLOAD_FOLDER, filename)
                     path = f"{request.host_url}{path[1:]}"
@@ -53,7 +54,7 @@ class Institutional:
                 user = {
                     **data,
                     "foto": path,
-                    "rol": auxRole
+                    "rol": auxRole,
                 }
                 token = jwt.generateToken(user, 60)
                 return response.success("Bienvenido!!", user, token)
@@ -248,8 +249,7 @@ class Institutional:
     def getRecords(self, code, type):
         if not code or len(code) != 7 or not code.isdigit():
             return response.error("Se necesita un código de 7 caracteres", 400)
-        filters = {"familyHistory":1, "_id": True} if type == "psicologica" else {"familyHistory":False, "_id": True}
-        records = mongo.db.record.find_one({"student":code}, filters)
+        records = mongo.db.record.find_one({"student":code})
         res = json_util.dumps(records)
         return Response(res, mimetype="applicaton/json")
     

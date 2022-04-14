@@ -13,12 +13,15 @@ services:
     volumes:
       - .:/app
   frontend:
-    container_name: angular
-    restart: always
+    image: frontend
+    container_name: frontend
+    environment:
+      CERTBOT_EMAIL: "satufps2021@gmail.com"
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - ./frontend/src:/app/src
+      - /home/ubuntu/project/letsencrypt:/etc/letsencrypt

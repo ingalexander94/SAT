@@ -18,7 +18,7 @@ def sendEmail(to, message, subject):
     server.login(email, environment.GMAIL_PASSWORD)
     server.sendmail(email, to, msg.as_string())
     server.quit()
-    print("Correo enviado")
+    print("Correo enviado") 
     
 def sendMultipleEmail(recipients, message, subject ):
     coding = "UTF-8"

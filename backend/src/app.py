@@ -25,9 +25,6 @@ app.config["MONGO_URI"]= environment.MONGO_URL
 app.config['UPLOAD_FOLDER'] = environment.UPLOAD_FOLDER
 config.mongo.init_app(app)
 
-# Cargar datos de prueba para los beneficios 
-config.createProfits() 
-
 CORS(app)
 
 # JWT

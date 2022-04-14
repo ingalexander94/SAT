@@ -119,6 +119,7 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
       this.userShow = {
         ...user,
       };
+      console.log(user);
       const { color, risk } = getColor(user.riesgo);
       this.color = color;
       this.risk = color !== 'green' ? risk.split('en')[1] : risk;

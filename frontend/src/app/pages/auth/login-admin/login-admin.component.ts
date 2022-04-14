@@ -31,7 +31,7 @@ export class LoginAdminComponent implements OnInit, OnDestroy {
       ]),
       // password: new FormControl('7961', [
       // password: new FormControl('8327', [ Odontologo
-      password: new FormControl('5160', [
+      password: new FormControl('2585', [
         Validators.required,
         Validators.minLength(4),
       ]),
