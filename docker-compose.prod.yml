@@ -17,9 +17,7 @@ services:
     container_name: frontend
     environment:
       CERTBOT_EMAIL: "satufps2021@gmail.com"
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
+    build: ./
     ports:
       - "80:80"
       - "443:443"
