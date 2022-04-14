@@ -14,7 +14,7 @@ services:
       - .:/app
   nginx:
     container_name: core_frontend
-    restart: on-failure
+    restart: always
     image: jonasal/nginx-certbot:latest
     env_file:
       - .env.nginx
@@ -29,11 +29,10 @@ services:
 
   frontend:
     container_name: angular
+    restart: always
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    command: >
-      sh -c "npm run build && serve -s build"
     ports:
       - "4200:4200"
     volumes:
