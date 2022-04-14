@@ -12,14 +12,31 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
-  frontend:
-    image: frontend
-    container_name: frontend
-    environment:
-      CERTBOT_EMAIL: "satufps2021@gmail.com"
-    build: ./
+  nginx:
+    container_name: core_frontend
+    restart: on-failure
+    image: jonasal/nginx-certbot:latest
+    env_file:
+      - .env.nginx
+    volumes:
+      - nginx_secrets:/etc/letsencrypt
+      - ./nginx/user_conf.d:/etc/nginx/user_conf.d
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - frontend
+
+  frontend:
+    container_name: angular
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    command: npm run build
+    ports:
+      - "4200:4200"
     volumes:
-      - /home/ubuntu/projects/letsencrypt:/etc/letsencrypt
+      - ./frontend/src:/app/src
+
+volumes:
+  nginx_secrets:
