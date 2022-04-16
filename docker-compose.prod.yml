@@ -23,7 +23,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./frontend/src:/app/src
+      - ./frontend/src:/var/www/html
       - ./certbot/conf:/etc/nginx/ssl
       - ./certbot/data:/var/www/certbot
 
