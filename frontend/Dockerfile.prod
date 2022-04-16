@@ -8,8 +8,15 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 80
+RUN npm run build --prod 
 
+FROM nginx:1.21.6-alpine
+
+COPY --from=builder /app/dist/frontend /var/www/html
+
+COPY ./conf.d /etc/nginx/conf.d
+
+EXPOSE 80 443
 
 
 

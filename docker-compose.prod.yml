@@ -12,20 +12,6 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
-  nginx:
-    container_name: core_frontend
-    restart: always
-    image: jonasal/nginx-certbot:latest
-    env_file:
-      - .env.nginx
-    volumes:
-      - nginx_secrets:/etc/letsencrypt
-      - ./nginx/user_conf.d:/etc/nginx/user_conf.d
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - frontend
 
   frontend:
     container_name: angular
@@ -33,12 +19,18 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    command: >
-      sh -c "npm run build --prod"
     ports:
-      - "4200:4200"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./frontend/src:/app/src
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/var/www/certbot
 
-volumes:
-  nginx_secrets:
+  certbot:
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/var/www/certbot --email satufps2021@gmail.com --agree-tos --no-eff-email -d salertastempranasapp.ga -d www.salertastempranasapp.ga
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+      - ./certbot/data:/var/www/certbot
