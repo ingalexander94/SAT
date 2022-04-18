@@ -12,7 +12,6 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
-
   frontend:
     container_name: angular
     restart: always
@@ -21,16 +20,5 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
-      - "443:443"
     volumes:
-      - ./frontend/src:/var/www/html
-      - ./certbot/conf:/etc/nginx/ssl
-      - ./certbot/data:/var/www/certbot
-
-  certbot:
-    image: certbot/certbot:latest
-    command: certonly --webroot --webroot-path=/var/www/certbot --email satufps2021@gmail.com --agree-tos --no-eff-email -d salertastempranasapp.ga -d www.salertastempranasapp.ga
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/logs:/var/log/letsencrypt
-      - ./certbot/data:/var/www/certbot
+      - ./frontend/src:/app/src
