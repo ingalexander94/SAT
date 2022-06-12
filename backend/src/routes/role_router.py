@@ -8,7 +8,6 @@ instance = Role.Role()
 role_router = Blueprint("role_router", __name__)
 
 @role_router.route("/", methods=["POST"])
-@token_required
 @required_params(RolSchema())
 def createRole(_):
     return instance.createRole()
