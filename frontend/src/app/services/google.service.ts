@@ -27,7 +27,7 @@ export class GoogleService {
     gapi.load('auth2', () => {
       this.auth2 = gapi.auth2.init({
         client_id:
-          '849909275151-cmhkruv54eglajfc4fleeo67gkp3t6u7.apps.googleusercontent.com',
+          '849909275151-7onvmmdg7shcn58f59i3tldn2fbkn58q.apps.googleusercontent.com',
       });
     });
   }
